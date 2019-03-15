@@ -1,0 +1,30 @@
+Visual Studio 2017 기준으로 상단 메뉴의 [도구(T) → Nuget 패키지 관리자(N) → 패키지 관리자 콘솔(O)]을 실행한 다음 아래 명령어를 입력합니다.
+
+PM> Install-Package WindowsAPICodePack-Shell -Version 1.1.1
+
+
+설치가 완료되면 다음과 같이 코딩을 진행합니다.
+
+
+1. WindowsAPICodePack Dialogs 클래스를 참조합니다.
+
+using Microsoft.WindowsAPICodePack.Dialogs;
+
+
+
+2. 버튼 클릭 이벤트 안애 아래와 같은 명령어를 입력합니다.
+
+// CommonOpenFileDialog 클래스 생성
+CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+// 처음 보여줄 폴더 설정(안해도 됨)
+//dialog.InitialDirectory = "";
+dialog.IsFolderPicker = true;
+if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+{
+    label.Text = dialog.FileName; // 테스트용, 폴더 선택이 완료되면 선택된 폴더를 label에 출력
+}
+버튼을 클릭하면 다음과 같은 화면이 나타납니다.
+
+
+
+출처: https://ilbbang.tistory.com/22 [일빵의 티스토리]
