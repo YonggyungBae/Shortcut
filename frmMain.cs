@@ -21,7 +21,7 @@ namespace Shortcut
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
-        {           
+        {
             LoadTree(treeView, "default_cfg.bin");
             treeView.ExpandAll();
 
@@ -30,7 +30,11 @@ namespace Shortcut
             iconList.Images.Add("Folder", DefaultIcons.FolderLarge);
             iconList.Images.Add("Warning", SystemIcons.Error);
             iconList.Images.Add("Shortcut", this.Icon);
-            foreach (TreeNode node in treeView.Nodes)   SetNodeIconRecursive(node);
+            foreach (TreeNode node in treeView.Nodes)
+            {
+                node.ForeColor = GetTopNodeColor();
+                SetNodeIconRecursive(node);
+            }
 
             Rectangle workingArea = Screen.GetWorkingArea(this);
             this.Location = new Point(workingArea.Right - Size.Width,
@@ -90,10 +94,13 @@ namespace Shortcut
                     Tag = cmdSet,
                 };
 
-                NewCmd.ImageKey = GetIcon(cmdSet["Path"]);
-                NewCmd.SelectedImageKey = NewCmd.ImageKey;
+                NewCmd.SelectedImageKey = NewCmd.ImageKey = GetIcon(cmdSet["Path"]);
 
-                if (selectedNode == null) treeView.Nodes.Add(NewCmd);
+                if (selectedNode == null)
+                {
+                    treeView.Nodes.Add(NewCmd);
+                    NewCmd.ForeColor = GetTopNodeColor();
+                }
                 else treeView.SelectedNode.Nodes.Add(NewCmd);
 
                 treeView.SelectedNode.Expand();
@@ -129,6 +136,7 @@ namespace Shortcut
             {
                 selectedNode.Name = selectedNode.Text = cmdSet["Cmd"];
                 selectedNode.Tag = cmdSet;
+                selectedNode.SelectedImageKey = selectedNode.ImageKey = GetIcon(cmdSet["Path"]);
                 SaveCmd(treeView, cfgFileName);
             }
             dragNdropPath = null;
@@ -153,7 +161,7 @@ namespace Shortcut
 
         private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if(sender != null)
+            if (sender != null)
             {
                 TreeNode selectedNode = treeView.SelectedNode;
 
@@ -170,7 +178,7 @@ namespace Shortcut
                             processInfo.Arguments = cmdSet["Arguments"];
                         process.StartInfo = processInfo;
                         process.Start();
-                    }   
+                    }
                 }
             }
         }
@@ -227,6 +235,11 @@ namespace Shortcut
                     SaveCmd(treeView, cfgFileName);
                 }
             }
+        }
+
+        private Color GetTopNodeColor()
+        {
+            return Color.BlueViolet;
         }
     }
 }

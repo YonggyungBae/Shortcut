@@ -74,7 +74,7 @@
             this.treeView.AllowDrop = true;
             this.treeView.BackColor = System.Drawing.Color.Black;
             this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView.Font = new System.Drawing.Font("LG스마트체2.0 SemiBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.treeView.Font = new System.Drawing.Font("LG스마트체2.0 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.treeView.ForeColor = System.Drawing.Color.White;
             this.treeView.HideSelection = false;
             this.treeView.LabelEdit = true;

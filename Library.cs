@@ -13,8 +13,8 @@ namespace Shortcut
     public partial class FrmMain
     {
         enum CmdEditType { ADD, EDIT };
-        
-        public static void SaveCmd(TreeView tree, string filename)
+
+        private static void SaveCmd(TreeView tree, string filename)
         {
             using (Stream file = File.Open(filename, FileMode.Create))
             {
@@ -23,7 +23,7 @@ namespace Shortcut
             }
         }
 
-        public static void LoadTree(TreeView tree, string filename)
+        private static void LoadTree(TreeView tree, string filename)
         {
             if(File.Exists(filename))
             {
@@ -134,11 +134,10 @@ namespace Shortcut
             }
         }
 
-        public void SetNodeIconRecursive(TreeNode parentNode)
+        private void SetNodeIconRecursive(TreeNode parentNode)
         {
             Dictionary<string, string> cmdTag = (Dictionary<string, string>)parentNode.Tag;
-            parentNode.ImageKey = GetIcon(cmdTag["Path"]);
-            parentNode.SelectedImageKey = parentNode.ImageKey;
+            parentNode.SelectedImageKey = parentNode.ImageKey = GetIcon(cmdTag["Path"]);
 
             foreach (TreeNode oSubNode in parentNode.Nodes)
             {
