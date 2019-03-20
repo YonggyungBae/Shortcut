@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Shortcut
 {
@@ -92,6 +93,8 @@ namespace Shortcut
             }
         }
 
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, StringBuilder lpIconPath, out ushort lpiIcon);
         private string GetIcon(string path)
         {
             if (path == "")
@@ -102,7 +105,12 @@ namespace Shortcut
             {
                 try
                 {
-                    Icon icon = Icon.ExtractAssociatedIcon(path);
+                    ushort uicon;
+                    StringBuilder strB = new StringBuilder(260); // Allocate MAX_PATH chars
+                    strB.Append(path);
+                    IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
+                    Icon icon = Icon.FromHandle(handle);
+                    //Icon icon = Icon.ExtractAssociatedIcon(path);
                     iconList.Images.Add(path, icon);
                     return path;
                 }
