@@ -47,8 +47,10 @@
             // 
             // TxtCmdBox
             // 
+            this.TxtCmdBox.BackColor = System.Drawing.Color.Black;
             this.TxtCmdBox.Dock = System.Windows.Forms.DockStyle.Left;
             this.TxtCmdBox.Font = new System.Drawing.Font("LG스마트체2.0 SemiBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TxtCmdBox.ForeColor = System.Drawing.Color.White;
             this.TxtCmdBox.Location = new System.Drawing.Point(3, 17);
             this.TxtCmdBox.Name = "TxtCmdBox";
             this.TxtCmdBox.Size = new System.Drawing.Size(252, 29);
@@ -70,8 +72,10 @@
             // treeView
             // 
             this.treeView.AllowDrop = true;
+            this.treeView.BackColor = System.Drawing.Color.Black;
             this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView.Font = new System.Drawing.Font("LG스마트체2.0 SemiBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.treeView.ForeColor = System.Drawing.Color.White;
             this.treeView.HideSelection = false;
             this.treeView.LabelEdit = true;
             this.treeView.Location = new System.Drawing.Point(3, 17);

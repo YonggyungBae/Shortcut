@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Shortcut
@@ -17,6 +13,7 @@ namespace Shortcut
         private string cfgFileName = "default_cfg.bin";
         private TreeNode NodeToBeDeleted;
         private string dragNdropPath;
+        private ImageList iconList = new ImageList();
 
         public FrmMain()
         {
@@ -24,9 +21,16 @@ namespace Shortcut
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
-        {
+        {           
             LoadTree(treeView, "default_cfg.bin");
             treeView.ExpandAll();
+
+            // Icon Init.
+            treeView.ImageList = iconList;
+            iconList.Images.Add("Folder", DefaultIcons.FolderLarge);
+            iconList.Images.Add("Warning", SystemIcons.Error);
+            iconList.Images.Add("Shortcut", this.Icon);
+            foreach (TreeNode node in treeView.Nodes)   SetNodeIconRecursive(node);
 
             Rectangle workingArea = Screen.GetWorkingArea(this);
             this.Location = new Point(workingArea.Right - Size.Width,
@@ -83,8 +87,11 @@ namespace Shortcut
                 TreeNode NewCmd = new TreeNode
                 {
                     Text = Name = cmdSet["Cmd"],
-                    Tag = cmdSet
+                    Tag = cmdSet,
                 };
+
+                NewCmd.ImageKey = GetIcon(cmdSet["Path"]);
+                NewCmd.SelectedImageKey = NewCmd.ImageKey;
 
                 if (selectedNode == null) treeView.Nodes.Add(NewCmd);
                 else treeView.SelectedNode.Nodes.Add(NewCmd);
