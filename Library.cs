@@ -7,12 +7,32 @@ using System.IO;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Diagnostics;
 
 namespace Shortcut
 {
     public partial class FrmMain
     {
         enum CmdEditType { ADD, EDIT };
+
+        private static void RunCmd(TreeNode cmd)
+        {
+            if (cmd.Tag != null)
+            {
+                Dictionary<string, string> cmdSet = (Dictionary<string, string>)cmd.Tag;
+                ProcessStartInfo processInfo = new ProcessStartInfo();
+                Process process = new Process();
+
+                if (cmdSet["Path"] != "")
+                {
+                    processInfo.FileName = cmdSet["Path"];
+                    if (cmdSet["Arguments"] != "")
+                        processInfo.Arguments = cmdSet["Arguments"];
+                    process.StartInfo = processInfo;
+                    process.Start();
+                }
+            }
+        }
 
         private static void SaveCmd(TreeView tree, string filename)
         {
@@ -54,7 +74,7 @@ namespace Shortcut
             TreeNodeCollection cmdGrp;
             if ( (selectedNode == null)
                 || ((cmdEditType == CmdEditType.EDIT) && (selectedNode.Level == 0)) )
-                cmdGrp = treeView.Nodes;
+                cmdGrp = TreeView.Nodes;
             else if (cmdEditType == CmdEditType.ADD)
                 cmdGrp = selectedNode.Nodes;
             else

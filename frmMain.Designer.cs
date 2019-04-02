@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.TxtCmdBox = new System.Windows.Forms.TextBox();
             this.BtnRun = new System.Windows.Forms.Button();
-            this.treeView = new System.Windows.Forms.TreeView();
+            this.TreeView = new System.Windows.Forms.TreeView();
             this.GrpCmdBox = new System.Windows.Forms.GroupBox();
             this.GrpBackgroundBox = new System.Windows.Forms.GroupBox();
             this.GrpCmdTree = new System.Windows.Forms.GroupBox();
@@ -69,25 +69,26 @@
             this.BtnRun.UseVisualStyleBackColor = true;
             this.BtnRun.Click += new System.EventHandler(this.BtnRun_Click);
             // 
-            // treeView
+            // TreeView
             // 
-            this.treeView.AllowDrop = true;
-            this.treeView.BackColor = System.Drawing.Color.Black;
-            this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView.Font = new System.Drawing.Font("LG스마트체2.0 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.treeView.ForeColor = System.Drawing.Color.White;
-            this.treeView.HideSelection = false;
-            this.treeView.LabelEdit = true;
-            this.treeView.Location = new System.Drawing.Point(3, 17);
-            this.treeView.Name = "treeView";
-            this.treeView.Size = new System.Drawing.Size(336, 399);
-            this.treeView.TabIndex = 0;
-            this.treeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.TreeView_ItemDrag);
-            this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_NodeMouseDoubleClick);
-            this.treeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.TreeView_DragDrop);
-            this.treeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.TreeView_DragEnter);
-            this.treeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeView_MouseDown);
-            this.treeView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TreeView_MouseUp);
+            this.TreeView.AllowDrop = true;
+            this.TreeView.BackColor = System.Drawing.Color.Black;
+            this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TreeView.Font = new System.Drawing.Font("LG스마트체2.0 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TreeView.ForeColor = System.Drawing.Color.White;
+            this.TreeView.HideSelection = false;
+            this.TreeView.LabelEdit = true;
+            this.TreeView.Location = new System.Drawing.Point(3, 17);
+            this.TreeView.Name = "TreeView";
+            this.TreeView.Size = new System.Drawing.Size(336, 399);
+            this.TreeView.TabIndex = 0;
+            this.TreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.TreeView_ItemDrag);
+            this.TreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_NodeMouseDoubleClick);
+            this.TreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.TreeView_DragDrop);
+            this.TreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.TreeView_DragEnter);
+            this.TreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView_KeyDown);
+            this.TreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeView_MouseDown);
+            this.TreeView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TreeView_MouseUp);
             // 
             // GrpCmdBox
             // 
@@ -117,7 +118,7 @@
             // GrpCmdTree
             // 
             this.GrpCmdTree.BackColor = System.Drawing.SystemColors.Control;
-            this.GrpCmdTree.Controls.Add(this.treeView);
+            this.GrpCmdTree.Controls.Add(this.TreeView);
             this.GrpCmdTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GrpCmdTree.Location = new System.Drawing.Point(3, 69);
             this.GrpCmdTree.Name = "GrpCmdTree";
@@ -180,7 +181,7 @@
 
         private System.Windows.Forms.TextBox TxtCmdBox;
         private System.Windows.Forms.Button BtnRun;
-        private System.Windows.Forms.TreeView treeView;
+        private System.Windows.Forms.TreeView TreeView;
         private System.Windows.Forms.GroupBox GrpCmdBox;
         private System.Windows.Forms.GroupBox GrpBackgroundBox;
         private System.Windows.Forms.GroupBox GrpCmdTree;

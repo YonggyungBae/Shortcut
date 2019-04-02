@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -22,15 +21,15 @@ namespace Shortcut
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            LoadTree(treeView, "default_cfg.bin");
-            treeView.ExpandAll();
+            LoadTree(TreeView, "default_cfg.bin");
+            TreeView.ExpandAll();
 
             // Icon Init.
-            treeView.ImageList = iconList;
+            TreeView.ImageList = iconList;
             iconList.Images.Add("Folder", DefaultIcons.FolderLarge);
             iconList.Images.Add("Warning", SystemIcons.Error);
             iconList.Images.Add("Shortcut", this.Icon);
-            foreach (TreeNode node in treeView.Nodes)
+            foreach (TreeNode node in TreeView.Nodes)
             {
                 node.ForeColor = GetTopNodeColor();
                 SetNodeIconRecursive(node);
@@ -47,13 +46,13 @@ namespace Shortcut
 
         private void TreeView_MouseDown(object sender, MouseEventArgs e)
         {
-            if (treeView.HitTest(e.X, e.Y).Node == null)
+            if (TreeView.HitTest(e.X, e.Y).Node == null)
             {
-                treeView.SelectedNode = null;    // Deselect all nodes when click black area in the TreeView.
+                TreeView.SelectedNode = null;    // Deselect all nodes when click black area in the TreeView.
             }
             else if (e.Button == MouseButtons.Right)
             {
-                treeView.SelectedNode = treeView.HitTest(e.X, e.Y).Node;    // 노드를 오른쪽 click 한 경우에도 바로 선택되도록 함.
+                TreeView.SelectedNode = TreeView.HitTest(e.X, e.Y).Node;    // 노드를 오른쪽 click 한 경우에도 바로 선택되도록 함.
             }
         }
 
@@ -61,13 +60,13 @@ namespace Shortcut
         {
             if (e.Button == MouseButtons.Right)
             {
-                contextMenu.Show(treeView, e.Location);
+                contextMenu.Show(TreeView, e.Location);
             }
         }
 
         private void ToolStripMenuItem_Add_Click(object sender, EventArgs e)
         {
-            TreeNode selectedNode = treeView.SelectedNode;  // Input Dialog가 show 되기 전에 선택 node를 backup 받아놔야 함(안그러면 InputDialog가 show되고 나면 treeview의 첫번째 node가 강제 선택됨)
+            TreeNode selectedNode = TreeView.SelectedNode;  // Input Dialog가 show 되기 전에 선택 node를 backup 받아놔야 함(안그러면 InputDialog가 show되고 나면 treeview의 첫번째 node가 강제 선택됨)
             FrmInputDialog inputDialog;
 
             if (dragNdropPath != "")
@@ -98,20 +97,20 @@ namespace Shortcut
 
                 if (selectedNode == null)
                 {
-                    treeView.Nodes.Add(NewCmd);
+                    TreeView.Nodes.Add(NewCmd);
                     NewCmd.ForeColor = GetTopNodeColor();
                 }
-                else treeView.SelectedNode.Nodes.Add(NewCmd);
+                else TreeView.SelectedNode.Nodes.Add(NewCmd);
 
-                treeView.SelectedNode.Expand();
-                SaveCmd(treeView, cfgFileName);
+                TreeView.SelectedNode.Expand();
+                SaveCmd(TreeView, cfgFileName);
             }
             dragNdropPath = null;
         }
 
         private void ToolStripMenuItem_Edit_Click(object sender, EventArgs e)
         {
-            TreeNode selectedNode = treeView.SelectedNode;
+            TreeNode selectedNode = TreeView.SelectedNode;
             FrmInputDialog inputDialog;
 
             if (selectedNode.Tag == null)
@@ -137,24 +136,24 @@ namespace Shortcut
                 selectedNode.Name = selectedNode.Text = cmdSet["Cmd"];
                 selectedNode.Tag = cmdSet;
                 selectedNode.SelectedImageKey = selectedNode.ImageKey = GetIcon(cmdSet["Path"]);
-                SaveCmd(treeView, cfgFileName);
+                SaveCmd(TreeView, cfgFileName);
             }
             dragNdropPath = null;
         }
 
         private void ToolStripMenuItem_Del_Click(object sender, EventArgs e)
         {
-            if ((treeView.SelectedNode != null)
+            if ((TreeView.SelectedNode != null)
                 && (MessageBox.Show("정말로 삭제할까요?", "확인", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
             {
-                treeView.SelectedNode.Remove();
-                SaveCmd(treeView, cfgFileName);
+                TreeView.SelectedNode.Remove();
+                SaveCmd(TreeView, cfgFileName);
             }
         }
 
         private void ContextMenu_Opening(object sender, CancelEventArgs e)
         {
-            bool MenuItemVisible = (treeView.SelectedNode == null);
+            bool MenuItemVisible = (TreeView.SelectedNode == null);
             toolStripMenuItem_Edit.Visible = !MenuItemVisible;
             toolStripMenuItem_Del.Visible = (!MenuItemVisible) && (dragNdropPath == null);
         }
@@ -163,23 +162,7 @@ namespace Shortcut
         {
             if (sender != null)
             {
-                TreeNode selectedNode = treeView.SelectedNode;
-
-                if (selectedNode.Tag != null)
-                {
-                    Dictionary<string, string> cmdSet = (Dictionary<string, string>)selectedNode.Tag;
-                    ProcessStartInfo processInfo = new ProcessStartInfo();
-                    Process process = new Process();
-
-                    if (cmdSet["Path"] != "")
-                    {
-                        processInfo.FileName = cmdSet["Path"];
-                        if (cmdSet["Arguments"] != "")
-                            processInfo.Arguments = cmdSet["Arguments"];
-                        process.StartInfo = processInfo;
-                        process.Start();
-                    }
-                }
+                RunCmd(TreeView.SelectedNode);
             }
         }
 
@@ -216,9 +199,9 @@ namespace Shortcut
                 {
                     if (File.Exists(targetPath) || Directory.Exists(targetPath))
                     {
-                        treeView.SelectedNode = TargetPositionNode;
+                        TreeView.SelectedNode = TargetPositionNode;
                         dragNdropPath = targetPath;
-                        contextMenu.Show(treeView, pt);
+                        contextMenu.Show(TreeView, pt);
                     }
                 }
             }
@@ -227,12 +210,12 @@ namespace Shortcut
                 if (TargetPositionNode != null && TargetPositionNode.Parent == NodeToBeDeleted.Parent)
                 {
                     TreeNode clonedNode = NodeToBeDeleted;
-                    TreeNodeCollection TargetParentNode = (NodeToBeDeleted.Parent == null) ? treeView.Nodes : NodeToBeDeleted.Parent.Nodes;
+                    TreeNodeCollection TargetParentNode = (NodeToBeDeleted.Parent == null) ? TreeView.Nodes : NodeToBeDeleted.Parent.Nodes;
 
                     NodeToBeDeleted.Remove();
                     TargetParentNode.Insert(TargetPositionNode.Index + 1, clonedNode);
-                    treeView.SelectedNode = clonedNode;
-                    SaveCmd(treeView, cfgFileName);
+                    TreeView.SelectedNode = clonedNode;
+                    SaveCmd(TreeView, cfgFileName);
                 }
             }
         }
@@ -240,6 +223,19 @@ namespace Shortcut
         private Color GetTopNodeColor()
         {
             return Color.BlueViolet;
+        }
+
+        private void TreeView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                RunCmd(TreeView.SelectedNode);
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = false;
+            }
         }
     }
 }
