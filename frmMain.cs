@@ -22,7 +22,7 @@ namespace Shortcut
         private void FrmMain_Load(object sender, EventArgs e)
         {
             LoadTree(TreeView, "default_cfg.bin");
-            TreeView.ExpandAll();
+            //TreeView.ExpandAll();
 
             // Icon Init.
             TreeView.ImageList = iconList;
@@ -235,6 +235,15 @@ namespace Shortcut
             else
             {
                 e.Handled = false;
+            }
+        }
+
+        private void TreeView_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            foreach (TreeNode node in TreeView.Nodes)
+            {
+                if (node != e.Node)
+                    node.Collapse();
             }
         }
     }
