@@ -23,7 +23,7 @@ namespace Shortcut
                 ProcessStartInfo processInfo = new ProcessStartInfo();
                 Process process = new Process();
 
-                if (cmdSet["Path"] != "")
+                if ( (cmdSet["Path"] != "") && (cmdSet["Run"] == "Checked") )
                 {
                     processInfo.FileName = cmdSet["Path"];
                     if (cmdSet["Arguments"] != "")
