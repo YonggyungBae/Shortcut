@@ -20,6 +20,7 @@ namespace Shortcut
         {
             InitializeComponent();
         }
+
         private void FrmMain_Load(object sender, EventArgs e)
         {
             LoadTree(TreeView, "default_cfg.bin");
@@ -41,110 +42,9 @@ namespace Shortcut
                                       workingArea.Bottom - Size.Height);
         }
 
-        //============================== Mouse Event ==============================//
-        private void TreeView_MouseDown(object sender, MouseEventArgs e)
+        //============================== Run ==============================//
+        private void BtnRun_Click(object sender, EventArgs e)
         {
-            if (TreeView.HitTest(e.X, e.Y).Node == null)
-            {
-                TreeView.SelectedNode = null;    // Deselect all nodes when click black area in the TreeView.
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                TreeView.SelectedNode = TreeView.HitTest(e.X, e.Y).Node;    // 노드를 오른쪽 click 한 경우에도 바로 선택되도록 함.
-            }
-        }
-
-        private void TreeView_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                contextMenu.Show(TreeView, e.Location);
-            }
-        }
-
-        private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (sender != null)
-            {
-                RunCmd(TreeView.SelectedNode);
-            }
-        }
-
-        private void TreeView_ItemDrag(object sender, ItemDragEventArgs e)
-        {
-            //DoDragDrop(e.Item, DragDropEffects.Move);
-
-            NodeToBeDeleted = (TreeNode)e.Item;
-            string strItem = e.Item.ToString();
-            DoDragDrop(strItem, DragDropEffects.Copy | DragDropEffects.Move);
-        }
-
-        private void TreeView_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else if (e.Data.GetDataPresent(DataFormats.Text))
-                e.Effect = DragDropEffects.Move;
-            else
-                e.Effect = DragDropEffects.None;
-        }
-
-        private void TreeView_DragDrop(object sender, DragEventArgs e)
-        {
-            Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
-            TreeNode TargetPositionNode = ((TreeView)sender).GetNodeAt(pt);
-
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))    // File Drag & Drop
-            {
-                string[] targetPaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
-                foreach (string targetPath in targetPaths)
-                {
-                    if (File.Exists(targetPath) || Directory.Exists(targetPath))
-                    {
-                        TreeView.SelectedNode = TargetPositionNode;
-                        dragNdropPath = targetPath;
-                        contextMenu.Show(TreeView, pt);
-                    }
-                }
-            }
-            else if (e.Data.GetDataPresent(DataFormats.Text))   // Node Drag & Drop
-            {
-                if (TargetPositionNode != null && TargetPositionNode.Parent == NodeToBeDeleted.Parent)
-                {
-                    TreeNode clonedNode = NodeToBeDeleted;
-                    TreeNodeCollection TargetParentNode = (NodeToBeDeleted.Parent == null) ? TreeView.Nodes : NodeToBeDeleted.Parent.Nodes;
-
-                    NodeToBeDeleted.Remove();
-                    TargetParentNode.Insert(TargetPositionNode.Index + 1, clonedNode);
-                    TreeView.SelectedNode = clonedNode;
-                    SaveCmd(TreeView, cfgFileName);
-                }
-            }
-        }
-
-        private void TreeView_AfterExpand(object sender, TreeViewEventArgs e)
-        {
-            foreach (TreeNode node in TreeView.Nodes)
-            {
-                if ( (node != e.Node) && (e.Node.Parent == null) )
-                    node.Collapse();
-            }
-        }
-
-        //============================== Key Event ==============================//
-        private void TreeView_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                RunCmd(TreeView.SelectedNode);
-                e.Handled = true;
-            }
-            else
-            {
-                e.Handled = false;
-            }
         }
 
         //============================== Context Menu ==============================//
@@ -242,9 +142,115 @@ namespace Shortcut
             toolStripMenuItem_Del.Visible = (!MenuItemVisible) && (dragNdropPath == null);
         }
 
-        //============================== Run ==============================//
-        private void BtnRun_Click(object sender, EventArgs e)
+        //============================== Key Event ==============================//
+        private void TreeView_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Enter)
+            {
+                RunCmd(TreeView.SelectedNode);
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = false;
+            }
+        }
+
+        //============================== Mouse Event ==============================//
+        private void TreeView_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (TreeView.HitTest(e.X, e.Y).Node == null)
+            {
+                TreeView.SelectedNode = null;    // Deselect all nodes when click black area in the TreeView.
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                TreeView.SelectedNode = TreeView.HitTest(e.X, e.Y).Node;    // 노드를 오른쪽 click 한 경우에도 바로 선택되도록 함.
+            }
+        }
+
+        private void TreeView_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                contextMenu.Show(TreeView, e.Location);
+            }
+        }
+
+        private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (sender != null)
+            {
+                RunCmd(TreeView.SelectedNode);
+            }
+        }
+
+        private void TreeView_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            //DoDragDrop(e.Item, DragDropEffects.Move);
+
+            NodeToBeDeleted = (TreeNode)e.Item;
+            string strItem = e.Item.ToString();
+            DoDragDrop(strItem, DragDropEffects.Copy | DragDropEffects.Move);
+        }
+
+        private void TreeView_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else if (e.Data.GetDataPresent(DataFormats.Text))
+                e.Effect = DragDropEffects.Move;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void TreeView_DragDrop(object sender, DragEventArgs e)
+        {
+            Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
+            TreeNode TargetPositionNode = ((TreeView)sender).GetNodeAt(pt);
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))    // File Drag & Drop
+            {
+                string[] targetPaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+                foreach (string targetPath in targetPaths)
+                {
+                    if (File.Exists(targetPath) || Directory.Exists(targetPath))
+                    {
+                        TreeView.SelectedNode = TargetPositionNode;
+                        dragNdropPath = targetPath;
+                        contextMenu.Show(TreeView, pt);
+                    }
+                }
+            }
+            else if (e.Data.GetDataPresent(DataFormats.Text))   // Node Drag & Drop
+            {
+                if (TargetPositionNode != null && TargetPositionNode.Parent == NodeToBeDeleted.Parent)
+                {
+                    TreeNode clonedNode = NodeToBeDeleted;
+                    TreeNodeCollection TargetParentNode = (NodeToBeDeleted.Parent == null) ? TreeView.Nodes : NodeToBeDeleted.Parent.Nodes;
+
+                    NodeToBeDeleted.Remove();
+                    TargetParentNode.Insert(TargetPositionNode.Index + 1, clonedNode);
+                    TreeView.SelectedNode = clonedNode;
+                    SaveCmd(TreeView, cfgFileName);
+                }
+            }
+        }
+
+        private void TreeView_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            foreach (TreeNode node in TreeView.Nodes)
+            {
+                if ((node != e.Node) && (e.Node.Parent == null))
+                    node.Collapse();
+            }
+        }
+
+        private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            e.Node.Expand();
         }
     }
 }
