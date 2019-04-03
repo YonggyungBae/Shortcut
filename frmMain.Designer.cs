@@ -97,6 +97,7 @@
             this.GrpCmdBox.Controls.Add(this.TxtCmdBox);
             this.GrpCmdBox.Controls.Add(this.BtnRun);
             this.GrpCmdBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.GrpCmdBox.Enabled = false;
             this.GrpCmdBox.Location = new System.Drawing.Point(3, 17);
             this.GrpCmdBox.Name = "GrpCmdBox";
             this.GrpCmdBox.Padding = new System.Windows.Forms.Padding(3, 3, 3, 35);
@@ -104,6 +105,7 @@
             this.GrpCmdBox.TabIndex = 0;
             this.GrpCmdBox.TabStop = false;
             this.GrpCmdBox.Text = "Command";
+            this.GrpCmdBox.Visible = false;
             // 
             // GrpBackgroundBox
             // 
