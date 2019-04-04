@@ -23,7 +23,7 @@ namespace Shortcut
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            LoadTree(TreeView, "default_cfg.bin");
+            LoadTree(TreeView, cfgFileName);
             //TreeView.ExpandAll();
 
             // Icon Init.
@@ -87,7 +87,7 @@ namespace Shortcut
                 else TreeView.SelectedNode.Nodes.Add(NewCmd);
 
                 TreeView.SelectedNode.Expand();
-                SaveCmd(TreeView, cfgFileName);
+                SaveTree(TreeView, cfgFileName);
             }
             dragNdropPath = null;
         }
@@ -120,7 +120,7 @@ namespace Shortcut
                 selectedNode.Name = selectedNode.Text = cmdSet["Cmd"];
                 selectedNode.Tag = cmdSet;
                 selectedNode.SelectedImageKey = selectedNode.ImageKey = GetIcon(cmdSet["Path"]);
-                SaveCmd(TreeView, cfgFileName);
+                SaveTree(TreeView, cfgFileName);
             }
             dragNdropPath = null;
         }
@@ -131,7 +131,7 @@ namespace Shortcut
                 && (MessageBox.Show("정말로 삭제할까요?", "확인", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
             {
                 TreeView.SelectedNode.Remove();
-                SaveCmd(TreeView, cfgFileName);
+                SaveTree(TreeView, cfgFileName);
             }
         }
 
@@ -234,7 +234,7 @@ namespace Shortcut
                     NodeToBeDeleted.Remove();
                     TargetParentNode.Insert(TargetPositionNode.Index + 1, clonedNode);
                     TreeView.SelectedNode = clonedNode;
-                    SaveCmd(TreeView, cfgFileName);
+                    SaveTree(TreeView, cfgFileName);
                 }
             }
         }

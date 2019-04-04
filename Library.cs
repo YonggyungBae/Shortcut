@@ -34,7 +34,7 @@ namespace Shortcut
             }
         }
 
-        private static void SaveCmd(TreeView tree, string filename)
+        private static void SaveTree(TreeView tree, string filename)
         {
             using (Stream file = File.Open(filename, FileMode.Create))
             {
@@ -45,16 +45,17 @@ namespace Shortcut
 
         private static void LoadTree(TreeView tree, string filename)
         {
-            if(File.Exists(filename))
-            {
-                using (Stream file = File.Open(filename, FileMode.Open))
-                {
-                    BinaryFormatter bf = new BinaryFormatter();
-                    object obj = bf.Deserialize(file);
 
-                    TreeNode[] nodeList = (obj as IEnumerable<TreeNode>).ToArray();
-                    tree.Nodes.AddRange(nodeList);
-                }
+            if (!File.Exists(filename))
+                filename = "init_cfg.bin";
+
+            using (Stream file = File.Open(filename, FileMode.Open))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                object obj = bf.Deserialize(file);
+
+                TreeNode[] nodeList = (obj as IEnumerable<TreeNode>).ToArray();
+                tree.Nodes.AddRange(nodeList);
             }
         }
 
