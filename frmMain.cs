@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using AutoUpdaterDotNET;
 
 namespace Shortcut
 {
@@ -23,6 +24,8 @@ namespace Shortcut
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            AutoUpdater.Start("https://github.com/yg-bae/Shortcut/releases/download/0.0.0.1/Version.xml");
+
             LoadTree(TreeView, cfgFileName);
             //TreeView.ExpandAll();
 

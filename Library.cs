@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Diagnostics;
+using AutoUpdaterDotNET;
 
 namespace Shortcut
 {
