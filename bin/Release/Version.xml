@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>0.0.1.0</version>
+    <version>0.0.2.0</version>
     <url>https://github.com/yg-bae/Shortcut/bin/Release/Shortcut.zip</url>
     <changelog>https://github.com/yg-bae/Shortcut/releases/tag</changelog>
     <mandatory>false</mandatory>
