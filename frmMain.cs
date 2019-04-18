@@ -24,7 +24,7 @@ namespace Shortcut
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            AutoUpdater.Start("https://github.com/yg-bae/Shortcut/releases/download/0.0.0.1/Version.xml");
+            AutoUpdater.Start("https://github.com/yg-bae/Shortcut/bin/Release/Version.xml");
 
             LoadTree(TreeView, cfgFileName);
             //TreeView.ExpandAll();
