@@ -45,16 +45,10 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "D:\Shortcut\bin\Release\Shortcut.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Shortcut\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Shortcut\bin\Release\AutoUpdater.NET.pdb"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Shortcut\bin\Release\AutoUpdater.NET.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Shortcut\bin\Release\init_cfg.bin"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Shortcut\bin\Release\Microsoft.WindowsAPICodePack.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Shortcut\bin\Release\Microsoft.WindowsAPICodePack.Shell.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Shortcut\bin\Release\Microsoft.WindowsAPICodePack.Shell.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Shortcut\bin\Release\Microsoft.WindowsAPICodePack.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Shortcut\bin\Release\Shortcut.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Shortcut\bin\Release\Shortcut.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Shortcut\bin\Release\Shortcut.pdb"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
