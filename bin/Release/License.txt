@@ -1,0 +1,12 @@
+Shortcut의 모든 권한은 Yonggyung Bae에게 있습니다.
+
+Copyright Yonggyung Bae. All Right Reserved.
+
+아래의 조건하에 상업적 / 비사업적 용도로 무료로 사용가능합니다.
+
+ 1. 본 프로그램의 임의 변경을 금지합니다.
+ 2. 본 프로그램의 재 배포시 반드시 아래 URL과 저작자를 표기해야 합니다.
+
+URL : https://github.com/yg-bae/Shortcut
+E-Mail : Yonggyung.Bae@gmail.com
+저작자 : Yonggyung Bae
