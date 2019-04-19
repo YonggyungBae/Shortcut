@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.TxtCmdBox = new System.Windows.Forms.TextBox();
             this.BtnRun = new System.Windows.Forms.Button();
             this.TreeView = new System.Windows.Forms.TreeView();
@@ -167,6 +168,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(348, 491);
             this.Controls.Add(this.GrpBackgroundBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "FrmMain";
             this.Text = "Shortcut";
