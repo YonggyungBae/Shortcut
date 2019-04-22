@@ -53,7 +53,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Shortcut.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoUpdater.NET, Version=1.5.1.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
@@ -109,6 +110,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -137,7 +139,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Shortcut.ico" />
+    <None Include="Resources\Shortcut.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Exit.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

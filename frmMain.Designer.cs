@@ -169,10 +169,12 @@
             // 
             // NotifyIcon
             // 
+            this.NotifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.NotifyIcon.ContextMenuStrip = this.contextMenuNotifyIcon;
             this.NotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("NotifyIcon.Icon")));
-            this.NotifyIcon.Text = "Shortcut";
+            this.NotifyIcon.Text = "Shortcut.\r\nPress \"Win + Y\" keys to open Shortcut";
             this.NotifyIcon.Visible = true;
-            this.NotifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_MouseClick);
+            this.NotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_MouseDoubleClick);
             // 
             // contextMenuNotifyIcon
             // 
@@ -180,19 +182,21 @@
             this.toolStripMenuItem_NotifyIcon_Open,
             this.toolStripMenuItem_NotifyIcon_Exit});
             this.contextMenuNotifyIcon.Name = "contextMenuNotifyIcon";
-            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(104, 48);
+            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(153, 70);
             // 
             // toolStripMenuItem_NotifyIcon_Open
             // 
+            this.toolStripMenuItem_NotifyIcon_Open.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Open.Image")));
             this.toolStripMenuItem_NotifyIcon_Open.Name = "toolStripMenuItem_NotifyIcon_Open";
-            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(103, 22);
+            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem_NotifyIcon_Open.Text = "&Open";
             this.toolStripMenuItem_NotifyIcon_Open.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Open_Click);
             // 
             // toolStripMenuItem_NotifyIcon_Exit
             // 
+            this.toolStripMenuItem_NotifyIcon_Exit.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Exit.Image")));
             this.toolStripMenuItem_NotifyIcon_Exit.Name = "toolStripMenuItem_NotifyIcon_Exit";
-            this.toolStripMenuItem_NotifyIcon_Exit.Size = new System.Drawing.Size(103, 22);
+            this.toolStripMenuItem_NotifyIcon_Exit.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem_NotifyIcon_Exit.Text = "&Exit";
             this.toolStripMenuItem_NotifyIcon_Exit.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Exit_Click);
             // 
@@ -205,9 +209,11 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "FrmMain";
+            this.ShowInTaskbar = false;
             this.Text = "Shortcut";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmMain_KeyDown);
             this.GrpCmdBox.ResumeLayout(false);
             this.GrpCmdBox.PerformLayout();
             this.GrpBackgroundBox.ResumeLayout(false);

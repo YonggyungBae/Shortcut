@@ -10,6 +10,17 @@ namespace Shortcut
 {
     public partial class FrmMain : Form
     {
+        enum KeyModifier
+        {
+            None = 0,
+            Alt = 1,
+            Control = 2,
+            Shift = 4,
+            WinKey = 8
+        }
+
+
+
         private Color topCmdColor = Color.BlueViolet;
         private string cfgFileName = "default_cfg.bin";
         private TreeNode NodeToBeDeleted;
@@ -20,6 +31,9 @@ namespace Shortcut
         public FrmMain()
         {
             InitializeComponent();
+
+            int id = 0;     // The id of the hotkey. 
+            RegisterHotKey(this.Handle, id, (int)KeyModifier.WinKey, Keys.Y.GetHashCode());
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -49,6 +63,41 @@ namespace Shortcut
         {
             //e.Cancel = true;
             NotifyIcon.Dispose();
+            UnregisterHotKey(this.Handle, 0);
+        }
+
+
+        //============================== Global Hot Key ==============================//
+        enum HotKeyId
+        {
+            SHOW_FORM = 0, y
+        }
+
+        // Call Library for Global Hotkey
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+
+            if (m.Msg == 0x0312)
+            {
+                /* Note that the three lines below are not needed if you only want to register one hotkey.
+                 * The below lines are useful in case you want to register multiple keys, which you can use a switch with the id as argument, or if you want to know which key/modifier was pressed for some particular reason. */
+                //Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
+                //KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
+                int hotKeyId = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
+
+                switch ((HotKeyId)hotKeyId)
+                {
+                    case HotKeyId.SHOW_FORM:
+                        ShowForm();
+                        break;
+                }
+            }
         }
 
         //============================== Run ==============================//
@@ -266,21 +315,17 @@ namespace Shortcut
         //============================== Notify Icon ==============================//
         private void ShowForm()
         {
-            this.Visible = true;
-            this.BringToFront();
-
             if (this.WindowState == FormWindowState.Minimized)
-            {    
-                this.WindowState = FormWindowState.Normal;   
+            {
+                this.WindowState = FormWindowState.Normal;
             }
+            Show();
+            BringToFront();
         }
 
-        private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
+        private void HideForm()
         {
-            if (e.Button == MouseButtons.Right)
-                contextMenuNotifyIcon.Show(Cursor.Position);
-            else
-                ShowForm();
+            Hide();
         }
 
         private void ToolStripMenuItem_NotifyIcon_Open_Click(object sender, EventArgs e)
@@ -291,6 +336,22 @@ namespace Shortcut
         private void ToolStripMenuItem_NotifyIcon_Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                contextMenuNotifyIcon.Show();
+            else
+                ShowForm();
+        }
+
+        private void FrmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                HideForm();
+            }
         }
     }
 }
