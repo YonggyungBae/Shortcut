@@ -2,6 +2,6 @@
 <item>
     <version>0.1.0.0</version>
     <url>https://github.com/yg-bae/Shortcut/blob/master/bin/Release/ShortcutSetup.exe?raw=true</url>
-    <changelog>https://raw.githubusercontent.com/yg-bae/Shortcut/Resources/ChangeLog.txt</changelog>
+    <changelog>https://github.com/yg-bae/Shortcut/releases</changelog>
     <mandatory>false</mandatory>
 </item>
