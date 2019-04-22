@@ -142,7 +142,11 @@
     <None Include="Resources\Shortcut.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Change Log.txt" />
     <Content Include="Resources\Exit.ico" />
+    <Content Include="Resources\Inno Setup Scripts - Shortcut.iss" />
+    <Content Include="Resources\License.txt" />
+    <Content Include="Resources\Version.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

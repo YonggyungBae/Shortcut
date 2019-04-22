@@ -38,7 +38,7 @@ namespace Shortcut
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            AutoUpdater.Start("https://raw.githubusercontent.com/yg-bae/Shortcut/master/bin/Release/Version.xml");
+            AutoUpdater.Start("https://raw.githubusercontent.com/yg-bae/Shortcut/master/Resources/Version.xml");
 
             LoadTree(TreeView, cfgFileName);
             //TreeView.ExpandAll();
@@ -225,14 +225,6 @@ namespace Shortcut
             else if (e.Button == MouseButtons.Right)
             {
                 TreeView.SelectedNode = TreeView.HitTest(e.X, e.Y).Node;    // 노드를 오른쪽 click 한 경우에도 바로 선택되도록 함.
-            }
-        }
-
-        private void TreeView_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                contextMenuTreeView.Show(TreeView, e.Location);
             }
         }
 

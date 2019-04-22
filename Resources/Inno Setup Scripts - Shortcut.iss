@@ -32,7 +32,7 @@ OutputBaseFilename=ShortcutSetup
 Compression=lzma
 SolidCompression=yes
 AppCopyright=Yonggyung Bae
-LicenseFile=D:\Shortcut\bin\Release\License.txt
+LicenseFile=D:\Shortcut\Resources\License.txt
 AppContact=yonggyung.bae@gmail.com
 ArchitecturesInstallIn64BitMode=x64
 

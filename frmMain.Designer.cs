@@ -79,6 +79,7 @@
             // 
             this.TreeView.AllowDrop = true;
             this.TreeView.BackColor = System.Drawing.Color.Black;
+            this.TreeView.ContextMenuStrip = this.contextMenuTreeView;
             this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TreeView.Font = new System.Drawing.Font("LG스마트체2.0 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TreeView.ForeColor = System.Drawing.Color.White;
@@ -96,7 +97,6 @@
             this.TreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.TreeView_DragEnter);
             this.TreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView_KeyDown);
             this.TreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeView_MouseDown);
-            this.TreeView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TreeView_MouseUp);
             // 
             // GrpCmdBox
             // 
@@ -182,13 +182,13 @@
             this.toolStripMenuItem_NotifyIcon_Open,
             this.toolStripMenuItem_NotifyIcon_Exit});
             this.contextMenuNotifyIcon.Name = "contextMenuNotifyIcon";
-            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(153, 70);
+            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(104, 48);
             // 
             // toolStripMenuItem_NotifyIcon_Open
             // 
             this.toolStripMenuItem_NotifyIcon_Open.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Open.Image")));
             this.toolStripMenuItem_NotifyIcon_Open.Name = "toolStripMenuItem_NotifyIcon_Open";
-            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(103, 22);
             this.toolStripMenuItem_NotifyIcon_Open.Text = "&Open";
             this.toolStripMenuItem_NotifyIcon_Open.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Open_Click);
             // 
@@ -209,7 +209,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "FrmMain";
-            this.ShowInTaskbar = false;
             this.Text = "Shortcut";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
