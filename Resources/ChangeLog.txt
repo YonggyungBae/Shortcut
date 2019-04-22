@@ -2,4 +2,4 @@
 * Version : 0.1.0
 * Release Date : 2019.04.22
 * 변경사항
-  - Shortcut 
+  - Shortcut 초안
