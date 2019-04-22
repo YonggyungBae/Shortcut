@@ -1,5 +1,5 @@
 ===== V0.1.0 =====
 * Version : 0.1.0
 * Release Date : 2019.04.22
-* º¯°æ³»¿ë
-  - Shortcut ÃÊ¾È
+* ë³€ê²½ì‚¬í•­
+  - Shortcut 
