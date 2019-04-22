@@ -45,12 +45,19 @@ namespace Shortcut
                                       workingArea.Bottom - Size.Height);
         }
 
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //e.Cancel = true;
+            NotifyIcon.Dispose();
+        }
+
         //============================== Run ==============================//
         private void BtnRun_Click(object sender, EventArgs e)
         {
+
         }
 
-        //============================== Context Menu ==============================//
+        //============================== Context Menu : TreeView ==============================//
         private void ToolStripMenuItem_Add_Click(object sender, EventArgs e)
         {
             TreeNode selectedNode = TreeView.SelectedNode;  // Input Dialog가 show 되기 전에 선택 node를 backup 받아놔야 함(안그러면 InputDialog가 show되고 나면 treeview의 첫번째 node가 강제 선택됨)
@@ -176,7 +183,7 @@ namespace Shortcut
         {
             if (e.Button == MouseButtons.Right)
             {
-                contextMenu.Show(TreeView, e.Location);
+                contextMenuTreeView.Show(TreeView, e.Location);
             }
         }
 
@@ -223,7 +230,7 @@ namespace Shortcut
                     {
                         TreeView.SelectedNode = TargetPositionNode;
                         dragNdropPath = targetPath;
-                        contextMenu.Show(TreeView, pt);
+                        contextMenuTreeView.Show(TreeView, pt);
                     }
                 }
             }
@@ -254,6 +261,36 @@ namespace Shortcut
         private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             e.Node.Expand();
+        }
+
+        //============================== Notify Icon ==============================//
+        private void ShowForm()
+        {
+            this.Visible = true;
+            this.BringToFront();
+
+            if (this.WindowState == FormWindowState.Minimized)
+            {    
+                this.WindowState = FormWindowState.Normal;   
+            }
+        }
+
+        private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                contextMenuNotifyIcon.Show(Cursor.Position);
+            else
+                ShowForm();
+        }
+
+        private void ToolStripMenuItem_NotifyIcon_Open_Click(object sender, EventArgs e)
+        {
+            ShowForm();
+        }
+
+        private void ToolStripMenuItem_NotifyIcon_Exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

@@ -36,14 +36,19 @@
             this.GrpCmdBox = new System.Windows.Forms.GroupBox();
             this.GrpBackgroundBox = new System.Windows.Forms.GroupBox();
             this.GrpCmdTree = new System.Windows.Forms.GroupBox();
-            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuTreeView = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem_Add = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Edit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Del = new System.Windows.Forms.ToolStripMenuItem();
+            this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem_NotifyIcon_Open = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_NotifyIcon_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.GrpCmdBox.SuspendLayout();
             this.GrpBackgroundBox.SuspendLayout();
             this.GrpCmdTree.SuspendLayout();
-            this.contextMenu.SuspendLayout();
+            this.contextMenuTreeView.SuspendLayout();
+            this.contextMenuNotifyIcon.SuspendLayout();
             this.SuspendLayout();
             // 
             // TxtCmdBox
@@ -131,15 +136,15 @@
             this.GrpCmdTree.TabIndex = 1;
             this.GrpCmdTree.TabStop = false;
             // 
-            // contextMenu
+            // contextMenuTreeView
             // 
-            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuTreeView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem_Add,
             this.toolStripMenuItem_Edit,
             this.toolStripMenuItem_Del});
-            this.contextMenu.Name = "ContextMenu_ToTreeView";
-            this.contextMenu.Size = new System.Drawing.Size(109, 70);
-            this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenu_Opening);
+            this.contextMenuTreeView.Name = "ContextMenu_ToTreeView";
+            this.contextMenuTreeView.Size = new System.Drawing.Size(109, 70);
+            this.contextMenuTreeView.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenu_Opening);
             // 
             // toolStripMenuItem_Add
             // 
@@ -162,6 +167,35 @@
             this.toolStripMenuItem_Del.Text = "&Delete";
             this.toolStripMenuItem_Del.Click += new System.EventHandler(this.ToolStripMenuItem_Del_Click);
             // 
+            // NotifyIcon
+            // 
+            this.NotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("NotifyIcon.Icon")));
+            this.NotifyIcon.Text = "Shortcut";
+            this.NotifyIcon.Visible = true;
+            this.NotifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_MouseClick);
+            // 
+            // contextMenuNotifyIcon
+            // 
+            this.contextMenuNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem_NotifyIcon_Open,
+            this.toolStripMenuItem_NotifyIcon_Exit});
+            this.contextMenuNotifyIcon.Name = "contextMenuNotifyIcon";
+            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(104, 48);
+            // 
+            // toolStripMenuItem_NotifyIcon_Open
+            // 
+            this.toolStripMenuItem_NotifyIcon_Open.Name = "toolStripMenuItem_NotifyIcon_Open";
+            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(103, 22);
+            this.toolStripMenuItem_NotifyIcon_Open.Text = "&Open";
+            this.toolStripMenuItem_NotifyIcon_Open.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Open_Click);
+            // 
+            // toolStripMenuItem_NotifyIcon_Exit
+            // 
+            this.toolStripMenuItem_NotifyIcon_Exit.Name = "toolStripMenuItem_NotifyIcon_Exit";
+            this.toolStripMenuItem_NotifyIcon_Exit.Size = new System.Drawing.Size(103, 22);
+            this.toolStripMenuItem_NotifyIcon_Exit.Text = "&Exit";
+            this.toolStripMenuItem_NotifyIcon_Exit.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Exit_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -172,13 +206,15 @@
             this.KeyPreview = true;
             this.Name = "FrmMain";
             this.Text = "Shortcut";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.GrpCmdBox.ResumeLayout(false);
             this.GrpCmdBox.PerformLayout();
             this.GrpBackgroundBox.ResumeLayout(false);
             this.GrpBackgroundBox.PerformLayout();
             this.GrpCmdTree.ResumeLayout(false);
-            this.contextMenu.ResumeLayout(false);
+            this.contextMenuTreeView.ResumeLayout(false);
+            this.contextMenuNotifyIcon.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -191,9 +227,13 @@
         private System.Windows.Forms.GroupBox GrpCmdBox;
         private System.Windows.Forms.GroupBox GrpBackgroundBox;
         private System.Windows.Forms.GroupBox GrpCmdTree;
-        private System.Windows.Forms.ContextMenuStrip contextMenu;
+        private System.Windows.Forms.ContextMenuStrip contextMenuTreeView;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Add;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Del;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Edit;
+        private System.Windows.Forms.NotifyIcon NotifyIcon;
+        private System.Windows.Forms.ContextMenuStrip contextMenuNotifyIcon;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Open;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Exit;
     }
 }
