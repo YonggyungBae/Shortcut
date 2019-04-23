@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -18,8 +16,10 @@ namespace Shortcut
             Shift = 4,
             WinKey = 8
         }
-
-
+        enum HotKeyId
+        {
+            SHOW_FORM = 0,
+        }
 
         private Color topCmdColor = Color.BlueViolet;
         private string cfgFileName = "default_cfg.bin";
@@ -32,8 +32,7 @@ namespace Shortcut
         {
             InitializeComponent();
 
-            int id = 0;     // The id of the hotkey. 
-            RegisterHotKey(this.Handle, id, (int)KeyModifier.WinKey, Keys.Y.GetHashCode());
+            RegisterHotKey(this.Handle, (int)HotKeyId.SHOW_FORM, (int)KeyModifier.WinKey, Keys.Y.GetHashCode());
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -66,14 +65,7 @@ namespace Shortcut
             UnregisterHotKey(this.Handle, 0);
         }
 
-
         //============================== Global Hot Key ==============================//
-        enum HotKeyId
-        {
-            SHOW_FORM = 0, y
-        }
-
-        // Call Library for Global Hotkey
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -98,108 +90,7 @@ namespace Shortcut
                         break;
                 }
             }
-        }
-
-        //============================== Run ==============================//
-        private void BtnRun_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        //============================== Context Menu : TreeView ==============================//
-        private void ToolStripMenuItem_Add_Click(object sender, EventArgs e)
-        {
-            TreeNode selectedNode = TreeView.SelectedNode;  // Input Dialog가 show 되기 전에 선택 node를 backup 받아놔야 함(안그러면 InputDialog가 show되고 나면 treeview의 첫번째 node가 강제 선택됨)
-            FrmInputDialog inputDialog;
-
-            if (dragNdropPath != "")
-            {
-                Dictionary<string, string> cmdSet_dragNdrop = new Dictionary<string, string>();
-                cmdSet_dragNdrop["Cmd"] = "";
-                cmdSet_dragNdrop["Path"] = dragNdropPath;
-                cmdSet_dragNdrop["Arguments"] = "";
-                cmdSet_dragNdrop["Run"] = "Checked";
-                inputDialog = new FrmInputDialog(cmdSet_dragNdrop);
-            }
-            else
-            {
-                inputDialog = new FrmInputDialog();
-            }
-
-            Dictionary<string, string> cmdSet = InputCmd(CmdEditType.ADD, ref inputDialog, selectedNode);
-
-            if (cmdSet != null)
-            {
-                TreeNode NewCmd = new TreeNode
-                {
-                    Text = Name = cmdSet["Cmd"],
-                    Tag = cmdSet,
-                };
-
-                NewCmd.SelectedImageKey = NewCmd.ImageKey = GetIcon(cmdSet["Path"]);
-
-                if (selectedNode == null)
-                {
-                    TreeView.Nodes.Add(NewCmd);
-                    NewCmd.ForeColor = topCmdColor;
-                }
-                else TreeView.SelectedNode.Nodes.Add(NewCmd);
-
-                TreeView.SelectedNode.Expand();
-                SaveTree(TreeView, cfgFileName);
-            }
-            dragNdropPath = null;
-        }
-
-        private void ToolStripMenuItem_Edit_Click(object sender, EventArgs e)
-        {
-            TreeNode selectedNode = TreeView.SelectedNode;
-            FrmInputDialog inputDialog;
-
-            if (selectedNode.Tag == null)
-                inputDialog = new FrmInputDialog(selectedNode.Name);
-            else
-            {
-                if (dragNdropPath != null)
-                {
-                    Dictionary<string, string> dragNdropCmd = new Dictionary<string, string>();
-                    dragNdropCmd["Cmd"] = selectedNode.Name;
-                    dragNdropCmd["Path"] = dragNdropPath;
-                    dragNdropCmd["Arguments"] = null;
-                    dragNdropCmd["Run"] = "Checked";
-                    inputDialog = new FrmInputDialog(dragNdropCmd);
-                }
-                else
-                    inputDialog = new FrmInputDialog((Dictionary<string, string>)selectedNode.Tag);
-            }
-
-            Dictionary<string, string> cmdSet = InputCmd(CmdEditType.EDIT, ref inputDialog, selectedNode);
-            if (cmdSet != null)
-            {
-                selectedNode.Name = selectedNode.Text = cmdSet["Cmd"];
-                selectedNode.Tag = cmdSet;
-                selectedNode.SelectedImageKey = selectedNode.ImageKey = GetIcon(cmdSet["Path"]);
-                SaveTree(TreeView, cfgFileName);
-            }
-            dragNdropPath = null;
-        }
-
-        private void ToolStripMenuItem_Del_Click(object sender, EventArgs e)
-        {
-            if ((TreeView.SelectedNode != null)
-                && (MessageBox.Show("정말로 삭제할까요?", "확인", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
-            {
-                TreeView.SelectedNode.Remove();
-                SaveTree(TreeView, cfgFileName);
-            }
-        }
-
-        private void ContextMenu_Opening(object sender, CancelEventArgs e)
-        {
-            bool MenuItemVisible = (TreeView.SelectedNode == null);
-            toolStripMenuItem_Edit.Visible = !MenuItemVisible;
-            toolStripMenuItem_Del.Visible = (!MenuItemVisible) && (dragNdropPath == null);
-        }
+        }       
 
         //============================== Key Event ==============================//
         private void TreeView_KeyDown(object sender, KeyEventArgs e)
@@ -304,46 +195,6 @@ namespace Shortcut
             e.Node.Expand();
         }
 
-        //============================== Notify Icon ==============================//
-        private void ShowForm()
-        {
-            if (this.WindowState == FormWindowState.Minimized)
-            {
-                this.WindowState = FormWindowState.Normal;
-            }
-            Show();
-            BringToFront();
-        }
-
-        private void HideForm()
-        {
-            Hide();
-        }
-
-        private void ToolStripMenuItem_NotifyIcon_Open_Click(object sender, EventArgs e)
-        {
-            ShowForm();
-        }
-
-        private void ToolStripMenuItem_NotifyIcon_Exit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-                contextMenuNotifyIcon.Show();
-            else
-                ShowForm();
-        }
-
-        private void FrmMain_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
-            {
-                HideForm();
-            }
-        }
+        
     }
 }
