@@ -12,7 +12,7 @@ namespace Shortcut
             TreeNode selectedNode = TreeView.SelectedNode;  // Input Dialog가 show 되기 전에 선택 node를 backup 받아놔야 함(안그러면 InputDialog가 show되고 나면 treeview의 첫번째 node가 강제 선택됨)
             FrmInputDialog inputDialog;
 
-            if (dragNdropPath != "")
+            if (dragNdropPath != null)
             {
                 Dictionary<string, string> cmdSet_dragNdrop = new Dictionary<string, string>();
                 cmdSet_dragNdrop["Cmd"] = "";

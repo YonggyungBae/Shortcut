@@ -24,7 +24,7 @@ namespace Shortcut
         private Color topCmdColor = Color.BlueViolet;
         private string cfgFileName = "default_cfg.bin";
         private TreeNode NodeToBeDeleted;
-        private string dragNdropPath;
+        private string dragNdropPath = null;
         private ImageList iconList = new ImageList();
 
         //============================== Form Load ==============================//
