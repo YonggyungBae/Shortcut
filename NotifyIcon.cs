@@ -10,9 +10,9 @@ namespace Shortcut
             FormWindowState windowState_Backup = this.WindowState;
             this.WindowState = FormWindowState.Minimized;
             if (windowState_Backup != FormWindowState.Minimized)
-            {
                 this.WindowState = windowState_Backup;
-            }
+            else
+                this.WindowState = FormWindowState.Normal;
             Show();
             BringToFront();
         }
@@ -27,6 +27,14 @@ namespace Shortcut
             ShowForm();
         }
 
+        private void toolStripMenuItem_NotifyIcon_Config_Click(object sender, EventArgs e)
+        {
+            Options options = new Options();
+            options.ShowDialog();
+
+            this.ShowInTaskbar = options.GetOption_ShowInTaskBar();
+        }
+
         private void ToolStripMenuItem_NotifyIcon_Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -38,14 +46,6 @@ namespace Shortcut
                 contextMenuNotifyIcon.Show();
             else
                 ShowForm();
-        }
-
-        private void FrmMain_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
-            {
-                HideForm();
-            }
         }
     }
 }

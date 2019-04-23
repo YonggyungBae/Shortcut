@@ -33,21 +33,22 @@
             this.TxtCmdBox = new System.Windows.Forms.TextBox();
             this.BtnRun = new System.Windows.Forms.Button();
             this.TreeView = new System.Windows.Forms.TreeView();
-            this.GrpCmdBox = new System.Windows.Forms.GroupBox();
-            this.GrpBackgroundBox = new System.Windows.Forms.GroupBox();
-            this.GrpCmdTree = new System.Windows.Forms.GroupBox();
             this.contextMenuTreeView = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem_Add = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Edit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Del = new System.Windows.Forms.ToolStripMenuItem();
+            this.GrpCmdBox = new System.Windows.Forms.GroupBox();
+            this.GrpBackgroundBox = new System.Windows.Forms.GroupBox();
+            this.GrpCmdTree = new System.Windows.Forms.GroupBox();
             this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem_NotifyIcon_Open = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_NotifyIcon_Config = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_NotifyIcon_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuTreeView.SuspendLayout();
             this.GrpCmdBox.SuspendLayout();
             this.GrpBackgroundBox.SuspendLayout();
             this.GrpCmdTree.SuspendLayout();
-            this.contextMenuTreeView.SuspendLayout();
             this.contextMenuNotifyIcon.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,21 +56,23 @@
             // 
             this.TxtCmdBox.BackColor = System.Drawing.Color.Black;
             this.TxtCmdBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.TxtCmdBox.Font = new System.Drawing.Font("LG스마트체2.0 SemiBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TxtCmdBox.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TxtCmdBox.ForeColor = System.Drawing.Color.White;
-            this.TxtCmdBox.Location = new System.Drawing.Point(3, 17);
+            this.TxtCmdBox.Location = new System.Drawing.Point(3, 20);
+            this.TxtCmdBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TxtCmdBox.Name = "TxtCmdBox";
-            this.TxtCmdBox.Size = new System.Drawing.Size(252, 29);
+            this.TxtCmdBox.Size = new System.Drawing.Size(252, 33);
             this.TxtCmdBox.TabIndex = 0;
             // 
             // BtnRun
             // 
             this.BtnRun.Dock = System.Windows.Forms.DockStyle.Right;
-            this.BtnRun.Location = new System.Drawing.Point(264, 17);
-            this.BtnRun.MaximumSize = new System.Drawing.Size(75, 23);
-            this.BtnRun.MinimumSize = new System.Drawing.Size(75, 23);
+            this.BtnRun.Location = new System.Drawing.Point(264, 20);
+            this.BtnRun.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.BtnRun.MaximumSize = new System.Drawing.Size(75, 29);
+            this.BtnRun.MinimumSize = new System.Drawing.Size(75, 29);
             this.BtnRun.Name = "BtnRun";
-            this.BtnRun.Size = new System.Drawing.Size(75, 23);
+            this.BtnRun.Size = new System.Drawing.Size(75, 29);
             this.BtnRun.TabIndex = 1;
             this.BtnRun.Text = "&Run";
             this.BtnRun.UseVisualStyleBackColor = true;
@@ -81,13 +84,14 @@
             this.TreeView.BackColor = System.Drawing.Color.Black;
             this.TreeView.ContextMenuStrip = this.contextMenuTreeView;
             this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TreeView.Font = new System.Drawing.Font("LG스마트체2.0 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TreeView.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TreeView.ForeColor = System.Drawing.Color.White;
             this.TreeView.HideSelection = false;
             this.TreeView.LabelEdit = true;
-            this.TreeView.Location = new System.Drawing.Point(3, 17);
+            this.TreeView.Location = new System.Drawing.Point(3, 20);
+            this.TreeView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TreeView.Name = "TreeView";
-            this.TreeView.Size = new System.Drawing.Size(336, 399);
+            this.TreeView.Size = new System.Drawing.Size(336, 502);
             this.TreeView.TabIndex = 0;
             this.TreeView.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_AfterExpand);
             this.TreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.TreeView_ItemDrag);
@@ -97,44 +101,6 @@
             this.TreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.TreeView_DragEnter);
             this.TreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView_KeyDown);
             this.TreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeView_MouseDown);
-            // 
-            // GrpCmdBox
-            // 
-            this.GrpCmdBox.AutoSize = true;
-            this.GrpCmdBox.Controls.Add(this.TxtCmdBox);
-            this.GrpCmdBox.Controls.Add(this.BtnRun);
-            this.GrpCmdBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.GrpCmdBox.Enabled = false;
-            this.GrpCmdBox.Location = new System.Drawing.Point(3, 17);
-            this.GrpCmdBox.Name = "GrpCmdBox";
-            this.GrpCmdBox.Padding = new System.Windows.Forms.Padding(3, 3, 3, 35);
-            this.GrpCmdBox.Size = new System.Drawing.Size(342, 52);
-            this.GrpCmdBox.TabIndex = 0;
-            this.GrpCmdBox.TabStop = false;
-            this.GrpCmdBox.Text = "Command";
-            this.GrpCmdBox.Visible = false;
-            // 
-            // GrpBackgroundBox
-            // 
-            this.GrpBackgroundBox.Controls.Add(this.GrpCmdTree);
-            this.GrpBackgroundBox.Controls.Add(this.GrpCmdBox);
-            this.GrpBackgroundBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GrpBackgroundBox.Location = new System.Drawing.Point(0, 0);
-            this.GrpBackgroundBox.Name = "GrpBackgroundBox";
-            this.GrpBackgroundBox.Size = new System.Drawing.Size(348, 491);
-            this.GrpBackgroundBox.TabIndex = 0;
-            this.GrpBackgroundBox.TabStop = false;
-            // 
-            // GrpCmdTree
-            // 
-            this.GrpCmdTree.BackColor = System.Drawing.SystemColors.Control;
-            this.GrpCmdTree.Controls.Add(this.TreeView);
-            this.GrpCmdTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GrpCmdTree.Location = new System.Drawing.Point(3, 69);
-            this.GrpCmdTree.Name = "GrpCmdTree";
-            this.GrpCmdTree.Size = new System.Drawing.Size(342, 419);
-            this.GrpCmdTree.TabIndex = 1;
-            this.GrpCmdTree.TabStop = false;
             // 
             // contextMenuTreeView
             // 
@@ -167,6 +133,49 @@
             this.toolStripMenuItem_Del.Text = "&Delete";
             this.toolStripMenuItem_Del.Click += new System.EventHandler(this.ToolStripMenuItem_Del_Click);
             // 
+            // GrpCmdBox
+            // 
+            this.GrpCmdBox.AutoSize = true;
+            this.GrpCmdBox.Controls.Add(this.TxtCmdBox);
+            this.GrpCmdBox.Controls.Add(this.BtnRun);
+            this.GrpCmdBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.GrpCmdBox.Enabled = false;
+            this.GrpCmdBox.Location = new System.Drawing.Point(3, 20);
+            this.GrpCmdBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.GrpCmdBox.Name = "GrpCmdBox";
+            this.GrpCmdBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 44);
+            this.GrpCmdBox.Size = new System.Drawing.Size(342, 64);
+            this.GrpCmdBox.TabIndex = 0;
+            this.GrpCmdBox.TabStop = false;
+            this.GrpCmdBox.Text = "Command";
+            this.GrpCmdBox.Visible = false;
+            // 
+            // GrpBackgroundBox
+            // 
+            this.GrpBackgroundBox.Controls.Add(this.GrpCmdTree);
+            this.GrpBackgroundBox.Controls.Add(this.GrpCmdBox);
+            this.GrpBackgroundBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GrpBackgroundBox.Location = new System.Drawing.Point(0, 0);
+            this.GrpBackgroundBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.GrpBackgroundBox.Name = "GrpBackgroundBox";
+            this.GrpBackgroundBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.GrpBackgroundBox.Size = new System.Drawing.Size(348, 614);
+            this.GrpBackgroundBox.TabIndex = 0;
+            this.GrpBackgroundBox.TabStop = false;
+            // 
+            // GrpCmdTree
+            // 
+            this.GrpCmdTree.BackColor = System.Drawing.SystemColors.Control;
+            this.GrpCmdTree.Controls.Add(this.TreeView);
+            this.GrpCmdTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GrpCmdTree.Location = new System.Drawing.Point(3, 84);
+            this.GrpCmdTree.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.GrpCmdTree.Name = "GrpCmdTree";
+            this.GrpCmdTree.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.GrpCmdTree.Size = new System.Drawing.Size(342, 526);
+            this.GrpCmdTree.TabIndex = 1;
+            this.GrpCmdTree.TabStop = false;
+            // 
             // NotifyIcon
             // 
             this.NotifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
@@ -180,45 +189,56 @@
             // 
             this.contextMenuNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem_NotifyIcon_Open,
+            this.toolStripMenuItem_NotifyIcon_Config,
             this.toolStripMenuItem_NotifyIcon_Exit});
             this.contextMenuNotifyIcon.Name = "contextMenuNotifyIcon";
-            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(104, 48);
+            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(112, 70);
             // 
             // toolStripMenuItem_NotifyIcon_Open
             // 
             this.toolStripMenuItem_NotifyIcon_Open.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Open.Image")));
             this.toolStripMenuItem_NotifyIcon_Open.Name = "toolStripMenuItem_NotifyIcon_Open";
-            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(103, 22);
+            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(111, 22);
             this.toolStripMenuItem_NotifyIcon_Open.Text = "&Open";
             this.toolStripMenuItem_NotifyIcon_Open.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Open_Click);
+            // 
+            // toolStripMenuItem_NotifyIcon_Config
+            // 
+            this.toolStripMenuItem_NotifyIcon_Config.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Config.Image")));
+            this.toolStripMenuItem_NotifyIcon_Config.Name = "toolStripMenuItem_NotifyIcon_Config";
+            this.toolStripMenuItem_NotifyIcon_Config.Size = new System.Drawing.Size(111, 22);
+            this.toolStripMenuItem_NotifyIcon_Config.Text = "Opt&ion";
+            this.toolStripMenuItem_NotifyIcon_Config.Click += new System.EventHandler(this.toolStripMenuItem_NotifyIcon_Config_Click);
             // 
             // toolStripMenuItem_NotifyIcon_Exit
             // 
             this.toolStripMenuItem_NotifyIcon_Exit.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Exit.Image")));
             this.toolStripMenuItem_NotifyIcon_Exit.Name = "toolStripMenuItem_NotifyIcon_Exit";
-            this.toolStripMenuItem_NotifyIcon_Exit.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_NotifyIcon_Exit.Size = new System.Drawing.Size(111, 22);
             this.toolStripMenuItem_NotifyIcon_Exit.Text = "&Exit";
             this.toolStripMenuItem_NotifyIcon_Exit.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Exit_Click);
             // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(348, 491);
+            this.ClientSize = new System.Drawing.Size(348, 614);
             this.Controls.Add(this.GrpBackgroundBox);
+            this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FrmMain";
             this.Text = "Shortcut";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmMain_KeyDown);
+            this.contextMenuTreeView.ResumeLayout(false);
             this.GrpCmdBox.ResumeLayout(false);
             this.GrpCmdBox.PerformLayout();
             this.GrpBackgroundBox.ResumeLayout(false);
             this.GrpBackgroundBox.PerformLayout();
             this.GrpCmdTree.ResumeLayout(false);
-            this.contextMenuTreeView.ResumeLayout(false);
             this.contextMenuNotifyIcon.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -240,5 +260,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuNotifyIcon;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Open;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Exit;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Config;
     }
 }

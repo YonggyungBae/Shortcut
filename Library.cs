@@ -16,21 +16,30 @@ namespace Shortcut
     {
         enum CmdEditType { ADD, EDIT };
 
-        private static void RunCmd(TreeNode cmd)
+        private void MinimizeToTray()
+        {
+            Options options = new Options();
+            if (options.GetOption_MinimizeToTrayAfterRun() == true)
+                HideForm();
+        }
+
+        private void RunCmd(TreeNode cmd)
         {
             if (cmd.Tag != null)
             {
                 Dictionary<string, string> cmdSet = (Dictionary<string, string>)cmd.Tag;
-                ProcessStartInfo processInfo = new ProcessStartInfo();
-                Process process = new Process();
 
                 if ( (cmdSet["Path"] != "") && (cmdSet["Run"] == "Checked") )
                 {
+                    ProcessStartInfo processInfo = new ProcessStartInfo();
+                    Process process = new Process();
+
                     processInfo.FileName = cmdSet["Path"];
                     if (cmdSet["Arguments"] != "")
                         processInfo.Arguments = cmdSet["Arguments"];
                     process.StartInfo = processInfo;
                     process.Start();
+                    MinimizeToTray();
                 }
             }
         }

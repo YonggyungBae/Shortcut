@@ -90,9 +90,17 @@ namespace Shortcut
                         break;
                 }
             }
-        }       
+        }
 
         //============================== Key Event ==============================//
+        private void FrmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                HideForm();
+            }
+        }
+
         private void TreeView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -121,7 +129,7 @@ namespace Shortcut
 
         private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (sender != null)
+            if(sender != null)
             {
                 RunCmd(TreeView.SelectedNode);
             }
@@ -195,6 +203,5 @@ namespace Shortcut
             e.Node.Expand();
         }
 
-        
     }
 }
