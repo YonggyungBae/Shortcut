@@ -189,19 +189,14 @@ namespace Shortcut
             }
         }
 
-        private void TreeView_AfterExpand(object sender, TreeViewEventArgs e)
+        private void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            e.Node.Expand();
             foreach (TreeNode node in TreeView.Nodes)
             {
                 if ((node != e.Node) && (e.Node.Parent == null))
                     node.Collapse();
             }
         }
-
-        private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            e.Node.Expand();
-        }
-
     }
 }
