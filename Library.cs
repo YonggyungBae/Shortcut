@@ -57,7 +57,11 @@ namespace Shortcut
                         MinimizeToTray();
                     }
                     else
+                    {
                         MessageBox.Show("Please check the \"Path\" or \"Arguments\" in the command.", "The File or Folder is NOT existed.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cmd.SelectedImageKey = cmd.ImageKey = GetIcon(cmdSet["Path"]);
+                    }
+                        
                 }
             }
         }
