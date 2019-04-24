@@ -16,6 +16,20 @@ namespace Shortcut
     {
         enum CmdEditType { ADD, EDIT };
 
+        public Dictionary<string, string> SetProperRunState(Dictionary<string, string> cmdSet)
+        {
+            if (cmdSet["Path"] == "") cmdSet["Run"] = "Unchecked";
+            return cmdSet;
+        }
+
+        public bool ChkValidPath(string path)
+        {
+            if (Directory.Exists(path) || File.Exists(path))
+                return true;
+            else
+                return false;
+        }
+
         private void MinimizeToTray()
         {
             Options options = new Options();
@@ -28,18 +42,22 @@ namespace Shortcut
             if (cmd.Tag != null)
             {
                 Dictionary<string, string> cmdSet = (Dictionary<string, string>)cmd.Tag;
-
-                if ( (cmdSet["Path"] != "") && (cmdSet["Run"] == "Checked") )
+                if (cmdSet["Run"] == "Checked")
                 {
-                    ProcessStartInfo processInfo = new ProcessStartInfo();
-                    Process process = new Process();
+                    if (ChkValidPath(cmdSet["Path"]))
+                    {
+                        ProcessStartInfo processInfo = new ProcessStartInfo();
+                        Process process = new Process();
 
-                    processInfo.FileName = cmdSet["Path"];
-                    if (cmdSet["Arguments"] != "")
-                        processInfo.Arguments = cmdSet["Arguments"];
-                    process.StartInfo = processInfo;
-                    process.Start();
-                    MinimizeToTray();
+                        processInfo.FileName = cmdSet["Path"];
+                        if (cmdSet["Arguments"] != "")
+                            processInfo.Arguments = cmdSet["Arguments"];
+                        process.StartInfo = processInfo;
+                        process.Start();
+                        MinimizeToTray();
+                    }
+                    else
+                        MessageBox.Show("Please check the \"Path\" or \"Arguments\" in the command.", "The File or Folder is NOT existed.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -74,7 +92,7 @@ namespace Shortcut
             while (inputDialog.ShowDialog() == DialogResult.OK)
             {
                 if (ChkValidCmd(cmdEditType, selectedNode, inputDialog.GetCmdSet()) == true)
-                    return inputDialog.GetCmdSet();
+                    return SetProperRunState(inputDialog.GetCmdSet());
             }
             return null;
         }
