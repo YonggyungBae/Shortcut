@@ -15,6 +15,12 @@ namespace Shortcut
     public partial class FrmMain
     {
         enum CmdEditType { ADD, EDIT };
+        enum ValidPath
+        {
+            PATH_NONE = 0,
+            PATH_VALID,
+            PATH_INVALID
+        };
 
         public Dictionary<string, string> SetProperRunState(Dictionary<string, string> cmdSet)
         {
@@ -22,12 +28,14 @@ namespace Shortcut
             return cmdSet;
         }
 
-        public bool ChkValidPath(string path)
+        private ValidPath ChkValidPath(string path)
         {
+            if ((path == null) || (path == ""))
+                return ValidPath.PATH_NONE;
             if (Directory.Exists(path) || File.Exists(path))
-                return true;
+                return ValidPath.PATH_VALID;
             else
-                return false;
+                return ValidPath.PATH_INVALID;
         }
 
         private void MinimizeToTray()
@@ -44,7 +52,12 @@ namespace Shortcut
                 Dictionary<string, string> cmdSet = (Dictionary<string, string>)cmd.Tag;
                 if (cmdSet["Run"] == "Checked")
                 {
-                    if (ChkValidPath(cmdSet["Path"]))
+                    ValidPath validPath = ChkValidPath(cmdSet["Path"]);
+                    if(validPath == ValidPath.PATH_NONE)
+                    {
+                        // No run.
+                    }
+                    else if (validPath == ValidPath.PATH_VALID)
                     {
                         ProcessStartInfo processInfo = new ProcessStartInfo();
                         Process process = new Process();
