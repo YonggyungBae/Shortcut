@@ -189,13 +189,21 @@ namespace Shortcut
             }
         }
 
-        private void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        private void TreeView_MouseClick(object sender, MouseEventArgs e)
         {
-            e.Node.Expand();
-            foreach (TreeNode node in TreeView.Nodes)
+            var clickedItem = TreeView.HitTest(e.Location);
+            if (clickedItem.Location == TreeViewHitTestLocations.PlusMinus)
             {
-                if ((node != e.Node) && (e.Node.Parent == null))
-                    node.Collapse();
+                // [+] clicked
+            }
+            else
+            {
+                clickedItem.Node.Expand();
+                foreach (TreeNode node in TreeView.Nodes)
+                {
+                    if ((node != clickedItem.Node) && (clickedItem.Node.Parent == null))
+                        node.Collapse();
+                }
             }
         }
     }
