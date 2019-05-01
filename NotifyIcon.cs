@@ -27,7 +27,7 @@ namespace Shortcut
             ShowForm();
         }
 
-        private void toolStripMenuItem_NotifyIcon_Config_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem_NotifyIcon_Config_Click(object sender, EventArgs e)
         {
             Options options = new Options();
             options.ShowDialog();

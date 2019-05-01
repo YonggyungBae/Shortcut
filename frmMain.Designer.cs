@@ -207,7 +207,7 @@
             this.toolStripMenuItem_NotifyIcon_Config.Name = "toolStripMenuItem_NotifyIcon_Config";
             this.toolStripMenuItem_NotifyIcon_Config.Size = new System.Drawing.Size(111, 22);
             this.toolStripMenuItem_NotifyIcon_Config.Text = "Opt&ion";
-            this.toolStripMenuItem_NotifyIcon_Config.Click += new System.EventHandler(this.toolStripMenuItem_NotifyIcon_Config_Click);
+            this.toolStripMenuItem_NotifyIcon_Config.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Config_Click);
             // 
             // toolStripMenuItem_NotifyIcon_Exit
             // 

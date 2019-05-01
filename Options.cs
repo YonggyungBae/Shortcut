@@ -16,22 +16,32 @@ namespace Shortcut
         {
             InitializeComponent();
             Options_Load();
+            ToolTipSet();
         }
 
-        private void btnApply_Click(object sender, EventArgs e)
+        private void ToolTipSet()
+        {
+            ToolTip_MinimizeToTrayAfterRun.SetToolTip(chkShowInTaskBar, "작업표시줄에 표시할지 여부를 결정합니다.");
+            ToolTip_MinimizeToTrayAfterRun.SetToolTip(chkMinimizeToTrayAfterRun, "Command를 더블클릭하여 실행하면" + Environment.NewLine + "Shortcut이 윈도우 트레이로 최소화 됩니다.");
+            ToolTip_MinimizeToTrayAfterRun.SetToolTip(chkMinimizeToTrayPressEsc, "Shortcut의 메인창에서 'Esc' 키를 누르면" + Environment.NewLine + "Shortcut이 윈도우 트레이로 최소화 됩니다.");
+        }
+
+        private void BtnApply_Click(object sender, EventArgs e)
         {
             Options_Apply();
         }
 
-        private void btnOk_Click(object sender, EventArgs e)
+        private void BtnOk_Click(object sender, EventArgs e)
         {
             Options_Apply();
         }
 
         private void Options_Apply()
         {
-            Properties.Settings.Default.optMinimizeToTrayAfterRun = chkMinimizeToTrayAfterRun.Checked;
             Properties.Settings.Default.optShowInTaskBar = chkShowInTaskBar.Checked;
+            Properties.Settings.Default.optMinimizeToTrayAfterRun = chkMinimizeToTrayAfterRun.Checked;
+            Properties.Settings.Default.optMinimizeToTrayPressEsc = chkMinimizeToTrayPressEsc.Checked;
+
             Properties.Settings.Default.Save();
         }
 
@@ -39,6 +49,12 @@ namespace Shortcut
         {
             chkMinimizeToTrayAfterRun.Checked = Properties.Settings.Default.optMinimizeToTrayAfterRun;
             chkShowInTaskBar.Checked = Properties.Settings.Default.optShowInTaskBar;
+            chkMinimizeToTrayPressEsc.Checked = Properties.Settings.Default.optMinimizeToTrayPressEsc;
+        }
+
+        public bool GetOption_ShowInTaskBar()
+        {
+            return Properties.Settings.Default.optShowInTaskBar;
         }
 
         public bool GetOption_MinimizeToTrayAfterRun()
@@ -46,9 +62,9 @@ namespace Shortcut
             return Properties.Settings.Default.optMinimizeToTrayAfterRun;
         }
 
-        public bool GetOption_ShowInTaskBar()
+        public bool GetOption_MinimizeToTrayPressEsc()
         {
-            return Properties.Settings.Default.optShowInTaskBar;
+            return Properties.Settings.Default.optMinimizeToTrayPressEsc;
         }
     }
 }

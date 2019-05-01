@@ -46,5 +46,17 @@ namespace Shortcut.Properties {
                 this["optMinimizeToTrayAfterRun"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool optMinimizeToTrayPressEsc {
+            get {
+                return ((bool)(this["optMinimizeToTrayPressEsc"]));
+            }
+            set {
+                this["optMinimizeToTrayPressEsc"] = value;
+            }
+        }
     }
 }

@@ -8,5 +8,8 @@
     <Setting Name="optMinimizeToTrayAfterRun" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="optMinimizeToTrayPressEsc" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

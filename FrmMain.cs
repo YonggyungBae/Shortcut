@@ -95,7 +95,7 @@ namespace Shortcut
         //============================== Key Event ==============================//
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
+            if ( (e.KeyCode == Keys.Escape) && (Properties.Settings.Default.optMinimizeToTrayPressEsc == true) )
             {
                 HideForm();
             }
