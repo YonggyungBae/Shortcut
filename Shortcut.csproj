@@ -53,7 +53,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Shortcut.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icon\Shortcut.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoUpdater.NET, Version=1.5.1.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
@@ -78,6 +78,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="ContextMenu_TreeView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +117,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings.cs" />
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -157,13 +166,19 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shortcut.ico" />
+    <None Include="Resources\Icon\Icon.pptx" />
+    <None Include="Resources\Icon\Shortcut.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Config.ico" />
-    <Content Include="Resources\Exit.ico" />
+    <Content Include="Resources\Icon\Config.png" />
+    <Content Include="Resources\Icon\Exit.png" />
+    <Content Include="Resources\Icon\Config.ico" />
+    <Content Include="Resources\Icon\ExclamationMark.png" />
+    <Content Include="Resources\Icon\Exit.ico" />
     <Content Include="Resources\Inno Setup Scripts - Shortcut.iss" />
     <Content Include="Resources\License.txt" />
+    <Content Include="Resources\Icon\Question.png" />
+    <Content Include="Resources\Icon\Shortcut.png" />
     <Content Include="Resources\Version.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

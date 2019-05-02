@@ -44,6 +44,7 @@
             this.contextMenuNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem_NotifyIcon_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_NotifyIcon_Config = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_NotifyIcon_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuTreeView.SuspendLayout();
             this.GrpCmdBox.SuspendLayout();
@@ -91,7 +92,7 @@
             this.TreeView.Location = new System.Drawing.Point(3, 20);
             this.TreeView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TreeView.Name = "TreeView";
-            this.TreeView.Size = new System.Drawing.Size(336, 502);
+            this.TreeView.Size = new System.Drawing.Size(336, 384);
             this.TreeView.TabIndex = 0;
             this.TreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.TreeView_ItemDrag);
             this.TreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_NodeMouseDoubleClick);
@@ -158,7 +159,7 @@
             this.GrpBackgroundBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GrpBackgroundBox.Name = "GrpBackgroundBox";
             this.GrpBackgroundBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.GrpBackgroundBox.Size = new System.Drawing.Size(348, 614);
+            this.GrpBackgroundBox.Size = new System.Drawing.Size(348, 496);
             this.GrpBackgroundBox.TabIndex = 0;
             this.GrpBackgroundBox.TabStop = false;
             // 
@@ -171,7 +172,7 @@
             this.GrpCmdTree.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GrpCmdTree.Name = "GrpCmdTree";
             this.GrpCmdTree.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.GrpCmdTree.Size = new System.Drawing.Size(342, 526);
+            this.GrpCmdTree.Size = new System.Drawing.Size(342, 408);
             this.GrpCmdTree.TabIndex = 1;
             this.GrpCmdTree.TabStop = false;
             // 
@@ -189,15 +190,16 @@
             this.contextMenuNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem_NotifyIcon_Open,
             this.toolStripMenuItem_NotifyIcon_Config,
+            this.aboutToolStripMenuItem,
             this.toolStripMenuItem_NotifyIcon_Exit});
             this.contextMenuNotifyIcon.Name = "contextMenuNotifyIcon";
-            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(112, 70);
+            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(153, 114);
             // 
             // toolStripMenuItem_NotifyIcon_Open
             // 
             this.toolStripMenuItem_NotifyIcon_Open.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Open.Image")));
             this.toolStripMenuItem_NotifyIcon_Open.Name = "toolStripMenuItem_NotifyIcon_Open";
-            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(111, 22);
+            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem_NotifyIcon_Open.Text = "&Open";
             this.toolStripMenuItem_NotifyIcon_Open.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Open_Click);
             // 
@@ -205,15 +207,23 @@
             // 
             this.toolStripMenuItem_NotifyIcon_Config.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Config.Image")));
             this.toolStripMenuItem_NotifyIcon_Config.Name = "toolStripMenuItem_NotifyIcon_Config";
-            this.toolStripMenuItem_NotifyIcon_Config.Size = new System.Drawing.Size(111, 22);
+            this.toolStripMenuItem_NotifyIcon_Config.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem_NotifyIcon_Config.Text = "Opt&ion";
             this.toolStripMenuItem_NotifyIcon_Config.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Config_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // toolStripMenuItem_NotifyIcon_Exit
             // 
             this.toolStripMenuItem_NotifyIcon_Exit.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Exit.Image")));
             this.toolStripMenuItem_NotifyIcon_Exit.Name = "toolStripMenuItem_NotifyIcon_Exit";
-            this.toolStripMenuItem_NotifyIcon_Exit.Size = new System.Drawing.Size(111, 22);
+            this.toolStripMenuItem_NotifyIcon_Exit.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem_NotifyIcon_Exit.Text = "&Exit";
             this.toolStripMenuItem_NotifyIcon_Exit.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Exit_Click);
             // 
@@ -221,7 +231,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(348, 614);
+            this.ClientSize = new System.Drawing.Size(348, 496);
             this.Controls.Add(this.GrpBackgroundBox);
             this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -260,5 +270,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Open;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Exit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Config;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }

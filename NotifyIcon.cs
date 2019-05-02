@@ -35,6 +35,12 @@ namespace Shortcut
             this.ShowInTaskbar = options.GetOption_ShowInTaskBar();
         }
 
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAbout about = new frmAbout();
+            about.ShowDialog();
+        }
+
         private void ToolStripMenuItem_NotifyIcon_Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
