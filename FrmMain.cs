@@ -37,7 +37,6 @@ namespace Shortcut
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            this.Text = "Shortcut Ver." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             AutoUpdater.Start("https://raw.githubusercontent.com/yg-bae/Shortcut/master/Resources/Version.xml");
 
             LoadTree(TreeView, cfgFileName);

@@ -32,6 +32,7 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtAbout = new System.Windows.Forms.TextBox();
+            this.txtVersion = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnOk
@@ -59,10 +60,19 @@
             this.txtAbout.Multiline = true;
             this.txtAbout.Name = "txtAbout";
             this.txtAbout.ReadOnly = true;
-            this.txtAbout.Size = new System.Drawing.Size(390, 145);
+            this.txtAbout.Size = new System.Drawing.Size(390, 120);
             this.txtAbout.TabIndex = 2;
             this.txtAbout.Text = "Free to use for both of commercial and non-commercial purpose.\r\n\r\n\r\nContact : yon" +
     "ggyung.bae@gmail.com\r\n\r\n\r\nCopyright Yonggyung Bae. All rights reserved.";
+            // 
+            // txtVersion
+            // 
+            this.txtVersion.Location = new System.Drawing.Point(12, 150);
+            this.txtVersion.Multiline = true;
+            this.txtVersion.Name = "txtVersion";
+            this.txtVersion.ReadOnly = true;
+            this.txtVersion.Size = new System.Drawing.Size(390, 19);
+            this.txtVersion.TabIndex = 3;
             // 
             // frmAbout
             // 
@@ -70,6 +80,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(414, 204);
+            this.Controls.Add(this.txtVersion);
             this.Controls.Add(this.txtAbout);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.btnOk);
@@ -87,5 +98,6 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.TextBox txtAbout;
+        private System.Windows.Forms.TextBox txtVersion;
     }
 }

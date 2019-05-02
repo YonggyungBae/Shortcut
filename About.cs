@@ -15,6 +15,7 @@ namespace Shortcut
         public frmAbout()
         {
             InitializeComponent();
+            txtVersion.Text = "Version : " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
     }
 }
