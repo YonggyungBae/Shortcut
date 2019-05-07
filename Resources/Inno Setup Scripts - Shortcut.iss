@@ -20,7 +20,7 @@ AppId={{ECD9DA9E-8AD5-4CF2-9E30-6F0A3EED4A47}
 SourceDir={#SourceDir}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-;AppVerName={#MyAppName} {#MyAppVersion}
+AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
@@ -35,6 +35,12 @@ AppCopyright=Yonggyung Bae
 LicenseFile=D:\Shortcut\Resources\License.txt
 AppContact=yonggyung.bae@gmail.com
 ArchitecturesInstallIn64BitMode=x64
+SetupIconFile=D:\Shortcut\Resources\Icon\Shortcut.ico
+UninstallDisplayIcon={app}\Shortcut.exe
+VersionInfoCompany=Yonggyung Bae
+VersionInfoCopyright=Yonggyung Bae
+VersionInfoProductName=Shortcut {#MyAppVersion}
+UninstallDisplayName=Shortcut {#MyAppVersion}
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
