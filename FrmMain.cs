@@ -205,5 +205,11 @@ namespace Shortcut
                 }
             }
         }
+
+        private void TreeView_DragOver(object sender, DragEventArgs e)
+        {
+            Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
+            TreeView.SelectedNode = ((TreeView)sender).GetNodeAt(pt);
+        }
     }
 }

@@ -57,7 +57,7 @@
             // 
             this.TxtCmdBox.BackColor = System.Drawing.Color.Black;
             this.TxtCmdBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.TxtCmdBox.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TxtCmdBox.Font = new System.Drawing.Font("Malgun Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TxtCmdBox.ForeColor = System.Drawing.Color.White;
             this.TxtCmdBox.Location = new System.Drawing.Point(3, 20);
             this.TxtCmdBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -85,7 +85,7 @@
             this.TreeView.BackColor = System.Drawing.Color.Black;
             this.TreeView.ContextMenuStrip = this.contextMenuTreeView;
             this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TreeView.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TreeView.Font = new System.Drawing.Font("Malgun Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TreeView.ForeColor = System.Drawing.Color.White;
             this.TreeView.HideSelection = false;
             this.TreeView.LabelEdit = true;
@@ -98,6 +98,7 @@
             this.TreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_NodeMouseDoubleClick);
             this.TreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.TreeView_DragDrop);
             this.TreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.TreeView_DragEnter);
+            this.TreeView.DragOver += new System.Windows.Forms.DragEventHandler(this.TreeView_DragOver);
             this.TreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView_KeyDown);
             this.TreeView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TreeView_MouseClick);
             this.TreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeView_MouseDown);
@@ -193,13 +194,13 @@
             this.aboutToolStripMenuItem,
             this.toolStripMenuItem_NotifyIcon_Exit});
             this.contextMenuNotifyIcon.Name = "contextMenuNotifyIcon";
-            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(153, 114);
+            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(112, 92);
             // 
             // toolStripMenuItem_NotifyIcon_Open
             // 
             this.toolStripMenuItem_NotifyIcon_Open.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Open.Image")));
             this.toolStripMenuItem_NotifyIcon_Open.Name = "toolStripMenuItem_NotifyIcon_Open";
-            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_NotifyIcon_Open.Size = new System.Drawing.Size(111, 22);
             this.toolStripMenuItem_NotifyIcon_Open.Text = "&Open";
             this.toolStripMenuItem_NotifyIcon_Open.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Open_Click);
             // 
@@ -207,7 +208,7 @@
             // 
             this.toolStripMenuItem_NotifyIcon_Config.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Config.Image")));
             this.toolStripMenuItem_NotifyIcon_Config.Name = "toolStripMenuItem_NotifyIcon_Config";
-            this.toolStripMenuItem_NotifyIcon_Config.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_NotifyIcon_Config.Size = new System.Drawing.Size(111, 22);
             this.toolStripMenuItem_NotifyIcon_Config.Text = "Opt&ion";
             this.toolStripMenuItem_NotifyIcon_Config.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Config_Click);
             // 
@@ -215,7 +216,7 @@
             // 
             this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
@@ -223,7 +224,7 @@
             // 
             this.toolStripMenuItem_NotifyIcon_Exit.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_NotifyIcon_Exit.Image")));
             this.toolStripMenuItem_NotifyIcon_Exit.Name = "toolStripMenuItem_NotifyIcon_Exit";
-            this.toolStripMenuItem_NotifyIcon_Exit.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_NotifyIcon_Exit.Size = new System.Drawing.Size(111, 22);
             this.toolStripMenuItem_NotifyIcon_Exit.Text = "&Exit";
             this.toolStripMenuItem_NotifyIcon_Exit.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Exit_Click);
             // 
@@ -233,7 +234,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(348, 496);
             this.Controls.Add(this.GrpBackgroundBox);
-            this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
