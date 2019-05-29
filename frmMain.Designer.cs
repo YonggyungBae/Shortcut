@@ -46,9 +46,6 @@
             this.toolStripMenuItem_NotifyIcon_Config = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_NotifyIcon_Exit = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtTest1 = new System.Windows.Forms.TextBox();
-            this.txtTest2 = new System.Windows.Forms.TextBox();
-            this.txtTest3 = new System.Windows.Forms.TextBox();
             this.contextMenuTreeView.SuspendLayout();
             this.GrpCmdBox.SuspendLayout();
             this.GrpBackgroundBox.SuspendLayout();
@@ -71,7 +68,7 @@
             // BtnRun
             // 
             this.BtnRun.Dock = System.Windows.Forms.DockStyle.Right;
-            this.BtnRun.Location = new System.Drawing.Point(457, 20);
+            this.BtnRun.Location = new System.Drawing.Point(259, 20);
             this.BtnRun.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BtnRun.MaximumSize = new System.Drawing.Size(75, 29);
             this.BtnRun.MinimumSize = new System.Drawing.Size(75, 29);
@@ -95,7 +92,7 @@
             this.TreeView.Location = new System.Drawing.Point(3, 20);
             this.TreeView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TreeView.Name = "TreeView";
-            this.TreeView.Size = new System.Drawing.Size(529, 384);
+            this.TreeView.Size = new System.Drawing.Size(331, 384);
             this.TreeView.TabIndex = 0;
             this.TreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.TreeView_ItemDrag);
             this.TreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_NodeMouseDoubleClick);
@@ -148,7 +145,7 @@
             this.GrpCmdBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GrpCmdBox.Name = "GrpCmdBox";
             this.GrpCmdBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 44);
-            this.GrpCmdBox.Size = new System.Drawing.Size(535, 64);
+            this.GrpCmdBox.Size = new System.Drawing.Size(337, 64);
             this.GrpCmdBox.TabIndex = 0;
             this.GrpCmdBox.TabStop = false;
             this.GrpCmdBox.Text = "Command";
@@ -163,23 +160,20 @@
             this.GrpBackgroundBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GrpBackgroundBox.Name = "GrpBackgroundBox";
             this.GrpBackgroundBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.GrpBackgroundBox.Size = new System.Drawing.Size(541, 496);
+            this.GrpBackgroundBox.Size = new System.Drawing.Size(343, 496);
             this.GrpBackgroundBox.TabIndex = 0;
             this.GrpBackgroundBox.TabStop = false;
             // 
             // GrpCmdTree
             // 
             this.GrpCmdTree.BackColor = System.Drawing.SystemColors.Control;
-            this.GrpCmdTree.Controls.Add(this.txtTest3);
-            this.GrpCmdTree.Controls.Add(this.txtTest2);
-            this.GrpCmdTree.Controls.Add(this.txtTest1);
             this.GrpCmdTree.Controls.Add(this.TreeView);
             this.GrpCmdTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GrpCmdTree.Location = new System.Drawing.Point(3, 84);
             this.GrpCmdTree.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GrpCmdTree.Name = "GrpCmdTree";
             this.GrpCmdTree.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.GrpCmdTree.Size = new System.Drawing.Size(535, 408);
+            this.GrpCmdTree.Size = new System.Drawing.Size(337, 408);
             this.GrpCmdTree.TabIndex = 1;
             this.GrpCmdTree.TabStop = false;
             // 
@@ -234,32 +228,11 @@
             this.toolStripMenuItem_NotifyIcon_Exit.Text = "&Exit";
             this.toolStripMenuItem_NotifyIcon_Exit.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Exit_Click);
             // 
-            // txtTest1
-            // 
-            this.txtTest1.Location = new System.Drawing.Point(380, 23);
-            this.txtTest1.Name = "txtTest1";
-            this.txtTest1.Size = new System.Drawing.Size(146, 23);
-            this.txtTest1.TabIndex = 1;
-            // 
-            // txtTest2
-            // 
-            this.txtTest2.Location = new System.Drawing.Point(380, 52);
-            this.txtTest2.Name = "txtTest2";
-            this.txtTest2.Size = new System.Drawing.Size(146, 23);
-            this.txtTest2.TabIndex = 2;
-            // 
-            // txtTest3
-            // 
-            this.txtTest3.Location = new System.Drawing.Point(380, 81);
-            this.txtTest3.Name = "txtTest3";
-            this.txtTest3.Size = new System.Drawing.Size(146, 23);
-            this.txtTest3.TabIndex = 3;
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 496);
+            this.ClientSize = new System.Drawing.Size(343, 496);
             this.Controls.Add(this.GrpBackgroundBox);
             this.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -276,7 +249,6 @@
             this.GrpBackgroundBox.ResumeLayout(false);
             this.GrpBackgroundBox.PerformLayout();
             this.GrpCmdTree.ResumeLayout(false);
-            this.GrpCmdTree.PerformLayout();
             this.contextMenuNotifyIcon.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -300,8 +272,5 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Exit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Config;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.TextBox txtTest1;
-        private System.Windows.Forms.TextBox txtTest2;
-        private System.Windows.Forms.TextBox txtTest3;
     }
 }

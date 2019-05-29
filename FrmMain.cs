@@ -32,6 +32,7 @@ namespace Shortcut
         private string cfgFileName = "default_cfg.bin";
         private string dragNdropPath = null;
         private ImageList iconList = new ImageList();
+        private MovingNodePosition movingNodePositionBackup;
 
         //============================== Form Load ==============================//
         public FrmMain()
@@ -242,24 +243,33 @@ namespace Shortcut
             TreeNode NodeOver = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
             TreeNode NodeMoving = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
 
-            if (NodeOver != null && (NodeOver != NodeMoving || (NodeOver.Parent != null && NodeOver.Index == (NodeOver.Parent.Nodes.Count - 1))))
+            if (NodeOver != NodeMoving)
             {
-                MovingNodePosition movingNodePosition = GetMovingNodePositionOverNode(NodeOver, TreeView.PointToClient(Cursor.Position).Y);
-
-                if(movingNodePosition == MovingNodePosition.MIDDLE)
+                if (NodeOver == null)
                 {
-                    if (NodeOver.Nodes.Count > 0)
-                    {
-                        NodeOver.Expand();
-                    }
-                    else
-                    {
-                        DrawAddToFolderPlaceholder(NodeOver);
-                    }
                 }
                 else
                 {
-                    DrawPlaceholder(NodeOver, movingNodePosition);
+                    MovingNodePosition movingNodePosition = GetMovingNodePositionOverNode(NodeOver, TreeView.PointToClient(Cursor.Position).Y);
+
+                    if (movingNodePositionBackup != movingNodePosition) TreeView.Refresh();
+                    movingNodePositionBackup = movingNodePosition;
+
+                    if (movingNodePosition == MovingNodePosition.MIDDLE)
+                    {
+                        if (NodeOver.Nodes.Count > 0)
+                        {
+                            NodeOver.Expand();
+                        }
+                        else
+                        {
+                            DrawAddToFolderPlaceholder(NodeOver);
+                        }
+                    }
+                    else
+                    {
+                        DrawPlaceholder(NodeOver, movingNodePosition);
+                    }
                 }
             }
         }
@@ -278,7 +288,6 @@ namespace Shortcut
 
         private void DrawPlaceholder(TreeNode NodeOver, MovingNodePosition placeHolderPosition)
         {
-            Refresh();
             Graphics g = TreeView.CreateGraphics();
 
             int NodeOverImageWidth = TreeView.ImageList.Images[NodeOver.ImageKey].Size.Width + 8;
@@ -311,10 +320,9 @@ namespace Shortcut
 
         private void DrawAddToFolderPlaceholder(TreeNode NodeOver)
         {
-            this.Refresh();
             Graphics g = TreeView.CreateGraphics();
-
             int RightPos = NodeOver.Bounds.Right + 6;
+
             Point[] RightTriangle = new Point[5]{
                                                     new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) + 4),
                                                     new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) + 4),
@@ -322,7 +330,6 @@ namespace Shortcut
                                                     new Point(RightPos - 4, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) - 1),
                                                     new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) - 5)};
 
-            
             g.FillPolygon(System.Drawing.Brushes.White, RightTriangle);
         }
     }
