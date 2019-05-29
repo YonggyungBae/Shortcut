@@ -20,10 +20,15 @@ namespace Shortcut
         {
             SHOW_FORM = 0,
         }
+        enum MovingNodePosition
+        {
+            UPPER,
+            MIDDLE,
+            LOWER
+        }
 
         private Color topCmdColor = Color.BlueViolet;
         private string cfgFileName = "default_cfg.bin";
-        private TreeNode NodeToBeDeleted;
         private string dragNdropPath = null;
         private ImageList iconList = new ImageList();
 
@@ -124,6 +129,11 @@ namespace Shortcut
             {
                 TreeView.SelectedNode = TreeView.HitTest(e.X, e.Y).Node;    // 노드를 오른쪽 click 한 경우에도 바로 선택되도록 함.
             }
+            else
+            {
+                // 왼쪽버튼 클릭의 경우 Mouse Click과 event 가 겹쳐서 "node 이름 변경" event가 실행된다.
+                // TreeView.SelectedNode = TreeView.GetNodeAt(e.X, e.Y);
+            }
         }
 
         private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -136,29 +146,22 @@ namespace Shortcut
 
         private void TreeView_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            //DoDragDrop(e.Item, DragDropEffects.Move);
-
-            NodeToBeDeleted = (TreeNode)e.Item;
-            string strItem = e.Item.ToString();
-            DoDragDrop(strItem, DragDropEffects.Copy | DragDropEffects.Move);
+            DoDragDrop(e.Item, DragDropEffects.Move);
+            //DoDragDrop(strItem, DragDropEffects.Copy | DragDropEffects.Move);
         }
 
         private void TreeView_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
                 e.Effect = DragDropEffects.Copy;
-            }
-            else if (e.Data.GetDataPresent(DataFormats.Text))
-                e.Effect = DragDropEffects.Move;
             else
-                e.Effect = DragDropEffects.None;
+                e.Effect = DragDropEffects.Move;
         }
 
         private void TreeView_DragDrop(object sender, DragEventArgs e)
         {
-            Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
-            TreeNode TargetPositionNode = ((TreeView)sender).GetNodeAt(pt);
+            TreeNode NodeOver = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
+            TreeNode NodeMoving = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))    // File Drag & Drop
             {
@@ -167,23 +170,45 @@ namespace Shortcut
                 {
                     if (File.Exists(targetPath) || Directory.Exists(targetPath))
                     {
-                        TreeView.SelectedNode = TargetPositionNode;
+                        TreeView.SelectedNode = NodeOver;
                         dragNdropPath = targetPath;
-                        contextMenuTreeView.Show(TreeView, pt);
+                        contextMenuTreeView.Show(TreeView, TreeView.PointToClient(Cursor.Position));
                     }
                 }
             }
-            else if (e.Data.GetDataPresent(DataFormats.Text))   // Node Drag & Drop
+            else   // Node Drag & Drop
             {
-                if (TargetPositionNode != null && TargetPositionNode.Parent == NodeToBeDeleted.Parent)
+                if (NodeOver != null && (NodeOver != NodeMoving || (NodeOver.Parent != null && NodeOver.Index == (NodeOver.Parent.Nodes.Count - 1))))
                 {
-                    TreeNode clonedNode = NodeToBeDeleted;
-                    TreeNodeCollection TargetParentNode = (NodeToBeDeleted.Parent == null) ? TreeView.Nodes : NodeToBeDeleted.Parent.Nodes;
+                    MovingNodePosition movingNodePosition = GetPlaceInNode(NodeOver, TreeView.PointToClient(Cursor.Position).Y);
 
-                    NodeToBeDeleted.Remove();
-                    TargetParentNode.Insert(TargetPositionNode.Index + 1, clonedNode);
-                    TreeView.SelectedNode = clonedNode;
-                    SaveTree(TreeView, cfgFileName);
+                    if (NodeOver.Parent == null)
+                    {
+
+                    }
+                    else
+                    {
+                        TreeNode cloneNode = (TreeNode)NodeMoving.Clone();
+                        bool isMovingNodeExpanded = NodeMoving.IsExpanded;
+
+                        if (movingNodePosition == MovingNodePosition.UPPER)
+                        {
+                            NodeOver.Parent.Nodes.Insert(NodeOver.Index, cloneNode);
+                        }
+                        else if (movingNodePosition == MovingNodePosition.LOWER)
+                        {
+                            NodeOver.Parent.Nodes.Insert(NodeOver.Index + 1, cloneNode);
+                        }
+                        else
+                        {
+                            NodeOver.Nodes.Add(cloneNode);
+                        }
+
+                        NodeMoving.Remove();
+                        TreeView.SelectedNode = cloneNode;
+                        if (isMovingNodeExpanded)   TreeView.SelectedNode.Expand();
+                        SaveTree(TreeView, cfgFileName);
+                    }
                 }
             }
         }
@@ -208,8 +233,91 @@ namespace Shortcut
 
         private void TreeView_DragOver(object sender, DragEventArgs e)
         {
-            Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
-            TreeView.SelectedNode = ((TreeView)sender).GetNodeAt(pt);
+            TreeNode NodeOver = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
+            TreeNode NodeMoving = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+
+            if (NodeOver != null && (NodeOver != NodeMoving || (NodeOver.Parent != null && NodeOver.Index == (NodeOver.Parent.Nodes.Count - 1))))
+            {
+                MovingNodePosition movingNodePosition = GetPlaceInNode(NodeOver, TreeView.PointToClient(Cursor.Position).Y);
+
+                if(movingNodePosition == MovingNodePosition.MIDDLE)
+                {
+                    if (NodeOver.Nodes.Count > 0)
+                    {
+                        NodeOver.Expand();
+                    }
+                    else
+                    {
+                        DrawAddToFolderPlaceholder(NodeOver);
+                    }
+                }
+                else
+                {
+                    DrawPlaceholder(NodeOver, movingNodePosition);
+                }
+            }
+        }
+
+        private MovingNodePosition GetPlaceInNode(TreeNode NodeOver, int cursorY)
+        {
+            int OffsetY = cursorY - NodeOver.Bounds.Top;
+
+            if (OffsetY < (NodeOver.Bounds.Height / 3))
+                return MovingNodePosition.UPPER;
+            else if (OffsetY < (NodeOver.Bounds.Height * 2 / 3))
+                return MovingNodePosition.MIDDLE; 
+            else
+                return MovingNodePosition.LOWER;
+        }
+
+        private void DrawPlaceholder(TreeNode NodeOver, MovingNodePosition placeHolderPosition)
+        {
+            Refresh();
+            Graphics g = TreeView.CreateGraphics();
+
+            int NodeOverImageWidth = TreeView.ImageList.Images[NodeOver.ImageKey].Size.Width + 8;
+            int LeftPos = NodeOver.Bounds.Left - NodeOverImageWidth;
+            int RightPos = TreeView.Width - 4;
+            int yPos = 0;
+            if(placeHolderPosition == MovingNodePosition.UPPER)
+                yPos = NodeOver.Bounds.Top;
+            else if(placeHolderPosition == MovingNodePosition.LOWER)
+                yPos = NodeOver.Bounds.Bottom;
+
+            Point[] LeftTriangle = new Point[5]{
+                                                   new Point(LeftPos, yPos - 4),
+                                                   new Point(LeftPos, yPos + 4),
+                                                   new Point(LeftPos + 4, yPos),
+                                                   new Point(LeftPos + 4, yPos - 1),
+                                                   new Point(LeftPos, yPos - 5)};
+
+            Point[] RightTriangle = new Point[5]{
+                                                    new Point(RightPos, yPos - 4),
+                                                    new Point(RightPos, yPos + 4),
+                                                    new Point(RightPos - 4, yPos),
+                                                    new Point(RightPos - 4, yPos - 1),
+                                                    new Point(RightPos, yPos - 5)};
+
+            g.FillPolygon(System.Drawing.Brushes.White, LeftTriangle);
+            g.FillPolygon(System.Drawing.Brushes.White, RightTriangle);
+            g.DrawLine(new System.Drawing.Pen(Color.White, 2), new Point(LeftPos, yPos), new Point(RightPos, yPos));
+        }
+
+        private void DrawAddToFolderPlaceholder(TreeNode NodeOver)
+        {
+            this.Refresh();
+            Graphics g = TreeView.CreateGraphics();
+
+            int RightPos = NodeOver.Bounds.Right + 6;
+            Point[] RightTriangle = new Point[5]{
+                                                    new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) + 4),
+                                                    new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) + 4),
+                                                    new Point(RightPos - 4, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2)),
+                                                    new Point(RightPos - 4, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) - 1),
+                                                    new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) - 5)};
+
+            
+            g.FillPolygon(System.Drawing.Brushes.White, RightTriangle);
         }
     }
 }
