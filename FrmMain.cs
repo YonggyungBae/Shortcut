@@ -70,6 +70,7 @@ namespace Shortcut
         }
 
         //============================== Global Hot Key ==============================//
+        #region Global Hot Key
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -95,6 +96,7 @@ namespace Shortcut
                 }
             }
         }
+        #endregion
 
         //============================== Key Event ==============================//
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
@@ -161,7 +163,6 @@ namespace Shortcut
         private void TreeView_DragDrop(object sender, DragEventArgs e)
         {
             TreeNode NodeOver = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
-            TreeNode NodeMoving = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))    // File Drag & Drop
             {
@@ -178,37 +179,40 @@ namespace Shortcut
             }
             else   // Node Drag & Drop
             {
-                if (NodeOver != null && (NodeOver != NodeMoving || (NodeOver.Parent != null && NodeOver.Index == (NodeOver.Parent.Nodes.Count - 1))))
+                TreeNode NodeMoving = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+                TreeNode cloneNode = (TreeNode)NodeMoving.Clone();
+
+                if (NodeOver != NodeMoving)
                 {
-                    MovingNodePosition movingNodePosition = GetPlaceInNode(NodeOver, TreeView.PointToClient(Cursor.Position).Y);
+                    bool isMovingNodeExpanded = NodeMoving.IsExpanded;
 
-                    if (NodeOver.Parent == null)
+                    if (NodeOver == null)
                     {
-
+                        TreeView.Nodes.Add(cloneNode);
                     }
                     else
                     {
-                        TreeNode cloneNode = (TreeNode)NodeMoving.Clone();
-                        bool isMovingNodeExpanded = NodeMoving.IsExpanded;
+                        TreeNodeCollection targetParentNode = (NodeOver.Parent == null) ? TreeView.Nodes : NodeOver.Parent.Nodes;
 
-                        if (movingNodePosition == MovingNodePosition.UPPER)
+                        switch (GetMovingNodePositionOverNode(NodeOver, TreeView.PointToClient(Cursor.Position).Y))
                         {
-                            NodeOver.Parent.Nodes.Insert(NodeOver.Index, cloneNode);
+                            case MovingNodePosition.UPPER:
+                                targetParentNode.Insert(NodeOver.Index, cloneNode);
+                                break;
+                            case MovingNodePosition.MIDDLE:
+                                NodeOver.Nodes.Add(cloneNode);
+                                break;
+                            case MovingNodePosition.LOWER:
+                                targetParentNode.Insert(NodeOver.Index + 1, cloneNode);
+                                break;
+                            default:
+                                break;
                         }
-                        else if (movingNodePosition == MovingNodePosition.LOWER)
-                        {
-                            NodeOver.Parent.Nodes.Insert(NodeOver.Index + 1, cloneNode);
-                        }
-                        else
-                        {
-                            NodeOver.Nodes.Add(cloneNode);
-                        }
-
-                        NodeMoving.Remove();
-                        TreeView.SelectedNode = cloneNode;
-                        if (isMovingNodeExpanded)   TreeView.SelectedNode.Expand();
-                        SaveTree(TreeView, cfgFileName);
                     }
+                    NodeMoving.Remove();
+                    TreeView.SelectedNode = cloneNode;
+                    if (isMovingNodeExpanded) TreeView.SelectedNode.Expand();
+                    SaveTree(TreeView, cfgFileName);
                 }
             }
         }
@@ -238,7 +242,7 @@ namespace Shortcut
 
             if (NodeOver != null && (NodeOver != NodeMoving || (NodeOver.Parent != null && NodeOver.Index == (NodeOver.Parent.Nodes.Count - 1))))
             {
-                MovingNodePosition movingNodePosition = GetPlaceInNode(NodeOver, TreeView.PointToClient(Cursor.Position).Y);
+                MovingNodePosition movingNodePosition = GetMovingNodePositionOverNode(NodeOver, TreeView.PointToClient(Cursor.Position).Y);
 
                 if(movingNodePosition == MovingNodePosition.MIDDLE)
                 {
@@ -258,7 +262,7 @@ namespace Shortcut
             }
         }
 
-        private MovingNodePosition GetPlaceInNode(TreeNode NodeOver, int cursorY)
+        private MovingNodePosition GetMovingNodePositionOverNode(TreeNode NodeOver, int cursorY)
         {
             int OffsetY = cursorY - NodeOver.Bounds.Top;
 
