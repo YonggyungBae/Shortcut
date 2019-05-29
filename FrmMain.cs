@@ -28,6 +28,7 @@ namespace Shortcut
         }
 
         private Color topCmdColor = Color.BlueViolet;
+        private Color normalCmdColor = Color.White;
         private string cfgFileName = "default_cfg.bin";
         private string dragNdropPath = null;
         private ImageList iconList = new ImageList();
@@ -210,6 +211,7 @@ namespace Shortcut
                         }
                     }
                     NodeMoving.Remove();
+                    cloneNode.ForeColor = (cloneNode.Parent == null) ? topCmdColor : normalCmdColor;
                     TreeView.SelectedNode = cloneNode;
                     if (isMovingNodeExpanded) TreeView.SelectedNode.Expand();
                     SaveTree(TreeView, cfgFileName);
