@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -17,7 +19,12 @@ namespace Shortcut
             if (dragNdropPath != null)
             {
                 Dictionary<string, string> cmdSet_dragNdrop = new Dictionary<string, string>();
-                cmdSet_dragNdrop["Cmd"] = "";
+
+                //if (File.Exists(dragNdropPath))
+                //    cmdSet_dragNdrop["Cmd"] = Path.GetFileNameWithoutExtension(dragNdropPath);
+                //else if (Directory.Exists(dragNdropPath))
+                //    cmdSet_dragNdrop["Cmd"] = Path.GetDirectoryName(dragNdropPath);
+                cmdSet_dragNdrop["Cmd"] = Path.GetFileNameWithoutExtension(dragNdropPath);
                 cmdSet_dragNdrop["Path"] = dragNdropPath;
                 cmdSet_dragNdrop["Arguments"] = "";
                 cmdSet_dragNdrop["Run"] = "Checked";
