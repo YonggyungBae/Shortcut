@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Shortcut
@@ -9,7 +10,8 @@ namespace Shortcut
     {
         private void ToolStripMenuItem_Add_Click(object sender, EventArgs e)
         {
-            TreeNode selectedNode = TreeView.SelectedNode;  // Input Dialog가 show 되기 전에 선택 node를 backup 받아놔야 함(안그러면 InputDialog가 show되고 나면 treeview의 첫번째 node가 강제 선택됨)
+            Point positionContextmunu = TreeView.PointToClient(contextMenuTreeView.Bounds.Location);
+            TreeNode NodeOver = TreeView.GetNodeAt(positionContextmunu);
             FrmInputDialog inputDialog;
 
             if (dragNdropPath != null)
@@ -26,7 +28,7 @@ namespace Shortcut
                 inputDialog = new FrmInputDialog();
             }
 
-            Dictionary<string, string> cmdSet = InputCmd(CmdEditType.ADD, ref inputDialog, selectedNode);
+            Dictionary<string, string> cmdSet = InputCmd(CmdEditType.ADD, ref inputDialog, NodeOver);
 
             if (cmdSet != null)
             {
@@ -38,14 +40,30 @@ namespace Shortcut
 
                 NewCmd.SelectedImageKey = NewCmd.ImageKey = GetIcon(cmdSet["Path"]);
 
-                if (selectedNode == null)
+                if (NodeOver == null)
                 {
                     TreeView.Nodes.Add(NewCmd);
                     NewCmd.ForeColor = (NewCmd.Parent == null) ? topCmdColor : normalCmdColor;
                 }
-                else TreeView.SelectedNode.Nodes.Add(NewCmd);
-
-                TreeView.SelectedNode.Expand();
+                else
+                {
+                    switch (GetMovingNodePositionOverNode(NodeOver, positionContextmunu.Y))
+                    {
+                        case MovingNodePosition.UPPER:
+                            NodeOver.Parent.Nodes.Insert(NodeOver.Index, NewCmd);
+                            break;
+                        case MovingNodePosition.MIDDLE:
+                            NodeOver.Nodes.Add(NewCmd);
+                            break;
+                        case MovingNodePosition.LOWER:
+                            NodeOver.Parent.Nodes.Insert(NodeOver.Index + 1, NewCmd);
+                            break;
+                        default:
+                            break;
+                    }
+                    NodeOver.Expand();
+                }
+                
                 SaveTree(TreeView, cfgFileName);
             }
             dragNdropPath = null;

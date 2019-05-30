@@ -218,6 +218,8 @@ namespace Shortcut
                     SaveTree(TreeView, cfgFileName);
                 }
             }
+
+            TreeView.Refresh();
         }
 
         private void TreeView_MouseClick(object sender, MouseEventArgs e)
