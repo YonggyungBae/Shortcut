@@ -20,7 +20,7 @@ namespace Shortcut
         {
             SHOW_FORM = 0,
         }
-        enum MovingNodePosition
+        enum MovingCmdPosition
         {
             UPPER,
             MIDDLE,
@@ -32,7 +32,7 @@ namespace Shortcut
         private string cfgFileName = "default_cfg.bin";
         private string dragNdropPath = null;
         private ImageList iconList = new ImageList();
-        private MovingNodePosition movingNodePositionBackup;
+        private MovingCmdPosition movingNodePositionBackup;
 
         //============================== Form Load ==============================//
         public FrmMain()
@@ -164,7 +164,7 @@ namespace Shortcut
 
         private void TreeView_DragDrop(object sender, DragEventArgs e)
         {
-            TreeNode NodeOver = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
+            TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))    // File Drag & Drop
             {
@@ -173,7 +173,6 @@ namespace Shortcut
                 {
                     if (File.Exists(targetPath) || Directory.Exists(targetPath))
                     {
-                        TreeView.SelectedNode = NodeOver;
                         dragNdropPath = targetPath;
                         contextMenuTreeView.Show(TreeView, TreeView.PointToClient(Cursor.Position));
                     }
@@ -181,40 +180,25 @@ namespace Shortcut
             }
             else   // Node Drag & Drop
             {
-                TreeNode NodeMoving = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
-                TreeNode cloneNode = (TreeNode)NodeMoving.Clone();
+                TreeNode movingCmd = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+                TreeNode cloneCmd = (TreeNode)movingCmd.Clone();
 
-                if (NodeOver != NodeMoving)
+                if (targetCmd != movingCmd)
                 {
-                    bool isMovingNodeExpanded = NodeMoving.IsExpanded;
+                    bool isMovingCmdExpanded = movingCmd.IsExpanded;
 
-                    if (NodeOver == null)
+                    if (targetCmd == null)
                     {
-                        TreeView.Nodes.Add(cloneNode);
+                        TreeView.Nodes.Add(cloneCmd);
                     }
                     else
                     {
-                        TreeNodeCollection targetParentNode = (NodeOver.Parent == null) ? TreeView.Nodes : NodeOver.Parent.Nodes;
-
-                        switch (GetMovingNodePositionOverNode(NodeOver, TreeView.PointToClient(Cursor.Position).Y))
-                        {
-                            case MovingNodePosition.UPPER:
-                                targetParentNode.Insert(NodeOver.Index, cloneNode);
-                                break;
-                            case MovingNodePosition.MIDDLE:
-                                NodeOver.Nodes.Add(cloneNode);
-                                break;
-                            case MovingNodePosition.LOWER:
-                                targetParentNode.Insert(NodeOver.Index + 1, cloneNode);
-                                break;
-                            default:
-                                break;
-                        }
+                        InsertCmd(TreeView, targetCmd, cloneCmd, TreeView.PointToClient(Cursor.Position).Y);
                     }
-                    NodeMoving.Remove();
-                    cloneNode.ForeColor = (cloneNode.Parent == null) ? topCmdColor : normalCmdColor;
-                    TreeView.SelectedNode = cloneNode;
-                    if (isMovingNodeExpanded) TreeView.SelectedNode.Expand();
+                    movingCmd.Remove();
+                    cloneCmd.ForeColor = (cloneCmd.Parent == null) ? topCmdColor : normalCmdColor;
+                    TreeView.SelectedNode = cloneCmd;
+                    if (isMovingCmdExpanded) TreeView.SelectedNode.Expand();
                     SaveTree(TreeView, cfgFileName);
                 }
             }
@@ -232,107 +216,48 @@ namespace Shortcut
             else
             {
                 clickedItem.Node.Expand();
-                foreach (TreeNode node in TreeView.Nodes)
+                foreach (TreeNode cmd in TreeView.Nodes)
                 {
-                    if ((node != clickedItem.Node) && (clickedItem.Node.Parent == null))
-                        node.Collapse();
+                    if ((cmd != clickedItem.Node) && (clickedItem.Node.Parent == null))
+                        cmd.Collapse();
                 }
             }
         }
 
         private void TreeView_DragOver(object sender, DragEventArgs e)
         {
-            TreeNode NodeOver = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
-            TreeNode NodeMoving = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+            TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
+            TreeNode movingCmd = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
 
-            if (NodeOver != NodeMoving)
+            if (targetCmd != movingCmd)
             {
-                if (NodeOver == null)
+                if (targetCmd == null)
                 {
                 }
                 else
                 {
-                    MovingNodePosition movingNodePosition = GetMovingNodePositionOverNode(NodeOver, TreeView.PointToClient(Cursor.Position).Y);
+                    MovingCmdPosition movingCmdPosition = GetMovingCmdPositionOnTheTargetCmd(targetCmd, TreeView.PointToClient(Cursor.Position).Y);
 
-                    if (movingNodePositionBackup != movingNodePosition) TreeView.Refresh();
-                    movingNodePositionBackup = movingNodePosition;
+                    if (movingNodePositionBackup != movingCmdPosition) TreeView.Refresh();
+                    movingNodePositionBackup = movingCmdPosition;
 
-                    if (movingNodePosition == MovingNodePosition.MIDDLE)
+                    if (movingCmdPosition == MovingCmdPosition.MIDDLE)
                     {
-                        if (NodeOver.Nodes.Count > 0)
+                        if (targetCmd.Nodes.Count > 0)
                         {
-                            NodeOver.Expand();
+                            targetCmd.Expand();
                         }
                         else
                         {
-                            DrawAddToFolderPlaceholder(NodeOver);
+                            DrawAddToFolderPlaceholder(targetCmd);
                         }
                     }
                     else
                     {
-                        DrawPlaceholder(NodeOver, movingNodePosition);
+                        DrawPlaceholder(targetCmd, movingCmdPosition);
                     }
                 }
             }
-        }
-
-        private MovingNodePosition GetMovingNodePositionOverNode(TreeNode NodeOver, int cursorY)
-        {
-            int OffsetY = cursorY - NodeOver.Bounds.Top;
-
-            if (OffsetY < (NodeOver.Bounds.Height / 3))
-                return MovingNodePosition.UPPER;
-            else if (OffsetY < (NodeOver.Bounds.Height * 2 / 3))
-                return MovingNodePosition.MIDDLE; 
-            else
-                return MovingNodePosition.LOWER;
-        }
-
-        private void DrawPlaceholder(TreeNode NodeOver, MovingNodePosition placeHolderPosition)
-        {
-            Graphics g = TreeView.CreateGraphics();
-
-            int NodeOverImageWidth = TreeView.ImageList.Images[NodeOver.ImageKey].Size.Width + 8;
-            int LeftPos = NodeOver.Bounds.Left - NodeOverImageWidth;
-            int RightPos = TreeView.Width - 4;
-            int yPos = 0;
-            if(placeHolderPosition == MovingNodePosition.UPPER)
-                yPos = NodeOver.Bounds.Top;
-            else if(placeHolderPosition == MovingNodePosition.LOWER)
-                yPos = NodeOver.Bounds.Bottom;
-
-            Point[] LeftTriangle = new Point[5]{
-                                                   new Point(LeftPos, yPos - 4),
-                                                   new Point(LeftPos, yPos + 4),
-                                                   new Point(LeftPos + 4, yPos),
-                                                   new Point(LeftPos + 4, yPos - 1),
-                                                   new Point(LeftPos, yPos - 5)};
-
-            Point[] RightTriangle = new Point[5]{
-                                                    new Point(RightPos, yPos - 4),
-                                                    new Point(RightPos, yPos + 4),
-                                                    new Point(RightPos - 4, yPos),
-                                                    new Point(RightPos - 4, yPos - 1),
-                                                    new Point(RightPos, yPos - 5)};
-
-            g.FillPolygon(System.Drawing.Brushes.White, LeftTriangle);
-            g.FillPolygon(System.Drawing.Brushes.White, RightTriangle);
-            g.DrawLine(new System.Drawing.Pen(Color.White, 2), new Point(LeftPos, yPos), new Point(RightPos, yPos));
-        }
-
-        private void DrawAddToFolderPlaceholder(TreeNode NodeOver)
-        {
-            Graphics g = TreeView.CreateGraphics();
-            int RightPos = NodeOver.Bounds.Right + 6;
-
-            Point[] RightTriangle = new Point[5]{
-                                                    new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) + 4),
-                                                    new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) + 4),
-                                                    new Point(RightPos - 4, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2)),
-                                                    new Point(RightPos - 4, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) - 1),
-                                                    new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) - 5)};
-
-            g.FillPolygon(System.Drawing.Brushes.White, RightTriangle);
         }
     }
 }

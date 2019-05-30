@@ -47,20 +47,7 @@ namespace Shortcut
                 }
                 else
                 {
-                    switch (GetMovingNodePositionOverNode(NodeOver, positionContextmunu.Y))
-                    {
-                        case MovingNodePosition.UPPER:
-                            NodeOver.Parent.Nodes.Insert(NodeOver.Index, NewCmd);
-                            break;
-                        case MovingNodePosition.MIDDLE:
-                            NodeOver.Nodes.Add(NewCmd);
-                            break;
-                        case MovingNodePosition.LOWER:
-                            NodeOver.Parent.Nodes.Insert(NodeOver.Index + 1, NewCmd);
-                            break;
-                        default:
-                            break;
-                    }
+                    InsertCmd(TreeView, NodeOver, NewCmd, positionContextmunu.Y);
                     NodeOver.Expand();
                 }
                 

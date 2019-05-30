@@ -22,6 +22,7 @@ namespace Shortcut
             PATH_INVALID
         };
 
+        #region Command Control
         public Dictionary<string, string> SetProperRunState(Dictionary<string, string> cmdSet)
         {
             if (cmdSet["Path"] == "") cmdSet["Run"] = "Unchecked";
@@ -159,6 +160,89 @@ namespace Shortcut
             }
         }
 
+        private void InsertCmd(TreeView targetTree, TreeNode targetCmd, TreeNode insertCmd, int insertNodePositionY)
+        {
+            TreeNodeCollection targetParentCmd = (targetCmd.Parent == null) ? targetTree.Nodes : targetCmd.Parent.Nodes;
+
+            switch (GetMovingCmdPositionOnTheTargetCmd(targetCmd, insertNodePositionY))
+            {
+                case MovingCmdPosition.UPPER:
+                    targetParentCmd.Insert(targetCmd.Index, insertCmd);
+                    break;
+                case MovingCmdPosition.MIDDLE:
+                    targetCmd.Nodes.Add(insertCmd);
+                    break;
+                case MovingCmdPosition.LOWER:
+                    targetParentCmd.Insert(targetCmd.Index + 1, insertCmd);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private MovingCmdPosition GetMovingCmdPositionOnTheTargetCmd(TreeNode targetCmd, int cursorY)
+        {
+            int OffsetY = cursorY - targetCmd.Bounds.Top;
+
+            if (OffsetY < (targetCmd.Bounds.Height / 3))
+                return MovingCmdPosition.UPPER;
+            else if (OffsetY < (targetCmd.Bounds.Height * 2 / 3))
+                return MovingCmdPosition.MIDDLE;
+            else
+                return MovingCmdPosition.LOWER;
+        }
+        #endregion
+
+        #region Plance Holder Drawing
+        private void DrawPlaceholder(TreeNode NodeOver, MovingCmdPosition placeHolderPosition)
+        {
+            Graphics g = TreeView.CreateGraphics();
+
+            int NodeOverImageWidth = TreeView.ImageList.Images[NodeOver.ImageKey].Size.Width + 8;
+            int LeftPos = NodeOver.Bounds.Left - NodeOverImageWidth;
+            int RightPos = TreeView.Width - 4;
+            int yPos = 0;
+            if (placeHolderPosition == MovingCmdPosition.UPPER)
+                yPos = NodeOver.Bounds.Top;
+            else if (placeHolderPosition == MovingCmdPosition.LOWER)
+                yPos = NodeOver.Bounds.Bottom;
+
+            Point[] LeftTriangle = new Point[5]{
+                                                   new Point(LeftPos, yPos - 4),
+                                                   new Point(LeftPos, yPos + 4),
+                                                   new Point(LeftPos + 4, yPos),
+                                                   new Point(LeftPos + 4, yPos - 1),
+                                                   new Point(LeftPos, yPos - 5)};
+
+            Point[] RightTriangle = new Point[5]{
+                                                    new Point(RightPos, yPos - 4),
+                                                    new Point(RightPos, yPos + 4),
+                                                    new Point(RightPos - 4, yPos),
+                                                    new Point(RightPos - 4, yPos - 1),
+                                                    new Point(RightPos, yPos - 5)};
+
+            g.FillPolygon(System.Drawing.Brushes.White, LeftTriangle);
+            g.FillPolygon(System.Drawing.Brushes.White, RightTriangle);
+            g.DrawLine(new System.Drawing.Pen(Color.White, 2), new Point(LeftPos, yPos), new Point(RightPos, yPos));
+        }
+
+        private void DrawAddToFolderPlaceholder(TreeNode NodeOver)
+        {
+            Graphics g = TreeView.CreateGraphics();
+            int RightPos = NodeOver.Bounds.Right + 6;
+
+            Point[] RightTriangle = new Point[5]{
+                                                    new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) + 4),
+                                                    new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) + 4),
+                                                    new Point(RightPos - 4, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2)),
+                                                    new Point(RightPos - 4, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) - 1),
+                                                    new Point(RightPos, NodeOver.Bounds.Y + (NodeOver.Bounds.Height / 2) - 5)};
+
+            g.FillPolygon(System.Drawing.Brushes.White, RightTriangle);
+        }
+        #endregion
+
+        #region Icon Control
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, StringBuilder lpIconPath, out ushort lpiIcon);
         private string GetIcon(string path)
@@ -210,6 +294,7 @@ namespace Shortcut
                 SetNodeIconRecursive(oSubNode);
             }
         }
+        #endregion
     }
 
     public static class DefaultIcons
@@ -254,7 +339,6 @@ namespace Shortcut
 
         [DllImport("shell32.dll")]
         private static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
-
         private const uint SHGFI_ICON = 0x100;
         private const uint SHGFI_LARGEICON = 0x0;
         private const uint SHGFI_SMALLICON = 0x000000001;
