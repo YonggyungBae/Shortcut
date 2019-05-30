@@ -10,6 +10,29 @@ namespace Shortcut
 {
     public partial class FrmMain
     {
+        private void ContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            toolStripMenuItem_Add.Visible = false;
+            toolStripMenuItem_Edit.Visible = false;
+            toolStripMenuItem_Copy.Visible = false;
+            toolStripMenuItem_Del.Visible = false;
+
+            if (TreeView.SelectedNode == null)
+            {
+                toolStripMenuItem_Add.Visible = true;
+            }
+            else
+            {
+                toolStripMenuItem_Add.Visible = true;
+                toolStripMenuItem_Copy.Visible = false;
+                if (dragNdropPath == null)  // file / folder를 drag&drop할 때.
+                {
+                    toolStripMenuItem_Edit.Visible = true;
+                    toolStripMenuItem_Del.Visible = true;
+                }
+            }
+        }
+
         private void ToolStripMenuItem_Add_Click(object sender, EventArgs e)
         {
             Point positionContextmunu = TreeView.PointToClient(contextMenuTreeView.Bounds.Location);
@@ -104,13 +127,6 @@ namespace Shortcut
                 TreeView.SelectedNode.Remove();
                 SaveTree(TreeView, cfgFileName);
             }
-        }
-
-        private void ContextMenu_Opening(object sender, CancelEventArgs e)
-        {
-            bool MenuItemVisible = (TreeView.SelectedNode == null);
-            toolStripMenuItem_Edit.Visible = !MenuItemVisible;
-            toolStripMenuItem_Del.Visible = (!MenuItemVisible) && (dragNdropPath == null);
         }
     }
 }

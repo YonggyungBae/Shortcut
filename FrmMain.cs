@@ -33,6 +33,7 @@ namespace Shortcut
         private string dragNdropPath = null;
         private ImageList iconList = new ImageList();
         private MovingCmdPosition movingNodePositionBackup;
+        private MouseButtons mouseButtons;
 
         //============================== Form Load ==============================//
         public FrmMain()
@@ -131,6 +132,7 @@ namespace Shortcut
             }
             else if (e.Button == MouseButtons.Right)
             {
+                mouseButtons = MouseButtons.Right;
                 TreeView.SelectedNode = TreeView.HitTest(e.X, e.Y).Node;    // 노드를 오른쪽 click 한 경우에도 바로 선택되도록 함.
             }
             else
@@ -183,6 +185,9 @@ namespace Shortcut
                 TreeNode movingCmd = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
                 TreeNode cloneCmd = (TreeNode)movingCmd.Clone();
 
+                if(mouseButtons == MouseButtons.Right)
+                    cloneCmd.Text = cloneCmd.Text + " - copy";
+
                 if (targetCmd != movingCmd)
                 {
                     bool isMovingCmdExpanded = movingCmd.IsExpanded;
@@ -195,7 +200,11 @@ namespace Shortcut
                     {
                         InsertCmd(TreeView, targetCmd, cloneCmd, TreeView.PointToClient(Cursor.Position).Y);
                     }
-                    movingCmd.Remove();
+
+                    if (mouseButtons != MouseButtons.Right)
+                        movingCmd.Remove();
+                    mouseButtons = MouseButtons.None;
+
                     cloneCmd.ForeColor = (cloneCmd.Parent == null) ? topCmdColor : normalCmdColor;
                     TreeView.SelectedNode = cloneCmd;
                     if (isMovingCmdExpanded) TreeView.SelectedNode.Expand();
