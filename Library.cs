@@ -39,13 +39,6 @@ namespace Shortcut
                 return ValidPath.PATH_INVALID;
         }
 
-        private void MinimizeToTray()
-        {
-            Options options = new Options();
-            if (options.GetOption_MinimizeToTrayAfterRun() == true)
-                HideForm();
-        }
-
         private void RunCmd(TreeNode cmd)
         {
             if (cmd.Tag != null)
@@ -190,6 +183,14 @@ namespace Shortcut
                 return MovingCmdPosition.MIDDLE;
             else
                 return MovingCmdPosition.LOWER;
+        }
+        #endregion
+
+        #region Tray Control
+        private void MinimizeToTray()
+        {
+            if (options.GetOption_MinimizeToTrayAfterRun() == true)
+                HideForm();
         }
         #endregion
 

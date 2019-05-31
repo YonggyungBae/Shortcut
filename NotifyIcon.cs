@@ -29,7 +29,6 @@ namespace Shortcut
 
         private void ToolStripMenuItem_NotifyIcon_Config_Click(object sender, EventArgs e)
         {
-            Options options = new Options();
             options.ShowDialog();
 
             this.ShowInTaskbar = options.GetOption_ShowInTaskBar();

@@ -34,6 +34,7 @@ namespace Shortcut
         private ImageList iconList = new ImageList();
         private MovingCmdPosition movingNodePositionBackup;
         private MouseButtons mouseButtons;
+        private Options options = new Options();
 
         //============================== Form Load ==============================//
         public FrmMain()
@@ -60,6 +61,8 @@ namespace Shortcut
                 SetNodeIconRecursive(node);
             }
 
+            LoadStartupOptions();
+
             Rectangle workingArea = Screen.GetWorkingArea(this);
             this.Location = new Point(workingArea.Right - Size.Width,
                                       workingArea.Bottom - Size.Height);
@@ -70,6 +73,11 @@ namespace Shortcut
             //e.Cancel = true;
             NotifyIcon.Dispose();
             UnregisterHotKey(this.Handle, 0);
+        }
+
+        private void LoadStartupOptions()
+        {
+            this.ShowInTaskbar = options.GetOption_ShowInTaskBar();
         }
 
         //============================== Global Hot Key ==============================//

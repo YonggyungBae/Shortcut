@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -14,7 +13,6 @@ namespace Shortcut
         {
             toolStripMenuItem_Add.Visible = false;
             toolStripMenuItem_Edit.Visible = false;
-            toolStripMenuItem_Copy.Visible = false;
             toolStripMenuItem_Del.Visible = false;
 
             if (TreeView.SelectedNode == null)
@@ -24,7 +22,6 @@ namespace Shortcut
             else
             {
                 toolStripMenuItem_Add.Visible = true;
-                toolStripMenuItem_Copy.Visible = false;
                 if (dragNdropPath == null)  // file / folder를 drag&drop할 때.
                 {
                     toolStripMenuItem_Edit.Visible = true;

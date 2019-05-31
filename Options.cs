@@ -28,15 +28,15 @@ namespace Shortcut
 
         private void BtnApply_Click(object sender, EventArgs e)
         {
-            Options_Apply();
+            Options_Save();
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
         {
-            Options_Apply();
+            Options_Save();
         }
 
-        private void Options_Apply()
+        private void Options_Save()
         {
             Properties.Settings.Default.optShowInTaskBar = chkShowInTaskBar.Checked;
             Properties.Settings.Default.optMinimizeToTrayAfterRun = chkMinimizeToTrayAfterRun.Checked;
