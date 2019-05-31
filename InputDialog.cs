@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -35,6 +30,11 @@ namespace Shortcut
 
         private void BtnFile_Click(object sender, EventArgs e)
         {
+            if (File.Exists(txtPath.Text))
+            {
+                openFileDialog.InitialDirectory = Path.GetDirectoryName(txtPath.Text);
+            }
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 txtPath.Text = openFileDialog.FileName;
@@ -45,6 +45,12 @@ namespace Shortcut
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
+
+            if (Directory.Exists(txtPath.Text))
+            {
+                dialog.InitialDirectory = txtPath.Text;
+            }
+
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 txtPath.Text = dialog.FileName; // 테스트용, 폴더 선택이 완료되면 선택된 폴더를 label에 출력
