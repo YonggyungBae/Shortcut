@@ -46,6 +46,7 @@
             this.toolStripMenuItem_NotifyIcon_Config = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_NotifyIcon_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmrNodeOver = new System.Windows.Forms.Timer(this.components);
             this.contextMenuTreeView.SuspendLayout();
             this.GrpCmdBox.SuspendLayout();
             this.GrpBackgroundBox.SuspendLayout();
@@ -228,6 +229,10 @@
             this.toolStripMenuItem_NotifyIcon_Exit.Text = "&Exit";
             this.toolStripMenuItem_NotifyIcon_Exit.Click += new System.EventHandler(this.ToolStripMenuItem_NotifyIcon_Exit_Click);
             // 
+            // tmrNodeOver
+            // 
+            this.tmrNodeOver.Tick += new System.EventHandler(this.tmrNodeOver_Tick);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -272,5 +277,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Exit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_NotifyIcon_Config;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Timer tmrNodeOver;
     }
 }

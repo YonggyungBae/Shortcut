@@ -36,12 +36,12 @@
             this.btnFile = new System.Windows.Forms.Button();
             this.btnFolder = new System.Windows.Forms.Button();
             this.grpRun = new System.Windows.Forms.GroupBox();
+            this.cboArguments = new System.Windows.Forms.TextBox();
+            this.cboPath = new System.Windows.Forms.TextBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.lblArguments = new System.Windows.Forms.Label();
             this.lblPath = new System.Windows.Forms.Label();
             this.chkRun = new System.Windows.Forms.CheckBox();
-            this.cboPath = new System.Windows.Forms.TextBox();
-            this.cboArguments = new System.Windows.Forms.TextBox();
             this.grpCmd.SuspendLayout();
             this.grpRun.SuspendLayout();
             this.SuspendLayout();
@@ -123,6 +123,24 @@
             this.grpRun.TabIndex = 2;
             this.grpRun.TabStop = false;
             // 
+            // cboArguments
+            // 
+            this.cboArguments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboArguments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.cboArguments.Location = new System.Drawing.Point(86, 76);
+            this.cboArguments.Name = "cboArguments";
+            this.cboArguments.Size = new System.Drawing.Size(261, 21);
+            this.cboArguments.TabIndex = 9;
+            // 
+            // cboPath
+            // 
+            this.cboPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.cboPath.Location = new System.Drawing.Point(50, 49);
+            this.cboPath.Name = "cboPath";
+            this.cboPath.Size = new System.Drawing.Size(297, 21);
+            this.cboPath.TabIndex = 7;
+            // 
             // btnClear
             // 
             this.btnClear.Location = new System.Drawing.Point(272, 20);
@@ -139,8 +157,8 @@
             this.lblArguments.Location = new System.Drawing.Point(6, 79);
             this.lblArguments.Name = "lblArguments";
             this.lblArguments.Size = new System.Drawing.Size(74, 12);
-            this.lblArguments.TabIndex = 7;
-            this.lblArguments.Text = "Ar&guments :";
+            this.lblArguments.TabIndex = 8;
+            this.lblArguments.Text = "&Arguments :";
             // 
             // lblPath
             // 
@@ -161,24 +179,6 @@
             this.chkRun.Text = "&Run";
             this.chkRun.UseVisualStyleBackColor = true;
             this.chkRun.CheckedChanged += new System.EventHandler(this.chkRun_CheckedChanged);
-            // 
-            // cboPath
-            // 
-            this.cboPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cboPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.cboPath.Location = new System.Drawing.Point(50, 49);
-            this.cboPath.Name = "cboPath";
-            this.cboPath.Size = new System.Drawing.Size(297, 21);
-            this.cboPath.TabIndex = 8;
-            // 
-            // cboArguments
-            // 
-            this.cboArguments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cboArguments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.cboArguments.Location = new System.Drawing.Point(86, 76);
-            this.cboArguments.Name = "cboArguments";
-            this.cboArguments.Size = new System.Drawing.Size(261, 21);
-            this.cboArguments.TabIndex = 9;
             // 
             // FrmInputDialog
             // 

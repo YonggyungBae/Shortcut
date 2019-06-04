@@ -271,10 +271,12 @@ namespace Shortcut
                     {
                         if (targetCmd.Nodes.Count > 0)
                         {
-                            targetCmd.Expand();
+							tmrNodeOver.Interval = 500;
+                            tmrNodeOver.Start();
                         }
                         else
                         {
+                            tmrNodeOver.Stop();
                             DrawAddToFolderPlaceholder(targetCmd);
                         }
                     }
@@ -284,6 +286,22 @@ namespace Shortcut
                     }
                 }
             }
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
+            targetCmd.Expand();
+            throw new NotImplementedException();
+        }
+
+        private void tmrNodeOver_Tick(object sender, EventArgs e)
+        {
+            TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
+
+            if (targetCmd != null)
+                targetCmd.Expand();
+            tmrNodeOver.Stop();
         }
     }
 }
