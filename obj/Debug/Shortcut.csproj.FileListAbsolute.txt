@@ -17,5 +17,4 @@ D:\Shortcut\obj\Debug\Shortcut.csproj.CoreCompileInputs.cache
 D:\Shortcut\obj\Debug\Shortcut.csproj.CopyComplete
 D:\Shortcut\obj\Debug\Shortcut.exe
 D:\Shortcut\obj\Debug\Shortcut.pdb
-D:\Shortcut\obj\Debug\Shortcut.csprojAssemblyReference.cache
 D:\Shortcut\obj\Debug\Shortcut.frmAbout.resources

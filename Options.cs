@@ -66,5 +66,6 @@ namespace Shortcut
         {
             return Properties.Settings.Default.optMinimizeToTrayPressEsc;
         }
+
     }
 }

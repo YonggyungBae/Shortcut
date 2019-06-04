@@ -48,11 +48,11 @@ namespace Shortcut
                 cmdSet_dragNdrop["Path"] = dragNdropPath;
                 cmdSet_dragNdrop["Arguments"] = "";
                 cmdSet_dragNdrop["Run"] = "Checked";
-                inputDialog = new FrmInputDialog(cmdSet_dragNdrop);
+                inputDialog = new FrmInputDialog(cmdSet_dragNdrop, TreeView);
             }
             else
             {
-                inputDialog = new FrmInputDialog();
+                inputDialog = new FrmInputDialog(TreeView);
             }
 
             Dictionary<string, string> cmdSet = InputCmd(CmdEditType.ADD, ref inputDialog, NodeOver);
@@ -89,7 +89,7 @@ namespace Shortcut
             FrmInputDialog inputDialog;
 
             if (selectedNode.Tag == null)
-                inputDialog = new FrmInputDialog(selectedNode.Name);
+                inputDialog = new FrmInputDialog(selectedNode.Name, TreeView);
             else
             {
                 if (dragNdropPath != null)
@@ -99,10 +99,10 @@ namespace Shortcut
                     dragNdropCmd["Path"] = dragNdropPath;
                     dragNdropCmd["Arguments"] = null;
                     dragNdropCmd["Run"] = "Checked";
-                    inputDialog = new FrmInputDialog(dragNdropCmd);
+                    inputDialog = new FrmInputDialog(dragNdropCmd, TreeView);
                 }
                 else
-                    inputDialog = new FrmInputDialog((Dictionary<string, string>)selectedNode.Tag);
+                    inputDialog = new FrmInputDialog((Dictionary<string, string>)selectedNode.Tag, TreeView);
             }
 
             Dictionary<string, string> cmdSet = InputCmd(CmdEditType.EDIT, ref inputDialog, selectedNode);

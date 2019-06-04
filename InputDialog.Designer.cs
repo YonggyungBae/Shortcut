@@ -33,7 +33,6 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.txtPath = new System.Windows.Forms.TextBox();
             this.btnFile = new System.Windows.Forms.Button();
             this.btnFolder = new System.Windows.Forms.Button();
             this.grpRun = new System.Windows.Forms.GroupBox();
@@ -41,7 +40,8 @@
             this.lblArguments = new System.Windows.Forms.Label();
             this.lblPath = new System.Windows.Forms.Label();
             this.chkRun = new System.Windows.Forms.CheckBox();
-            this.txtArguments = new System.Windows.Forms.TextBox();
+            this.cboPath = new System.Windows.Forms.TextBox();
+            this.cboArguments = new System.Windows.Forms.TextBox();
             this.grpCmd.SuspendLayout();
             this.grpRun.SuspendLayout();
             this.SuspendLayout();
@@ -87,13 +87,6 @@
             // 
             this.openFileDialog.Title = "Open";
             // 
-            // txtPath
-            // 
-            this.txtPath.Location = new System.Drawing.Point(50, 49);
-            this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(297, 21);
-            this.txtPath.TabIndex = 6;
-            // 
             // btnFile
             // 
             this.btnFile.Location = new System.Drawing.Point(110, 20);
@@ -116,13 +109,13 @@
             // 
             // grpRun
             // 
-            this.grpRun.Controls.Add(this.txtArguments);
+            this.grpRun.Controls.Add(this.cboArguments);
+            this.grpRun.Controls.Add(this.cboPath);
             this.grpRun.Controls.Add(this.btnClear);
             this.grpRun.Controls.Add(this.lblArguments);
             this.grpRun.Controls.Add(this.lblPath);
             this.grpRun.Controls.Add(this.btnFolder);
             this.grpRun.Controls.Add(this.btnFile);
-            this.grpRun.Controls.Add(this.txtPath);
             this.grpRun.Enabled = false;
             this.grpRun.Location = new System.Drawing.Point(12, 66);
             this.grpRun.Name = "grpRun";
@@ -169,12 +162,23 @@
             this.chkRun.UseVisualStyleBackColor = true;
             this.chkRun.CheckedChanged += new System.EventHandler(this.chkRun_CheckedChanged);
             // 
-            // txtArguments
+            // cboPath
             // 
-            this.txtArguments.Location = new System.Drawing.Point(86, 76);
-            this.txtArguments.Name = "txtArguments";
-            this.txtArguments.Size = new System.Drawing.Size(260, 21);
-            this.txtArguments.TabIndex = 8;
+            this.cboPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.cboPath.Location = new System.Drawing.Point(50, 49);
+            this.cboPath.Name = "cboPath";
+            this.cboPath.Size = new System.Drawing.Size(297, 21);
+            this.cboPath.TabIndex = 8;
+            // 
+            // cboArguments
+            // 
+            this.cboArguments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboArguments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.cboArguments.Location = new System.Drawing.Point(86, 76);
+            this.cboArguments.Name = "cboArguments";
+            this.cboArguments.Size = new System.Drawing.Size(261, 21);
+            this.cboArguments.TabIndex = 9;
             // 
             // FrmInputDialog
             // 
@@ -218,8 +222,8 @@
         private System.Windows.Forms.Label lblPath;
         private System.Windows.Forms.Label lblArguments;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.CheckBox chkRun;
-        private System.Windows.Forms.TextBox txtArguments;
+        private System.Windows.Forms.TextBox cboPath;
+        private System.Windows.Forms.TextBox cboArguments;
     }
 }

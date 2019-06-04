@@ -30,8 +30,7 @@ namespace Shortcut
         private void ToolStripMenuItem_NotifyIcon_Config_Click(object sender, EventArgs e)
         {
             options.ShowDialog();
-
-            this.ShowInTaskbar = options.GetOption_ShowInTaskBar();
+            Option_Apply_ShowInTaskbar();
         }
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)

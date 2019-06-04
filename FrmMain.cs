@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -40,8 +41,6 @@ namespace Shortcut
         public FrmMain()
         {
             InitializeComponent();
-
-            RegisterHotKey(this.Handle, (int)HotKeyId.SHOW_FORM, (int)KeyModifier.WinKey, Keys.Y.GetHashCode());
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -61,7 +60,9 @@ namespace Shortcut
                 SetNodeIconRecursive(node);
             }
 
-            LoadStartupOptions();
+            Option_Apply_ShowInTaskbar();
+
+            RegisterHotKeyGlobal();
 
             Rectangle workingArea = Screen.GetWorkingArea(this);
             this.Location = new Point(workingArea.Right - Size.Width,
@@ -75,9 +76,12 @@ namespace Shortcut
             UnregisterHotKey(this.Handle, 0);
         }
 
-        private void LoadStartupOptions()
+        private void Option_Apply_ShowInTaskbar()
         {
             this.ShowInTaskbar = options.GetOption_ShowInTaskBar();
+
+            // ShowInTaskbar 값을 바꾸면 RegisterHotKey 다시 해줘야함...이유를 모르겠음.
+            RegisterHotKeyGlobal();
         }
 
         //============================== Global Hot Key ==============================//
@@ -107,6 +111,12 @@ namespace Shortcut
                 }
             }
         }
+
+        private void RegisterHotKeyGlobal()
+        {
+            RegisterHotKey(this.Handle, (int)HotKeyId.SHOW_FORM, (int)KeyModifier.WinKey, Keys.Y.GetHashCode());
+        }
+
         #endregion
 
         //============================== Key Event ==============================//
