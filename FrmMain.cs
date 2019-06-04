@@ -34,7 +34,7 @@ namespace Shortcut
         private string dragNdropPath = null;
         private ImageList iconList = new ImageList();
         private MovingCmdPosition movingNodePositionBackup;
-        private MouseButtons mouseButtons;
+        private MouseButtons mouseButtons = MouseButtons.Left;
         private Options options = new Options();
 
         //============================== Form Load ==============================//
@@ -144,13 +144,13 @@ namespace Shortcut
         //============================== Mouse Event ==============================//
         private void TreeView_MouseDown(object sender, MouseEventArgs e)
         {
+            mouseButtons = e.Button;
             if (TreeView.HitTest(e.X, e.Y).Node == null)
             {
                 TreeView.SelectedNode = null;    // Deselect all nodes when click black area in the TreeView.
             }
             else if (e.Button == MouseButtons.Right)
             {
-                mouseButtons = MouseButtons.Right;
                 TreeView.SelectedNode = TreeView.HitTest(e.X, e.Y).Node;    // 노드를 오른쪽 click 한 경우에도 바로 선택되도록 함.
             }
             else
@@ -221,7 +221,6 @@ namespace Shortcut
 
                     if (mouseButtons != MouseButtons.Right)
                         movingCmd.Remove();
-                    mouseButtons = MouseButtons.None;
 
                     cloneCmd.ForeColor = (cloneCmd.Parent == null) ? topCmdColor : normalCmdColor;
                     TreeView.SelectedNode = cloneCmd;

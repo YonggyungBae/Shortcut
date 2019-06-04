@@ -18,3 +18,4 @@ D:\Shortcut\obj\Debug\Shortcut.csproj.CopyComplete
 D:\Shortcut\obj\Debug\Shortcut.exe
 D:\Shortcut\obj\Debug\Shortcut.pdb
 D:\Shortcut\obj\Debug\Shortcut.frmAbout.resources
+D:\Shortcut\obj\Debug\Shortcut.csprojAssemblyReference.cache
