@@ -89,7 +89,6 @@
             this.TreeView.Font = new System.Drawing.Font("Malgun Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TreeView.ForeColor = System.Drawing.Color.White;
             this.TreeView.HideSelection = false;
-            this.TreeView.LabelEdit = true;
             this.TreeView.Location = new System.Drawing.Point(3, 20);
             this.TreeView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TreeView.Name = "TreeView";

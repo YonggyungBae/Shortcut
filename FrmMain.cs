@@ -203,8 +203,15 @@ namespace Shortcut
                 TreeNode movingCmd = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
                 TreeNode cloneCmd = (TreeNode)movingCmd.Clone();
 
-                if(mouseButtons == MouseButtons.Right)
+                if (mouseButtons == MouseButtons.Right)
+                {
+                    Dictionary<string, string> cmdSet = (Dictionary<string, string>)cloneCmd.Tag;
                     cloneCmd.Text = cloneCmd.Text + " - copy";
+                    cloneCmd.Name = cloneCmd.Text;
+                    cmdSet["Cmd"] = cloneCmd.Text;
+                    cloneCmd.Tag = cmdSet;
+                }
+                
 
                 if (targetCmd != movingCmd)
                 {
