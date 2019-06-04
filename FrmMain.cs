@@ -310,5 +310,28 @@ namespace Shortcut
                 targetCmd.Expand();
             tmrNodeOver.Stop();
         }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            const int WM_KEYDOWN = 0x100;
+            const int WM_SYSKEYDOWN = 0x104;
+
+            if ((msg.Msg == WM_KEYDOWN) || (msg.Msg == WM_SYSKEYDOWN))
+            {
+                
+                if (keyData == (Keys.Control | Keys.Left))
+                {
+                    while (TreeView.SelectedNode.Parent != null)
+                        TreeView.SelectedNode = TreeView.SelectedNode.Parent;
+                }
+                else if (keyData == (Keys.Control | Keys.Subtract))
+                {
+                    TreeView.CollapseAll();
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
     }
 }
