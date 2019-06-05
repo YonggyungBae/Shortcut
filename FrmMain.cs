@@ -318,20 +318,34 @@ namespace Shortcut
 
             if ((msg.Msg == WM_KEYDOWN) || (msg.Msg == WM_SYSKEYDOWN))
             {
-                
-                if (keyData == (Keys.Control | Keys.Left))
+                switch (keyData)
                 {
-                    while (TreeView.SelectedNode.Parent != null)
-                        TreeView.SelectedNode = TreeView.SelectedNode.Parent;
-                }
-                else if (keyData == (Keys.Control | Keys.Subtract))
-                {
-                    TreeView.CollapseAll();
+                    case (Keys.Control | Keys.Up):
+                    case (Keys.Control | Keys.Down):
+                        MoveCmdUpDown(TreeView.SelectedNode, (keyData & Keys.Up) | (keyData & Keys.Down));
+                        SaveTree(TreeView, cfgFileName);
+                        break;
+                    case (Keys.Control | Keys.Left):
+                        MoveCmdLeft(TreeView.SelectedNode);
+                        SaveTree(TreeView, cfgFileName);
+                        break;
+                    case (Keys.Control | Keys.Right):
+                        MoveCmdRight(TreeView.SelectedNode);
+                        SaveTree(TreeView, cfgFileName);
+                        break;
+                    case (Keys.Control | Keys.Home):
+                        while (TreeView.SelectedNode.Parent != null)
+                            TreeView.SelectedNode = TreeView.SelectedNode.Parent;
+                        break;
+                    case (Keys.Control | Keys.Subtract):
+                        TreeView.CollapseAll();
+                        break;
+                    default:
+                        break;
                 }
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
-
     }
 }

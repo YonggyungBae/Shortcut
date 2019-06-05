@@ -184,6 +184,72 @@ namespace Shortcut
             else
                 return MovingCmdPosition.LOWER;
         }
+
+        private void MoveCmdUpDown(TreeNode cmd, Keys dirKey)
+        {
+            int targetIdx = 0;
+            TreeNode cloneNode = (TreeNode)cmd.Clone();
+
+            switch (dirKey)
+            {
+                case Keys.Up:
+                    targetIdx = (cmd.PrevNode == null) ? cmd.Index : cmd.PrevNode.Index;
+                    break;
+                case Keys.Down:
+                    targetIdx = (cmd.NextNode == null) ? cmd.Index : cmd.NextNode.Index + 1;
+                    break;
+                default:
+                    return;
+            }
+
+            if (cmd.Level == 0)
+            {
+                cmd.TreeView.Nodes.Insert(targetIdx, cloneNode);
+                cmd.TreeView.SelectedNode = cloneNode;
+                cmd.Remove();
+            }
+            else
+            {
+                cmd.Parent.Nodes.Insert(targetIdx, cloneNode);
+                cmd.TreeView.SelectedNode = cloneNode;
+                cmd.Remove();
+            }
+        }
+
+        private void MoveCmdLeft(TreeNode cmd)
+        {
+            TreeNode cloneNode = (TreeNode)cmd.Clone();
+
+            if (cmd.Level == 0)
+            {
+                ;
+            }
+            else if (cmd.Level == 1)
+            {
+                cmd.TreeView.Nodes.Insert(cmd.Parent.Index + 1, cloneNode);
+                cmd.TreeView.SelectedNode = cloneNode;
+                cmd.Remove();
+            }
+            else
+            {
+                cmd.Parent.Parent.Nodes.Insert(cmd.Parent.Index + 1, cloneNode);
+                cmd.TreeView.SelectedNode = cloneNode;
+                cmd.Remove();
+            }
+        }
+
+        private void MoveCmdRight(TreeNode cmd)
+        {
+            TreeNode cloneNode = (TreeNode)cmd.Clone();
+
+            if (cmd.PrevNode != null)
+            {
+                cmd.PrevNode.Nodes.Add(cloneNode);
+                //cmd.PrevNode.Nodes.Insert(0, cloneNode);
+                cmd.TreeView.SelectedNode = cloneNode;
+                cmd.Remove();
+            }
+        }
         #endregion
 
         #region Tray Control
