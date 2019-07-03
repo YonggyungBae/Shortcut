@@ -186,6 +186,8 @@ namespace Shortcut
         {
             TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
 
+            this.Activate();
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop))    // File Drag & Drop
             {
                 string[] targetPaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
