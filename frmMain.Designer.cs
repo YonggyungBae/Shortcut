@@ -230,6 +230,7 @@
             // 
             // tmrNodeOver
             // 
+            this.tmrNodeOver.Interval = 1000;
             this.tmrNodeOver.Tick += new System.EventHandler(this.tmrNodeOver_Tick);
             // 
             // FrmMain
