@@ -58,7 +58,7 @@ namespace Shortcut
 
                         processInfo.FileName = cmdSet["Path"];
                         if (cmdSet["Arguments"] != "")
-                            processInfo.Arguments = cmdSet["Arguments"];
+                            processInfo.Arguments = GetReorganizedArguments(cmdSet["Arguments"], cmd);
                         process.StartInfo = processInfo;
                         process.Start();
                         MinimizeToTray();
@@ -68,7 +68,6 @@ namespace Shortcut
                         MessageBox.Show("Please check the \"Path\" or \"Arguments\" in the command.", "The File or Folder is NOT existed.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         cmd.SelectedImageKey = cmd.ImageKey = GetIcon(cmdSet["Path"]);
                     }
-                        
                 }
             }
         }
@@ -249,6 +248,20 @@ namespace Shortcut
                 cmd.TreeView.SelectedNode = cloneNode;
                 cmd.Remove();
             }
+        }
+
+        private string GetReorganizedArguments(string arguments, TreeNode cmd)
+        {
+            if (arguments.Contains("#path#"))
+            {
+                TreeNode parentCmd = cmd.Parent;
+                Dictionary<string, string> cmdSet = (Dictionary<string, string>)parentCmd.Tag;
+                if ((parentCmd != null) && (cmdSet["Path"] != ""))
+                    return arguments.Replace("#path#", cmdSet["Path"]);
+                else
+                    return "";
+            }
+            return arguments;
         }
         #endregion
 
