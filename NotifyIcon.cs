@@ -15,6 +15,7 @@ namespace Shortcut
                 this.WindowState = FormWindowState.Normal;
             Show();
             BringToFront();
+            Activate();
         }
 
         private void HideForm()

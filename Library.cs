@@ -46,7 +46,9 @@ namespace Shortcut
                 Dictionary<string, string> cmdSet = (Dictionary<string, string>)cmd.Tag;
                 if (cmdSet["Run"] == "Checked")
                 {
-                    ValidPath validPath = ChkValidPath(cmdSet["Path"]);
+                    string path = RemakeStringWithReplacingKeywords(cmdSet["Path"], cmd);
+                    string arguments = RemakeStringWithReplacingKeywords(cmdSet["Arguments"], cmd);
+                    ValidPath validPath = ChkValidPath(path);
                     if(validPath == ValidPath.PATH_NONE)
                     {
                         // No run.
@@ -56,9 +58,9 @@ namespace Shortcut
                         ProcessStartInfo processInfo = new ProcessStartInfo();
                         Process process = new Process();
 
-                        processInfo.FileName = cmdSet["Path"];
+                        processInfo.FileName = path;
                         if (cmdSet["Arguments"] != "")
-                            processInfo.Arguments = GetReorganizedArguments(cmdSet["Arguments"], cmd);
+                            processInfo.Arguments = arguments;
                         process.StartInfo = processInfo;
                         process.Start();
                         MinimizeToTray();
@@ -66,7 +68,7 @@ namespace Shortcut
                     else
                     {
                         MessageBox.Show("Please check the \"Path\" or \"Arguments\" in the command.", "The File or Folder is NOT existed.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        cmd.SelectedImageKey = cmd.ImageKey = GetIcon(cmdSet["Path"]);
+                        cmd.SelectedImageKey = cmd.ImageKey = SelectIcon(path);
                     }
                 }
             }
@@ -250,18 +252,19 @@ namespace Shortcut
             }
         }
 
-        private string GetReorganizedArguments(string arguments, TreeNode cmd)
+        private string RemakeStringWithReplacingKeywords(string originalString, TreeNode cmd)
         {
-            if (arguments.Contains("#path#"))
+            TreeNode parentCmd = cmd.Parent;
+            if (parentCmd != null)
             {
-                TreeNode parentCmd = cmd.Parent;
-                Dictionary<string, string> cmdSet = (Dictionary<string, string>)parentCmd.Tag;
-                if ((parentCmd != null) && (cmdSet["Path"] != ""))
-                    return arguments.Replace("#path#", cmdSet["Path"]);
-                else
-                    return "";
+                Dictionary<string, string> parentCmdSet = (Dictionary<string, string>)parentCmd.Tag;
+                if (originalString.Contains("#path#")
+                    && (parentCmdSet["Path"] != ""))
+                {
+                    return originalString.Replace("#path#", RemakeStringWithReplacingKeywords(parentCmdSet["Path"], parentCmd));
+                }
             }
-            return arguments;
+            return originalString;
         }
         #endregion
 
@@ -325,7 +328,7 @@ namespace Shortcut
         #region Icon Control
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, StringBuilder lpIconPath, out ushort lpiIcon);
-        private string GetIcon(string path)
+        private string SelectIcon(string path)
         {
             if (path == "")
             {
@@ -366,8 +369,10 @@ namespace Shortcut
 
         private void SetNodeIconRecursive(TreeNode parentNode)
         {
-            Dictionary<string, string> cmdTag = (Dictionary<string, string>)parentNode.Tag;
-            parentNode.SelectedImageKey = parentNode.ImageKey = GetIcon(cmdTag["Path"]);
+            Dictionary<string, string> cmdSet = (Dictionary<string, string>)parentNode.Tag;
+
+            string path = RemakeStringWithReplacingKeywords(cmdSet["Path"], parentNode);
+            parentNode.SelectedImageKey = parentNode.ImageKey = SelectIcon(path);
 
             foreach (TreeNode oSubNode in parentNode.Nodes)
             {

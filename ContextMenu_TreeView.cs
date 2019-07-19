@@ -65,8 +65,6 @@ namespace Shortcut
                     Tag = cmdSet,
                 };
 
-                NewCmd.SelectedImageKey = NewCmd.ImageKey = GetIcon(cmdSet["Path"]);
-
                 if (NodeOver == null)
                 {
                     TreeView.Nodes.Add(NewCmd);
@@ -77,7 +75,9 @@ namespace Shortcut
                     InsertCmd(TreeView, NodeOver, NewCmd, positionContextmunu.Y);
                     NodeOver.Expand();
                 }
-                
+
+                string path = RemakeStringWithReplacingKeywords(cmdSet["Path"], NewCmd);
+                NewCmd.SelectedImageKey = NewCmd.ImageKey = SelectIcon(path);
                 SaveTree(TreeView, cfgFileName);
             }
             dragNdropPath = null;
@@ -110,7 +110,9 @@ namespace Shortcut
             {
                 selectedNode.Name = selectedNode.Text = cmdSet["Cmd"];
                 selectedNode.Tag = cmdSet;
-                selectedNode.SelectedImageKey = selectedNode.ImageKey = GetIcon(cmdSet["Path"]);
+
+                string path = RemakeStringWithReplacingKeywords(cmdSet["Path"], selectedNode);
+                selectedNode.SelectedImageKey = selectedNode.ImageKey = SelectIcon(path);
                 SaveTree(TreeView, cfgFileName);
             }
             dragNdropPath = null;
