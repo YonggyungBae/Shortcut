@@ -84,6 +84,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Command.cs" />
     <Compile Include="ContextMenu_TreeView.cs">
       <SubType>Form</SubType>
     </Compile>

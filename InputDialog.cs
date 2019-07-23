@@ -12,27 +12,38 @@ namespace Shortcut
         {
             InitializeComponent();
 
-            cboPath.AutoCompleteCustomSource = GetCmdItems(treeView, "Path");
-            cboArguments.AutoCompleteCustomSource = GetCmdItems(treeView, "Arguments");
+            ApplyAutoCompleteToInputDialog(treeView);
         }
 
-        public FrmInputDialog(Dictionary<string, string> CmdSet, TreeView treeView)
+        public FrmInputDialog(Command cmd, TreeView treeView)
         {
             InitializeComponent();
 
-            cboPath.AutoCompleteCustomSource = GetCmdItems(treeView, "Path");
-            cboArguments.AutoCompleteCustomSource = GetCmdItems(treeView, "Arguments");
-
-            cboPath.Text = CmdSet["Path"];
-            cboArguments.Text = CmdSet["Arguments"];
-            txtCmd.Text = CmdSet["Cmd"];
-            chkRun.Checked = (CmdSet["Run"] == "Checked");
+            ApplyAutoCompleteToInputDialog(treeView);
+            CopyCmdToInputDialog(cmd);
         }
 
-        public FrmInputDialog(string Cmd, TreeView treeView)
+        public FrmInputDialog(TreeNode node, TreeView treeView)
         {
             InitializeComponent();
-            txtCmd.Text = Cmd;
+
+            ApplyAutoCompleteToInputDialog(treeView);
+            CopyCmdToInputDialog(new Command(node));
+            
+        }
+
+        private void ApplyAutoCompleteToInputDialog(TreeView treeView)
+        {
+            cboPath.AutoCompleteCustomSource = ExtractPathInTreeView(treeView);
+            cboArguments.AutoCompleteCustomSource = ExtractArgumentsInTreeView(treeView);
+        }
+
+        private void CopyCmdToInputDialog(Command cmd)
+        {
+            txtCmd.Text = cmd.Name;
+            chkRun.Checked = cmd.Run;
+            cboPath.Text = cmd.Path;
+            cboArguments.Text = cmd.Arguments;
         }
 
         private void BtnFile_Click(object sender, EventArgs e)
@@ -64,14 +75,10 @@ namespace Shortcut
             }
         }
 
-        public Dictionary <string, string> GetCmdSet()
+        public Command GetCmdSet()
         {
-            Dictionary<string, string> cmdSet = new Dictionary<string, string>();
-            cmdSet.Add("Cmd", txtCmd.Text);
-            cmdSet.Add("Run", (chkRun.Checked) ? "Checked" : "Unchecked");
-            cmdSet.Add("Path", cboPath.Text);
-            cmdSet.Add("Arguments", cboArguments.Text);
-            return cmdSet;
+            Command cmd = new Command(txtCmd.Text, chkRun.Checked, cboPath.Text, cboArguments.Text);
+            return cmd;
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -85,24 +92,39 @@ namespace Shortcut
             grpRun.Enabled = chkRun.Checked;
         }
 
-        private AutoCompleteStringCollection GetCmdItems(TreeView treeView, string item)
+        private AutoCompleteStringCollection ExtractPathInTreeView(TreeView treeView)
         {
-            List<Dictionary<string, string>> cmdList = GetPathListInTreeView(treeView);
+            List<Command> cmdList = GetPathListInTreeView(treeView);
             AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
 
-            foreach (Dictionary<string, string> cmd in cmdList)
+            foreach (Command cmd in cmdList)
             {
-                if ((cmd[item] != null) && (cmd[item] != ""))
+                if ((cmd.Path != null) && (cmd.Path != ""))
                 {
-                    autoCompleteStringCollection.Add(cmd[item]);
+                    autoCompleteStringCollection.Add(cmd.Path);
                 }
             }
             return autoCompleteStringCollection;
         }
 
-        private List<Dictionary<string, string>> GetPathListInTreeView(TreeView treeView)
+        private AutoCompleteStringCollection ExtractArgumentsInTreeView(TreeView treeView)
         {
-            List<Dictionary<string, string>> cmdList = new List<Dictionary<string, string>>();
+            List<Command> cmdList = GetPathListInTreeView(treeView);
+            AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
+
+            foreach (Command cmd in cmdList)
+            {
+                if ((cmd.Arguments != null) && (cmd.Arguments != ""))
+                {
+                    autoCompleteStringCollection.Add(cmd.Arguments);
+                }
+            }
+            return autoCompleteStringCollection;
+        }
+
+        private List<Command> GetPathListInTreeView(TreeView treeView)
+        {
+            List<Command> cmdList = new List<Command>();
 
             foreach (TreeNode child in treeView.Nodes)
             {
@@ -111,17 +133,17 @@ namespace Shortcut
             return cmdList;
         }
 
-        private List<Dictionary<string, string>> GetPathListOfAllNodes(TreeNode cmd)
+        private List<Command> GetPathListOfAllNodes(TreeNode node)
         {
-            List<Dictionary<string, string>> cmdList = new List<Dictionary<string, string>>();
+            List<Command> cmdList = new List<Command>();
 
-            if (cmd.Tag != null)
+            if (node.Tag != null)
             {
-                Dictionary<string, string> cmdSet = (Dictionary<string, string>)cmd.Tag;
-                cmdList.Add(cmdSet);
+                Command cmd = new Command(node);
+                cmdList.Add(cmd);
             }
 
-            foreach (TreeNode child in cmd.Nodes)
+            foreach (TreeNode child in node.Nodes)
             {
                 cmdList.AddRange(GetPathListOfAllNodes(child));
             }

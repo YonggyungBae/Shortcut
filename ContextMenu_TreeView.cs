@@ -38,46 +38,31 @@ namespace Shortcut
 
             if (dragNdropPath != null)
             {
-                Dictionary<string, string> cmdSet_dragNdrop = new Dictionary<string, string>();
-
-                //if (File.Exists(dragNdropPath))
-                //    cmdSet_dragNdrop["Cmd"] = Path.GetFileNameWithoutExtension(dragNdropPath);
-                //else if (Directory.Exists(dragNdropPath))
-                //    cmdSet_dragNdrop["Cmd"] = Path.GetDirectoryName(dragNdropPath);
-                cmdSet_dragNdrop["Cmd"] = Path.GetFileNameWithoutExtension(dragNdropPath);
-                cmdSet_dragNdrop["Path"] = dragNdropPath;
-                cmdSet_dragNdrop["Arguments"] = "";
-                cmdSet_dragNdrop["Run"] = "Checked";
-                inputDialog = new FrmInputDialog(cmdSet_dragNdrop, TreeView);
+                Command cmdDragDrop = new Command(Path.GetFileNameWithoutExtension(dragNdropPath), true, dragNdropPath, null);
+                inputDialog = new FrmInputDialog(cmdDragDrop, TreeView);
             }
             else
             {
                 inputDialog = new FrmInputDialog(TreeView);
             }
 
-            Dictionary<string, string> cmdSet = InputCmd(CmdEditType.ADD, ref inputDialog, NodeOver);
-
-            if (cmdSet != null)
+            Command cmd = InputCmd(CmdEditType.ADD, ref inputDialog, NodeOver);
+            if (cmd != null)
             {
-                TreeNode NewCmd = new TreeNode
-                {
-                    Text = Name = cmdSet["Cmd"],
-                    Tag = cmdSet,
-                };
+                TreeNode newNode = cmd.GetAsTreeNode();
 
                 if (NodeOver == null)
                 {
-                    TreeView.Nodes.Add(NewCmd);
-                    NewCmd.ForeColor = (NewCmd.Parent == null) ? topCmdColor : normalCmdColor;
+                    TreeView.Nodes.Add(newNode);
+                    newNode.ForeColor = (newNode.Parent == null) ? topCmdColor : normalCmdColor;
                 }
                 else
                 {
-                    InsertCmd(TreeView, NodeOver, NewCmd, positionContextmunu.Y);
+                    InsertCmd(TreeView, NodeOver, newNode, positionContextmunu.Y);
                     NodeOver.Expand();
                 }
 
-                string path = RemakeStringWithReplacingKeywords(cmdSet["Path"], NewCmd);
-                NewCmd.SelectedImageKey = NewCmd.ImageKey = SelectIcon(path);
+                newNode.SelectedImageKey = newNode.ImageKey = SelectIcon(cmd.GetAbsolutePath(NodeOver));
                 SaveTree(TreeView, cfgFileName);
             }
             dragNdropPath = null;
@@ -89,30 +74,24 @@ namespace Shortcut
             FrmInputDialog inputDialog;
 
             if (selectedNode.Tag == null)
-                inputDialog = new FrmInputDialog(selectedNode.Name, TreeView);
+                inputDialog = new FrmInputDialog(selectedNode, TreeView);
             else
             {
+                Command dragNdropCmd;
                 if (dragNdropPath != null)
-                {
-                    Dictionary<string, string> dragNdropCmd = new Dictionary<string, string>();
-                    dragNdropCmd["Cmd"] = selectedNode.Name;
-                    dragNdropCmd["Path"] = dragNdropPath;
-                    dragNdropCmd["Arguments"] = null;
-                    dragNdropCmd["Run"] = "Checked";
-                    inputDialog = new FrmInputDialog(dragNdropCmd, TreeView);
-                }
+                    dragNdropCmd = new Command(selectedNode.Name, true, dragNdropPath, null);
                 else
-                    inputDialog = new FrmInputDialog((Dictionary<string, string>)selectedNode.Tag, TreeView);
+                    dragNdropCmd = new Command(selectedNode);
+                inputDialog = new FrmInputDialog(dragNdropCmd, TreeView);
             }
 
-            Dictionary<string, string> cmdSet = InputCmd(CmdEditType.EDIT, ref inputDialog, selectedNode);
-            if (cmdSet != null)
-            {
-                selectedNode.Name = selectedNode.Text = cmdSet["Cmd"];
-                selectedNode.Tag = cmdSet;
+            Command cmd = InputCmd(CmdEditType.EDIT, ref inputDialog, selectedNode);
 
-                string path = RemakeStringWithReplacingKeywords(cmdSet["Path"], selectedNode);
-                selectedNode.SelectedImageKey = selectedNode.ImageKey = SelectIcon(path);
+            if (cmd != null)
+            {
+                selectedNode.Name = selectedNode.Text = cmd.Name;
+                selectedNode.Tag = cmd.ToDictionary();
+                selectedNode.SelectedImageKey = selectedNode.ImageKey = SelectIcon(cmd.GetAbsolutePath(selectedNode));
                 SaveTree(TreeView, cfgFileName);
             }
             dragNdropPath = null;

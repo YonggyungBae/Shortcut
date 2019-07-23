@@ -23,10 +23,10 @@ namespace Shortcut
         };
 
         #region Command Control
-        public Dictionary<string, string> SetProperRunState(Dictionary<string, string> cmdSet)
+        public Command SetProperRunState(Command cmd)
         {
-            if (cmdSet["Path"] == "") cmdSet["Run"] = "Unchecked";
-            return cmdSet;
+            if (cmd.Path == "") cmd.Run = false;
+            return cmd;
         }
 
         private ValidPath ChkValidPath(string path)
@@ -39,15 +39,16 @@ namespace Shortcut
                 return ValidPath.PATH_INVALID;
         }
 
-        private void RunCmd(TreeNode cmd)
+        private void RunCmd(TreeNode node)
         {
-            if (cmd.Tag != null)
+            if (node.Tag != null)
             {
-                Dictionary<string, string> cmdSet = (Dictionary<string, string>)cmd.Tag;
-                if (cmdSet["Run"] == "Checked")
+                Command cmd = new Command(node);
+
+                if (cmd.Run == true)
                 {
-                    string path = RemakeStringWithReplacingKeywords(cmdSet["Path"], cmd);
-                    string arguments = RemakeStringWithReplacingKeywords(cmdSet["Arguments"], cmd);
+                    string path = cmd.GetAbsolutePath(node);
+                    string arguments = cmd.GetAbsoluteArguments(node);
                     ValidPath validPath = ChkValidPath(path);
                     if(validPath == ValidPath.PATH_NONE)
                     {
@@ -59,7 +60,7 @@ namespace Shortcut
                         Process process = new Process();
 
                         processInfo.FileName = path;
-                        if (cmdSet["Arguments"] != "")
+                        if (arguments != "")
                             processInfo.Arguments = arguments;
                         process.StartInfo = processInfo;
                         process.Start();
@@ -68,7 +69,7 @@ namespace Shortcut
                     else
                     {
                         MessageBox.Show("Please check the \"Path\" or \"Arguments\" in the command.", "The File or Folder is NOT existed.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        cmd.SelectedImageKey = cmd.ImageKey = SelectIcon(path);
+                        node.SelectedImageKey = node.ImageKey = SelectIcon(path);
                     }
                 }
             }
@@ -99,7 +100,7 @@ namespace Shortcut
             }
         }
 
-        private Dictionary<string, string> InputCmd(CmdEditType cmdEditType, ref FrmInputDialog inputDialog, TreeNode selectedNode)
+        private Command InputCmd(CmdEditType cmdEditType, ref FrmInputDialog inputDialog, TreeNode selectedNode)
         {
             while (inputDialog.ShowDialog() == DialogResult.OK)
             {
@@ -109,7 +110,7 @@ namespace Shortcut
             return null;
         }
 
-        private bool ChkValidCmd(CmdEditType cmdEditType, TreeNode selectedNode, Dictionary<string, string> cmdSet)
+        private bool ChkValidCmd(CmdEditType cmdEditType, TreeNode selectedNode, Command cmd)
         {
             // Check redundant command
             TreeNodeCollection cmdGrp;
@@ -121,14 +122,14 @@ namespace Shortcut
             else
                 cmdGrp = selectedNode.Parent.Nodes;
 
-            if (cmdSet["Cmd"] == "")
+            if (cmd.Name == "")
             {
                 MessageBox.Show("커맨드 이름을 입력해주세요.");
                 return false;
             }
             else if (cmdEditType == CmdEditType.ADD)
             {
-                if (cmdGrp.ContainsKey(cmdSet["Cmd"]))
+                if (cmdGrp.ContainsKey(cmd.Name))
                 {
                     MessageBox.Show("같은 이름의 커맨드 가 존재합니다.");
                     return false;
@@ -141,7 +142,7 @@ namespace Shortcut
             else
             {
                 // 같은 이름의 node라도 그게 자기 자신인 경우는 제외
-                TreeNode[] treeNodes = cmdGrp.Find(cmdSet["Cmd"], false);
+                TreeNode[] treeNodes = cmdGrp.Find(cmd.Name, false);
                 if ( (treeNodes.Length == 0) || (treeNodes[0] == selectedNode) )
                 {
                     return true;
@@ -251,21 +252,6 @@ namespace Shortcut
                 cmd.Remove();
             }
         }
-
-        private string RemakeStringWithReplacingKeywords(string originalString, TreeNode cmd)
-        {
-            TreeNode parentCmd = cmd.Parent;
-            if (parentCmd != null)
-            {
-                Dictionary<string, string> parentCmdSet = (Dictionary<string, string>)parentCmd.Tag;
-                if (originalString.Contains("#path#")
-                    && (parentCmdSet["Path"] != ""))
-                {
-                    return originalString.Replace("#path#", RemakeStringWithReplacingKeywords(parentCmdSet["Path"], parentCmd));
-                }
-            }
-            return originalString;
-        }
         #endregion
 
         #region Tray Control
@@ -369,10 +355,8 @@ namespace Shortcut
 
         private void SetNodeIconRecursive(TreeNode parentNode)
         {
-            Dictionary<string, string> cmdSet = (Dictionary<string, string>)parentNode.Tag;
-
-            string path = RemakeStringWithReplacingKeywords(cmdSet["Path"], parentNode);
-            parentNode.SelectedImageKey = parentNode.ImageKey = SelectIcon(path);
+            Command cmd = new Command(parentNode);
+            parentNode.SelectedImageKey = parentNode.ImageKey = SelectIcon(cmd.GetAbsolutePath(parentNode));
 
             foreach (TreeNode oSubNode in parentNode.Nodes)
             {

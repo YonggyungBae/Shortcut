@@ -202,37 +202,34 @@ namespace Shortcut
             }
             else   // Node Drag & Drop
             {
-                TreeNode movingCmd = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
-                TreeNode cloneCmd = (TreeNode)movingCmd.Clone();
+                TreeNode movingNode = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+                TreeNode clonedNode = (TreeNode)movingNode.Clone();
 
                 if (mouseButtons == MouseButtons.Right)
                 {
-                    Dictionary<string, string> cmdSet = (Dictionary<string, string>)cloneCmd.Tag;
-                    cloneCmd.Text = cloneCmd.Text + " - copy";
-                    cloneCmd.Name = cloneCmd.Text;
-                    cmdSet["Cmd"] = cloneCmd.Text;
-                    cloneCmd.Tag = cmdSet;
+                    Command cmd = new Command(clonedNode);
+                    cmd.Name = cmd.Name + " - copy";
+                    clonedNode = cmd.GetAsTreeNode();
                 }
-                
 
-                if (targetCmd != movingCmd)
+                if (targetCmd != movingNode)
                 {
-                    bool isMovingCmdExpanded = movingCmd.IsExpanded;
+                    bool isMovingCmdExpanded = movingNode.IsExpanded;
 
                     if (targetCmd == null)
                     {
-                        TreeView.Nodes.Add(cloneCmd);
+                        TreeView.Nodes.Add(clonedNode);
                     }
                     else
                     {
-                        InsertCmd(TreeView, targetCmd, cloneCmd, TreeView.PointToClient(Cursor.Position).Y);
+                        InsertCmd(TreeView, targetCmd, clonedNode, TreeView.PointToClient(Cursor.Position).Y);
                     }
 
                     if (mouseButtons != MouseButtons.Right)
-                        movingCmd.Remove();
+                        movingNode.Remove();
 
-                    cloneCmd.ForeColor = (cloneCmd.Parent == null) ? topCmdColor : normalCmdColor;
-                    TreeView.SelectedNode = cloneCmd;
+                    clonedNode.ForeColor = (clonedNode.Parent == null) ? topCmdColor : normalCmdColor;
+                    TreeView.SelectedNode = clonedNode;
                     if (isMovingCmdExpanded) TreeView.SelectedNode.Expand();
                     SaveTree(TreeView, cfgFileName);
                 }
