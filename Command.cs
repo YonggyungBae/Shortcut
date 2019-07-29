@@ -47,11 +47,11 @@ namespace Shortcut
             {
                 try
                 {
-                    Dictionary<string, string> cmd = (Dictionary<string, string>)node.Tag;
-                    Name = cmd["Cmd"];
-                    Run = (cmd["Run"] == "Checked");
-                    Path = cmd["Path"];
-                    Arguments = cmd["Arguments"];
+                    Dictionary<string, string> cmdDict = (Dictionary<string, string>)node.Tag;
+                    Name = cmdDict["Cmd"];
+                    Run = (cmdDict["Run"] == "Checked");
+                    Path = cmdDict["Path"];
+                    Arguments = cmdDict["Arguments"];
                 }
                 catch
                 {
@@ -80,7 +80,7 @@ namespace Shortcut
         {
             TreeNode node = new TreeNode();
             node.Name = node.Text = Name;
-            node.Tag = this;
+            node.Tag = ToDictionary();
             return node;
         }
         
@@ -104,6 +104,11 @@ namespace Shortcut
                 if (originalString.Contains("#path#") && (parentCmd.Path != ""))
                 {
                     return originalString.Replace("#path#", RemakeStringWithReplacingKeywords(parentCmd.Path, parentNode));
+                }
+
+                if (originalString.Contains("#dir#") && (parentCmd.Path != ""))
+                {
+                    return originalString.Replace("#dir#", RemakeStringWithReplacingKeywords(System.IO.Path.GetDirectoryName(parentCmd.Path), parentNode));
                 }
             }
             return originalString;
