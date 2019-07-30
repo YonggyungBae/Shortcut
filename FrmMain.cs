@@ -252,7 +252,7 @@ namespace Shortcut
                 TreeNode clonedNode = (TreeNode)movingNode.Clone();
 
                 if (mouseButtons == MouseButtons.Right)
-                    clonedNode.Name = clonedNode.Text = clonedNode.Name + "- Copy";
+                    clonedNode.Name = clonedNode.Text = clonedNode.Name + " - Copy";
 
                 if (targetCmd != movingNode)
                 {
