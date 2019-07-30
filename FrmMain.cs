@@ -273,7 +273,6 @@ namespace Shortcut
                     {
                         if (targetCmd.Nodes.Count > 0)
                         {
-							tmrNodeOver.Interval = 500;
                             tmrNodeOver.Start();
                         }
                         else
