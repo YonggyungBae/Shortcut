@@ -61,12 +61,8 @@ namespace Shortcut
             }
 
             Option_Apply_ShowInTaskbar();
-
             RegisterHotKeyGlobal();
-
-            Rectangle workingArea = Screen.GetWorkingArea(this);
-            this.Location = new Point(workingArea.Right - Size.Width,
-                                      workingArea.Bottom - Size.Height);
+            FrmMain_InitSizeAndLocation();
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -74,6 +70,15 @@ namespace Shortcut
             //e.Cancel = true;
             NotifyIcon.Dispose();
             UnregisterHotKey(this.Handle, 0);
+        }
+
+        private void FrmMain_InitSizeAndLocation()
+        {
+            Rectangle workingArea = Screen.GetWorkingArea(this);
+            this.Width = (int)(workingArea.Size.Width * 0.15);
+            this.Height = (int)(workingArea.Size.Height * 0.6);
+            this.Location = new Point(workingArea.Right - Size.Width,
+                                      workingArea.Bottom - Size.Height);
         }
 
         private void Option_Apply_ShowInTaskbar()
@@ -84,7 +89,7 @@ namespace Shortcut
             RegisterHotKeyGlobal();
         }
 
-        //============================== Global Hot Key ==============================//
+        //============================== Hot Key ==============================//
         #region Global Hot Key
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
@@ -116,8 +121,49 @@ namespace Shortcut
         {
             RegisterHotKey(this.Handle, (int)HotKeyId.SHOW_FORM, (int)KeyModifier.WinKey, Keys.Y.GetHashCode());
         }
-
         #endregion
+
+        #region TreeView Hot Key
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            const int WM_KEYDOWN = 0x100;
+            const int WM_SYSKEYDOWN = 0x104;
+
+            if ((msg.Msg == WM_KEYDOWN) || (msg.Msg == WM_SYSKEYDOWN))
+            {
+                switch (keyData)
+                {
+                    case (Keys.Control | Keys.Up):
+                    case (Keys.Control | Keys.Down):
+                        MoveCmdUpDown(TreeView.SelectedNode, (keyData & Keys.Up) | (keyData & Keys.Down));
+                        SaveTree(TreeView, cfgFileName);
+                        break;
+                    case (Keys.Control | Keys.Left):
+                        MoveCmdLeft(TreeView.SelectedNode);
+                        SaveTree(TreeView, cfgFileName);
+                        break;
+                    case (Keys.Control | Keys.Right):
+                        MoveCmdRight(TreeView.SelectedNode);
+                        SaveTree(TreeView, cfgFileName);
+                        break;
+                    case (Keys.Control | Keys.Home):
+                        while (TreeView.SelectedNode.Parent != null)
+                            TreeView.SelectedNode = TreeView.SelectedNode.Parent;
+                        break;
+                    case (Keys.Control | Keys.Subtract):
+                        TreeView.CollapseAll();
+                        break;
+                    case (Keys.Control | Keys.Alt | Keys.NumPad3):
+                        FrmMain_InitSizeAndLocation();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+        #endregion  // TreeView Hot Key
 
         //============================== Key Event ==============================//
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
@@ -303,43 +349,6 @@ namespace Shortcut
             if (targetCmd != null)
                 targetCmd.Expand();
             tmrNodeOver.Stop();
-        }
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            const int WM_KEYDOWN = 0x100;
-            const int WM_SYSKEYDOWN = 0x104;
-
-            if ((msg.Msg == WM_KEYDOWN) || (msg.Msg == WM_SYSKEYDOWN))
-            {
-                switch (keyData)
-                {
-                    case (Keys.Control | Keys.Up):
-                    case (Keys.Control | Keys.Down):
-                        MoveCmdUpDown(TreeView.SelectedNode, (keyData & Keys.Up) | (keyData & Keys.Down));
-                        SaveTree(TreeView, cfgFileName);
-                        break;
-                    case (Keys.Control | Keys.Left):
-                        MoveCmdLeft(TreeView.SelectedNode);
-                        SaveTree(TreeView, cfgFileName);
-                        break;
-                    case (Keys.Control | Keys.Right):
-                        MoveCmdRight(TreeView.SelectedNode);
-                        SaveTree(TreeView, cfgFileName);
-                        break;
-                    case (Keys.Control | Keys.Home):
-                        while (TreeView.SelectedNode.Parent != null)
-                            TreeView.SelectedNode = TreeView.SelectedNode.Parent;
-                        break;
-                    case (Keys.Control | Keys.Subtract):
-                        TreeView.CollapseAll();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }
