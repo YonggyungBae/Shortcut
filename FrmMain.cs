@@ -151,7 +151,9 @@ namespace Shortcut
                             TreeView.SelectedNode = TreeView.SelectedNode.Parent;
                         break;
                     case (Keys.Control | Keys.Subtract):
+                        TreeNode selectedNode = TreeView.SelectedNode;
                         TreeView.CollapseAll();
+                        TreeView.SelectedNode = GotoNode_TopParent(selectedNode);
                         break;
                     case (Keys.Control | Keys.Alt | Keys.NumPad3):
                         FrmMain_InitSizeAndLocation();

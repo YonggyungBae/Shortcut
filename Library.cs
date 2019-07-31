@@ -50,7 +50,7 @@ namespace Shortcut
                     string path = cmd.GetAbsolutePath(node);
                     string arguments = cmd.GetAbsoluteArguments(node);
                     ValidPath validPath = ChkValidPath(path);
-                    if(validPath == ValidPath.PATH_NONE)
+                    if (validPath == ValidPath.PATH_NONE)
                     {
                         // No run.
                     }
@@ -114,8 +114,8 @@ namespace Shortcut
         {
             // Check redundant command
             TreeNodeCollection cmdGrp;
-            if ( (selectedNode == null)
-                || ((cmdEditType == CmdEditType.EDIT) && (selectedNode.Level == 0)) )
+            if ((selectedNode == null)
+                || ((cmdEditType == CmdEditType.EDIT) && (selectedNode.Level == 0)))
                 cmdGrp = TreeView.Nodes;
             else if (cmdEditType == CmdEditType.ADD)
                 cmdGrp = selectedNode.Nodes;
@@ -143,7 +143,7 @@ namespace Shortcut
             {
                 // 같은 이름의 node라도 그게 자기 자신인 경우는 제외
                 TreeNode[] treeNodes = cmdGrp.Find(cmd.Name, false);
-                if ( (treeNodes.Length == 0) || (treeNodes[0] == selectedNode) )
+                if ((treeNodes.Length == 0) || (treeNodes[0] == selectedNode))
                 {
                     return true;
                 }
@@ -251,6 +251,13 @@ namespace Shortcut
                 cmd.TreeView.SelectedNode = cloneNode;
                 cmd.Remove();
             }
+        }
+
+        public TreeNode GotoNode_TopParent(TreeNode cmd)
+        {
+            while (cmd.Parent != null)
+                cmd = cmd.Parent;
+            return cmd;
         }
         #endregion
 
