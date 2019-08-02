@@ -60,6 +60,7 @@ namespace Shortcut
                         Process process = new Process();
 
                         processInfo.FileName = path;
+                        processInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
                         if (arguments != "")
                             processInfo.Arguments = arguments;
                         process.StartInfo = processInfo;
@@ -323,7 +324,7 @@ namespace Shortcut
         static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, StringBuilder lpIconPath, out ushort lpiIcon);
         private string SelectIcon(string path)
         {
-            if (path == "")
+            if ( (path == "") || (path == null) )
             {
                 return "Shortcut";
             }

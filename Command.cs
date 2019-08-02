@@ -96,10 +96,13 @@ namespace Shortcut
 
         public string RemakeStringWithReplacingKeywords(string originalString, TreeNode targetNode)
         {
-            TreeNode parentNode = targetNode.Parent;
-
-            if ( (originalString != null) && (parentNode != null) )
+            if ( (targetNode == null) || (targetNode.Parent == null)
+                || (originalString == null) || (originalString == "") )
+                return originalString;
+            else
             {
+                TreeNode parentNode = targetNode.Parent;
+
                 Command parentCmd = new Command(parentNode);
                 if (originalString.Contains("#path#") && (parentCmd.Path != ""))
                 {
@@ -110,8 +113,9 @@ namespace Shortcut
                 {
                     return originalString.Replace("#dir#", RemakeStringWithReplacingKeywords(System.IO.Path.GetDirectoryName(parentCmd.Path), parentNode));
                 }
-            }
-            return originalString;
+
+                return originalString;
+            }           
         }
     }
 }
