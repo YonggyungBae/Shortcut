@@ -104,14 +104,19 @@ namespace Shortcut
                 TreeNode parentNode = targetNode.Parent;
 
                 Command parentCmd = new Command(parentNode);
-                if (originalString.Contains("#path#") && (parentCmd.Path != ""))
+                if ( originalString.Contains("#path#") && (parentCmd.Path != "") && (parentCmd.Path != null) )
                 {
-                    return originalString.Replace("#path#", RemakeStringWithReplacingKeywords(parentCmd.Path, parentNode));
+                    originalString = originalString.Replace("#path#", RemakeStringWithReplacingKeywords(parentCmd.Path, parentNode));
                 }
 
-                if (originalString.Contains("#dir#") && (parentCmd.Path != ""))
+                if ( originalString.Contains("#dir#") && (parentCmd.Path != "") && (parentCmd.Path != null) )
                 {
-                    return originalString.Replace("#dir#", RemakeStringWithReplacingKeywords(System.IO.Path.GetDirectoryName(parentCmd.Path), parentNode));
+                    originalString = originalString.Replace("#dir#", RemakeStringWithReplacingKeywords(System.IO.Path.GetDirectoryName(parentCmd.Path), parentNode));
+                }
+
+                if ( originalString.Contains("#arg#") && (parentCmd.Arguments != "") && (parentCmd.Arguments != null))
+                {
+                    originalString = originalString.Replace("#arg#", RemakeStringWithReplacingKeywords(parentCmd.Arguments, parentNode));
                 }
 
                 return originalString;
