@@ -19,3 +19,8 @@ D:\Shortcut\obj\Debug\Shortcut.exe
 D:\Shortcut\obj\Debug\Shortcut.pdb
 D:\Shortcut\obj\Debug\Shortcut.frmAbout.resources
 D:\Shortcut\obj\Debug\Shortcut.csprojAssemblyReference.cache
+D:\Shortcut\bin\Debug\Shortcut.exe.manifest
+D:\Shortcut\bin\Debug\Shortcut.application
+D:\Shortcut\obj\Debug\Shortcut.TrustInfo.xml
+D:\Shortcut\obj\Debug\Shortcut.exe.manifest
+D:\Shortcut\obj\Debug\Shortcut.application

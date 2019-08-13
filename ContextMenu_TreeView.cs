@@ -49,7 +49,7 @@ namespace Shortcut
             Command cmd = InputCmd(CmdEditType.ADD, ref inputDialog, NodeOver);
             if (cmd != null)
             {
-                TreeNode newNode = cmd.GetAsTreeNode();
+                TreeNode newNode = cmd.ToTreeNode();
 
                 if (NodeOver == null)
                 {

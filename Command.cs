@@ -76,7 +76,7 @@ namespace Shortcut
             return RemakeStringWithReplacingKeywords(Arguments, targetNode);
         }
 
-        public TreeNode GetAsTreeNode()
+        public TreeNode ToTreeNode()
         {
             TreeNode node = new TreeNode();
             node.Name = node.Text = Name;
