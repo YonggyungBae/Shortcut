@@ -6,8 +6,6 @@ D:\Shortcut\bin\Debug\Microsoft.WindowsAPICodePack.dll
 D:\Shortcut\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
 D:\Shortcut\bin\Debug\AutoUpdater.NET.pdb
 D:\Shortcut\bin\Debug\AutoUpdater.NET.xml
-D:\Shortcut\bin\Debug\Microsoft.WindowsAPICodePack.xml
-D:\Shortcut\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
 D:\Shortcut\obj\Debug\Shortcut.FrmMain.resources
 D:\Shortcut\obj\Debug\Shortcut.FrmInputDialog.resources
 D:\Shortcut\obj\Debug\Shortcut.Options.resources
@@ -18,9 +16,9 @@ D:\Shortcut\obj\Debug\Shortcut.csproj.CopyComplete
 D:\Shortcut\obj\Debug\Shortcut.exe
 D:\Shortcut\obj\Debug\Shortcut.pdb
 D:\Shortcut\obj\Debug\Shortcut.frmAbout.resources
-D:\Shortcut\obj\Debug\Shortcut.csprojAssemblyReference.cache
 D:\Shortcut\bin\Debug\Shortcut.exe.manifest
 D:\Shortcut\bin\Debug\Shortcut.application
 D:\Shortcut\obj\Debug\Shortcut.TrustInfo.xml
 D:\Shortcut\obj\Debug\Shortcut.exe.manifest
 D:\Shortcut\obj\Debug\Shortcut.application
+D:\Shortcut\obj\Debug\Shortcut.csprojAssemblyReference.cache

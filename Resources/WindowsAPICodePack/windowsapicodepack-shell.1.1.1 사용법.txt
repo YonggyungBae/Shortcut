@@ -1,7 +1,7 @@
 Visual Studio 2017 기준으로 상단 메뉴의 [도구(T) → Nuget 패키지 관리자(N) → 패키지 관리자 콘솔(O)]을 실행한 다음 아래 명령어를 입력합니다.
 
+PM> Install-Package Microsoft.WindowsAPICodePack.Shell -Version 1.1.0
 PM> Install-Package WindowsAPICodePack-Shell -Version 1.1.1
-
 
 설치가 완료되면 다음과 같이 코딩을 진행합니다.
 

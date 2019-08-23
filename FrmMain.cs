@@ -89,7 +89,7 @@ namespace Shortcut
             RegisterHotKeyGlobal();
         }
 
-        //============================== Hot Key ==============================//
+        //============================== Global Hot Key ==============================//
         #region Global Hot Key
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
@@ -123,50 +123,6 @@ namespace Shortcut
         }
         #endregion
 
-        #region TreeView Hot Key
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            const int WM_KEYDOWN = 0x100;
-            const int WM_SYSKEYDOWN = 0x104;
-
-            if ((msg.Msg == WM_KEYDOWN) || (msg.Msg == WM_SYSKEYDOWN))
-            {
-                switch (keyData)
-                {
-                    case (Keys.Control | Keys.Up):
-                    case (Keys.Control | Keys.Down):
-                        MoveCmdUpDown(TreeView.SelectedNode, (keyData & Keys.Up) | (keyData & Keys.Down));
-                        SaveTree(TreeView, cfgFileName);
-                        break;
-                    case (Keys.Control | Keys.Left):
-                        MoveCmdLeft(TreeView.SelectedNode);
-                        SaveTree(TreeView, cfgFileName);
-                        break;
-                    case (Keys.Control | Keys.Right):
-                        MoveCmdRight(TreeView.SelectedNode);
-                        SaveTree(TreeView, cfgFileName);
-                        break;
-                    case (Keys.Control | Keys.Home):
-                        while (TreeView.SelectedNode.Parent != null)
-                            TreeView.SelectedNode = TreeView.SelectedNode.Parent;
-                        break;
-                    case (Keys.Control | Keys.Subtract):
-                        TreeNode selectedNode = TreeView.SelectedNode;
-                        TreeView.CollapseAll();
-                        TreeView.SelectedNode = GotoNode_TopParent(selectedNode);
-                        break;
-                    case (Keys.Control | Keys.Alt | Keys.NumPad3):
-                        FrmMain_InitSizeAndLocation();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-        #endregion  // TreeView Hot Key
-
         //============================== Key Event ==============================//
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
         {
@@ -178,14 +134,66 @@ namespace Shortcut
 
         private void TreeView_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            switch (e.KeyData)
             {
-                RunCmd(TreeView.SelectedNode);
-                e.Handled = true;
-            }
-            else
-            {
-                e.Handled = false;
+                case (Keys.Enter):
+                    RunCmd(TreeView.SelectedNode);
+                    e.Handled = true;
+                    break;
+                case (Keys.Control | Keys.Up):
+                case (Keys.Control | Keys.Down):
+                    MoveCmdUpDown(TreeView.SelectedNode, (e.KeyData & Keys.Up) | (e.KeyData & Keys.Down));
+                    SaveTree(TreeView, cfgFileName);
+                    e.Handled = true;
+                    break;
+                case (Keys.Control | Keys.Left):
+                    MoveCmdLeft(TreeView.SelectedNode);
+                    SaveTree(TreeView, cfgFileName);
+                    e.Handled = true;
+                    break;
+                case (Keys.Control | Keys.Right):
+                    MoveCmdRight(TreeView.SelectedNode);
+                    SaveTree(TreeView, cfgFileName);
+                    e.Handled = true;
+                    break;
+                case (Keys.Control | Keys.Home):
+                    while (TreeView.SelectedNode.Parent != null)
+                        TreeView.SelectedNode = TreeView.SelectedNode.Parent;
+                    e.Handled = true;
+                    break;
+                case (Keys.Alt | Keys.Up):
+                    TreeView.SelectedNode = GotoNode_PrevNodeOrParentPrevNode(TreeView.SelectedNode);
+                    e.Handled = true;
+                    break;
+                case (Keys.Alt | Keys.Down):
+                    TreeView.SelectedNode = GotoNode_LastNodeOrParentNextNode(TreeView.SelectedNode);
+                    e.Handled = true;
+                    break;
+                case (Keys.Alt | Keys.Right):
+                    TreeView.SelectedNode.ExpandAll();
+                    e.Handled = true;
+                    break;
+                case (Keys.Alt | Keys.Left):
+                    TreeView.SelectedNode.Collapse();
+                    e.Handled = true;
+                    break;
+                case (Keys.Alt | Keys.Shift | Keys.Left):
+                    TreeNode selectedNode = TreeView.SelectedNode;
+                    TreeView.CollapseAll();
+                    TreeView.SelectedNode = GotoNode_TopParent(selectedNode);
+                    e.Handled = true;
+                    break;
+                case (Keys.Alt | Keys.Shift | Keys.Right):
+                    TreeView.ExpandAll();
+                    e.Handled = true;
+                    break;
+                case (Keys.Control | Keys.Alt | Keys.NumPad3):
+                    FrmMain_InitSizeAndLocation();
+                    e.Handled = true;
+                    break;
+                default:
+                    e.Handled = false;
+                    break;
             }
         }
 
