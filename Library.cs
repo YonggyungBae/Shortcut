@@ -264,35 +264,32 @@ namespace Shortcut
         public TreeNode GotoNode_PrevNodeOrParentPrevNode(TreeNode cmd)
         {
             if (cmd.Parent != null)
+                return cmd.Parent;
+            else
             {
                 if (cmd.PrevNode != null)
-                    return cmd.Parent.FirstNode;
-                if (cmd.Parent.PrevNode != null)
-                    return cmd.Parent.PrevNode;
+                    return cmd.PrevNode;
                 else
-                    return GotoNode_PrevNodeOrParentPrevNode(cmd.Parent);
+                    return cmd;
             }
-            else if (cmd.PrevNode != null)
-                return cmd.PrevNode;
-            else
-                return cmd;
         }
 
         public TreeNode GotoNode_LastNodeOrParentNextNode(TreeNode cmd)
         {
             if (cmd.Parent != null)
             {
-                if (cmd.NextNode != null)
-                    return cmd.Parent.LastNode;
                 if (cmd.Parent.NextNode != null)
                     return cmd.Parent.NextNode;
                 else
                     return GotoNode_LastNodeOrParentNextNode(cmd.Parent);
             }
-            else if (cmd.NextNode != null)
-                return cmd.NextNode;
             else
-                return cmd;
+            {
+                if (cmd.NextNode != null)
+                    return cmd.NextNode;
+                else
+                    return cmd;
+            }
         }
         #endregion
 
