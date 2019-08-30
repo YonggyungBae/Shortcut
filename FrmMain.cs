@@ -36,7 +36,8 @@ namespace Shortcut
         private MovingCmdPosition movingNodePositionBackup;
         private MouseButtons mouseButtons = MouseButtons.Left;
         private Options options = new Options();
-
+        private bool nodeDoubleClicked = false;
+        
         //============================== Form Load ==============================//
         public FrmMain()
         {
@@ -198,6 +199,15 @@ namespace Shortcut
         }
 
         //============================== Mouse Event ==============================//
+        private void TreeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            foreach (TreeNode cmd in TreeView.Nodes)
+            {
+                if ((cmd != e.Node) && (e.Node.Parent == null))
+                    cmd.Collapse();
+            }
+        }
+
         private void TreeView_MouseDown(object sender, MouseEventArgs e)
         {
             mouseButtons = e.Button;
@@ -216,9 +226,21 @@ namespace Shortcut
             }
         }
 
+        private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            var clickedItem = TreeView.HitTest(e.Location);
+            if (clickedItem.Location == TreeViewHitTestLocations.PlusMinus)
+            {   // [+] clicked
+            }
+            else
+                e.Node.Expand();
+            
+        }
+
         private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if(sender != null)
+            nodeDoubleClicked = true;
+            if (sender != null)
             {
                 RunCmd(TreeView.SelectedNode);
             }
@@ -290,24 +312,6 @@ namespace Shortcut
             TreeView.Refresh();
         }
 
-        private void TreeView_MouseClick(object sender, MouseEventArgs e)
-        {
-            var clickedItem = TreeView.HitTest(e.Location);
-            if (clickedItem.Location == TreeViewHitTestLocations.PlusMinus)
-            {
-                // [+] clicked
-            }
-            else
-            {
-                clickedItem.Node.Expand();
-                foreach (TreeNode cmd in TreeView.Nodes)
-                {
-                    if ((cmd != clickedItem.Node) && (clickedItem.Node.Parent == null))
-                        cmd.Collapse();
-                }
-            }
-        }
-
         private void TreeView_DragOver(object sender, DragEventArgs e)
         {
             TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
@@ -359,6 +363,15 @@ namespace Shortcut
             if (targetCmd != null)
                 targetCmd.Expand();
             tmrNodeOver.Stop();
+        }
+
+        private void TreeView_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+        {
+            if (nodeDoubleClicked)
+            {
+                nodeDoubleClicked = false;
+                e.Cancel = true;
+            }
         }
     }
 }
