@@ -21,4 +21,5 @@ D:\Shortcut\bin\Debug\Shortcut.application
 D:\Shortcut\obj\Debug\Shortcut.TrustInfo.xml
 D:\Shortcut\obj\Debug\Shortcut.exe.manifest
 D:\Shortcut\obj\Debug\Shortcut.application
+D:\Shortcut\obj\Debug\Shortcut.FrmSplash.resources
 D:\Shortcut\obj\Debug\Shortcut.csprojAssemblyReference.cache

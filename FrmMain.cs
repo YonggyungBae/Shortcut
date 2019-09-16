@@ -37,33 +37,55 @@ namespace Shortcut
         private MouseButtons mouseButtons = MouseButtons.Left;
         private Options options = new Options();
         private bool nodeDoubleClicked = false;
-        
+        private bool IsTopParentClicked = false;
+        FrmSplash splash = new FrmSplash();
+
+
         //============================== Form Load ==============================//
         public FrmMain()
         {
             InitializeComponent();
+            splash.Visible = true;
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            int progressBar = 10;
+
             AutoUpdater.Start("https://raw.githubusercontent.com/yg-bae/Shortcut/master/Resources/Version.xml");
 
             LoadTree(TreeView, cfgFileName);
+            splash.Step(progressBar);
+            splash.Refresh();
 
             // Icon Init.
             TreeView.ImageList = iconList;
             iconList.Images.Add("Folder", DefaultIcons.FolderLarge);
             iconList.Images.Add("Warning", SystemIcons.Error);
             iconList.Images.Add("Shortcut", this.Icon);
+
             foreach (TreeNode node in TreeView.Nodes)
             {
+                progressBar = 10 + (int)((double)node.Index / (double)TreeView.Nodes.Count * (double)50);
+                splash.Step(progressBar);
+                splash.Refresh();
                 node.ForeColor = topCmdColor;
                 SetNodeIconRecursive(node);
             }
-
+            splash.Step(70);
             Option_Apply_ShowInTaskbar();
+            splash.Step(80);
             RegisterHotKeyGlobal();
+            splash.Step(90);
             FrmMain_InitSizeAndLocation();
+            splash.Step(100);
+            System.Threading.Thread.Sleep(1000);
+
+            Show();
+            BringToFront();
+            Activate();
+
+            splash.Close();
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -171,10 +193,16 @@ namespace Shortcut
                     e.Handled = true;
                     break;
                 case (Keys.Alt | Keys.Right):
-                    TreeView.SelectedNode.ExpandAll();
+                    if (TreeView.SelectedNode.IsExpanded)
+                        TreeView.SelectedNode = TreeView.SelectedNode.FirstNode;
+                    else
+                        TreeView.SelectedNode.ExpandAll();
                     e.Handled = true;
                     break;
                 case (Keys.Alt | Keys.Left):
+                    if ((TreeView.SelectedNode.IsExpanded == false) && (TreeView.SelectedNode.Parent != null))
+                        TreeView.SelectedNode = TreeView.SelectedNode.Parent;
+
                     TreeView.SelectedNode.Collapse();
                     e.Handled = true;
                     break;
@@ -199,15 +227,6 @@ namespace Shortcut
         }
 
         //============================== Mouse Event ==============================//
-        private void TreeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
-        {
-            foreach (TreeNode cmd in TreeView.Nodes)
-            {
-                if ((cmd != e.Node) && (e.Node.Parent == null))
-                    cmd.Collapse();
-            }
-        }
-
         private void TreeView_MouseDown(object sender, MouseEventArgs e)
         {
             mouseButtons = e.Button;
@@ -228,13 +247,16 @@ namespace Shortcut
 
         private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            IsTopParentClicked = false;
             var clickedItem = TreeView.HitTest(e.Location);
             if (clickedItem.Location == TreeViewHitTestLocations.PlusMinus)
             {   // [+] clicked
             }
             else
+            {
+                IsTopParentClicked = true;
                 e.Node.Expand();
-            
+            }            
         }
 
         private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -243,6 +265,28 @@ namespace Shortcut
             if (sender != null)
             {
                 RunCmd(TreeView.SelectedNode);
+            }
+        }
+
+        private void TreeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            if (IsTopParentClicked)
+            {
+                foreach (TreeNode cmd in TreeView.Nodes)
+                {
+                    if ((cmd != e.Node) && (e.Node.Parent == null))
+                        cmd.Collapse();
+                }
+                IsTopParentClicked = false;
+            }
+        }
+
+        private void TreeView_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+        {
+            if (nodeDoubleClicked)
+            {
+                nodeDoubleClicked = false;
+                e.Cancel = true;
             }
         }
 
@@ -363,15 +407,6 @@ namespace Shortcut
             if (targetCmd != null)
                 targetCmd.Expand();
             tmrNodeOver.Stop();
-        }
-
-        private void TreeView_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
-        {
-            if (nodeDoubleClicked)
-            {
-                nodeDoubleClicked = false;
-                e.Cancel = true;
-            }
         }
     }
 }

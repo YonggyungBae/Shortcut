@@ -139,6 +139,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="FrmSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSplash.Designer.cs">
+      <DependentUpon>FrmSplash.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
@@ -161,6 +167,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="FrmSplash.resx">
+      <DependentUpon>FrmSplash.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -199,10 +208,12 @@
     <Content Include="Resources\Icon\Config.ico" />
     <Content Include="Resources\Icon\ExclamationMark.png" />
     <Content Include="Resources\Icon\Exit.ico" />
+    <Content Include="Resources\Icon\Shortcut Title.png" />
     <Content Include="Resources\Inno Setup Scripts - Shortcut.iss" />
     <Content Include="Resources\License.txt" />
     <Content Include="Resources\Icon\Question.png" />
     <Content Include="Resources\Icon\Shortcut.png" />
+    <None Include="Resources\Title.bmp" />
     <Content Include="Resources\Version.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
