@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Shortcut
 {
-    public class Command
+    public class Command : TreeNode
     {
         public enum Elements
         {
@@ -18,10 +18,9 @@ namespace Shortcut
             ARGUMENTS
         }
 
-        private const string Checked = "Checked";
-        private const string Unchecked = "Unchecked";
+        private const string strChecked = "Checked";
+        private const string strUnchecked = "Unchecked";
 
-        public string Name { get; set; } = null;
         public bool Run { get; set; } = false;
         public string Path { get; set; } = null;
         public string Arguments { get; set; } = null;
@@ -29,7 +28,7 @@ namespace Shortcut
         #region Constructors 
         public Command(string name = null, bool run = false, string path = null, string arguments = null)
         {
-            Name = name;
+            Text = Name = name;
             Run = run;
             Path = path;
             Arguments = arguments;
@@ -41,14 +40,14 @@ namespace Shortcut
                 return;
             else if (node.Tag == null)
             {
-                Name = node.Name;
+                Text = Name = node.Name;
             }
             else
             {
                 try
                 {
                     Dictionary<string, string> cmdDict = (Dictionary<string, string>)node.Tag;
-                    Name = node.Name;
+                    Text = Name = node.Name;
                     Run = (cmdDict["Run"] == "Checked");
                     Path = cmdDict["Path"];
                     Arguments = cmdDict["Arguments"];
@@ -57,8 +56,8 @@ namespace Shortcut
                 {
                     // TreeView를 SaveTree할 때 Command Obj는 node의 tag로 save가 안되어서 Dictionary로 저장함
                     Dictionary<Elements, string> cmdDict = (Dictionary<Elements, string>)node.Tag;
-                    Name = node.Name;
-                    Run = (cmdDict[Elements.RUN] == Checked);
+                    Text = Name = node.Name;
+                    Run = (cmdDict[Elements.RUN] == strChecked);
                     Path = cmdDict[Elements.PATH];
                     Arguments = cmdDict[Elements.ARGUMENTS];
                 }
@@ -88,7 +87,7 @@ namespace Shortcut
         {
             Dictionary<Elements, string> cmdDict = new Dictionary<Elements, string>();
             cmdDict[Elements.NAME] = Name;
-            cmdDict[Elements.RUN] = (Run) ? Checked : Unchecked;
+            cmdDict[Elements.RUN] = (Run) ? strChecked : strUnchecked;
             cmdDict[Elements.PATH] = Path;
             cmdDict[Elements.ARGUMENTS] = Arguments;
             return cmdDict;
