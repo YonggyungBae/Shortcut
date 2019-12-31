@@ -1,4 +1,6 @@
-﻿namespace Shortcut.Properties {
+﻿using System.Drawing;
+
+namespace Shortcut.Properties {
     
     
     // 이 클래스를 사용하여 설정 클래스에 대한 특정 이벤트를 처리할 수 있습니다.
@@ -16,7 +18,7 @@
             // this.SettingsSaving += this.SettingsSavingEventHandler;
             //
         }
-        
+
         private void SettingChangingEventHandler(object sender, System.Configuration.SettingChangingEventArgs e) {
             
         }

@@ -58,7 +58,7 @@
             // 
             this.TxtCmdBox.BackColor = System.Drawing.Color.Black;
             this.TxtCmdBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.TxtCmdBox.Font = new System.Drawing.Font("Malgun Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TxtCmdBox.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TxtCmdBox.ForeColor = System.Drawing.Color.White;
             this.TxtCmdBox.Location = new System.Drawing.Point(3, 20);
             this.TxtCmdBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -69,7 +69,7 @@
             // BtnRun
             // 
             this.BtnRun.Dock = System.Windows.Forms.DockStyle.Right;
-            this.BtnRun.Location = new System.Drawing.Point(259, 20);
+            this.BtnRun.Location = new System.Drawing.Point(300, 20);
             this.BtnRun.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BtnRun.MaximumSize = new System.Drawing.Size(75, 29);
             this.BtnRun.MinimumSize = new System.Drawing.Size(75, 29);
@@ -86,13 +86,13 @@
             this.TreeView.BackColor = System.Drawing.Color.Black;
             this.TreeView.ContextMenuStrip = this.contextMenuTreeView;
             this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TreeView.Font = new System.Drawing.Font("Malgun Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TreeView.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TreeView.ForeColor = System.Drawing.Color.White;
             this.TreeView.HideSelection = false;
             this.TreeView.Location = new System.Drawing.Point(3, 20);
             this.TreeView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TreeView.Name = "TreeView";
-            this.TreeView.Size = new System.Drawing.Size(331, 384);
+            this.TreeView.Size = new System.Drawing.Size(372, 350);
             this.TreeView.TabIndex = 0;
             this.TreeView.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView_BeforeCollapse);
             this.TreeView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeView_BeforeExpand);
@@ -142,12 +142,11 @@
             this.GrpCmdBox.Controls.Add(this.TxtCmdBox);
             this.GrpCmdBox.Controls.Add(this.BtnRun);
             this.GrpCmdBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.GrpCmdBox.Enabled = false;
             this.GrpCmdBox.Location = new System.Drawing.Point(3, 20);
             this.GrpCmdBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GrpCmdBox.Name = "GrpCmdBox";
             this.GrpCmdBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 44);
-            this.GrpCmdBox.Size = new System.Drawing.Size(337, 64);
+            this.GrpCmdBox.Size = new System.Drawing.Size(378, 64);
             this.GrpCmdBox.TabIndex = 0;
             this.GrpCmdBox.TabStop = false;
             this.GrpCmdBox.Text = "Command";
@@ -162,7 +161,7 @@
             this.GrpBackgroundBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GrpBackgroundBox.Name = "GrpBackgroundBox";
             this.GrpBackgroundBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.GrpBackgroundBox.Size = new System.Drawing.Size(343, 496);
+            this.GrpBackgroundBox.Size = new System.Drawing.Size(384, 462);
             this.GrpBackgroundBox.TabIndex = 0;
             this.GrpBackgroundBox.TabStop = false;
             // 
@@ -175,7 +174,7 @@
             this.GrpCmdTree.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GrpCmdTree.Name = "GrpCmdTree";
             this.GrpCmdTree.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.GrpCmdTree.Size = new System.Drawing.Size(337, 408);
+            this.GrpCmdTree.Size = new System.Drawing.Size(378, 374);
             this.GrpCmdTree.TabIndex = 1;
             this.GrpCmdTree.TabStop = false;
             // 
@@ -239,9 +238,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 496);
+            this.ClientSize = new System.Drawing.Size(384, 462);
             this.Controls.Add(this.GrpBackgroundBox);
-            this.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

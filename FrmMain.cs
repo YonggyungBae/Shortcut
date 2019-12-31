@@ -77,7 +77,7 @@ namespace Shortcut
             splash.Step(80);
             RegisterHotKeyGlobal();
             splash.Step(90);
-            FrmMain_InitSizeAndLocation();
+            FrmMain_SizeAndLocationLoad();
             splash.Step(100);
             System.Threading.Thread.Sleep(1000);
 
@@ -91,17 +91,46 @@ namespace Shortcut
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             //e.Cancel = true;
+            FrmMain_SizeAncLocationSave();
             NotifyIcon.Dispose();
             UnregisterHotKey(this.Handle, 0);
         }
 
-        private void FrmMain_InitSizeAndLocation()
+        private void FrmMain_SetDefaultSizeAndLocation()
         {
             Rectangle workingArea = Screen.GetWorkingArea(this);
             this.Width = (int)(workingArea.Size.Width * 0.15);
             this.Height = (int)(workingArea.Size.Height * 0.6);
             this.Location = new Point(workingArea.Right - Size.Width,
                                       workingArea.Bottom - Size.Height);
+        }
+
+        private void FrmMain_SizeAndLocationLoad()
+        {
+            this.Size = Properties.Settings.Default.FrmSize;
+            Rectangle workingArea = Screen.GetWorkingArea(this);
+            int newLocationX = Properties.Settings.Default.FrmLocation.X;
+            int newLocationY = Properties.Settings.Default.FrmLocation.Y;
+
+            // 화면 밖에 배치되는 경우
+            if ((newLocationX + this.Size.Width) > workingArea.Right)   // 화면 오른쪽 끝을 넘어가는 경우
+                newLocationX = workingArea.Right - this.Size.Width;
+            else if (newLocationX < 0)  // 화면 왼쪽 끝을 넘어가는 경우
+                newLocationX = 0;
+
+            if ((newLocationY + this.Size.Height) > workingArea.Bottom) // 화면 아래 끝을 넘어가는 경우
+                newLocationY = workingArea.Bottom - this.Size.Height;
+            else if (newLocationY < 0)  // 화면 위쪽 끝을 넘어가는 경우
+                newLocationY = 0;
+
+            this.Location = new Point(newLocationX, newLocationY);
+        }
+
+        private void FrmMain_SizeAncLocationSave()
+        {
+            Properties.Settings.Default.FrmSize = this.Size;
+            Properties.Settings.Default.FrmLocation = this.Location;
+            Properties.Settings.Default.Save(); // Settings 값이 바뀌고 나면 꼭 Save() 해 주어야 함
         }
 
         private void Option_Apply_ShowInTaskbar()
@@ -217,7 +246,7 @@ namespace Shortcut
                     e.Handled = true;
                     break;
                 case (Keys.Control | Keys.Alt | Keys.NumPad3):
-                    FrmMain_InitSizeAndLocation();
+                    FrmMain_SetDefaultSizeAndLocation();
                     e.Handled = true;
                     break;
                 default:

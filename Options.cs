@@ -29,6 +29,7 @@ namespace Shortcut
         private void BtnApply_Click(object sender, EventArgs e)
         {
             Options_Save();
+            
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
@@ -42,7 +43,7 @@ namespace Shortcut
             Properties.Settings.Default.optMinimizeToTrayAfterRun = chkMinimizeToTrayAfterRun.Checked;
             Properties.Settings.Default.optMinimizeToTrayPressEsc = chkMinimizeToTrayPressEsc.Checked;
 
-            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Save(); // Settings 값이 바뀌고 나면 꼭 Save() 해 주어야 함
         }
 
         private void Options_Load()
