@@ -176,6 +176,31 @@ namespace Shortcut
             }
         }
 
+        private void InsertCmd(TreeView targetTree, TreeNode targetCmd, TreeNode insertCmd, MovingCmdPosition insertNodePosition)
+        {
+            if(targetCmd == null)
+            {
+                TreeView.Nodes.Add(targetCmd);
+            }
+            else
+            {
+                TreeNodeCollection targetParentCmd = (targetCmd.Parent == null) ? targetTree.Nodes : targetCmd.Parent.Nodes;
+
+                switch (insertNodePosition)
+                {
+                    case MovingCmdPosition.UPPER:
+                        targetParentCmd.Insert(targetCmd.Index, insertCmd);
+                        break;
+                    case MovingCmdPosition.MIDDLE:
+                        targetCmd.Nodes.Add(insertCmd);
+                        break;
+                    case MovingCmdPosition.LOWER:
+                        targetParentCmd.Insert(targetCmd.Index + 1, insertCmd);
+                        break;
+                }
+            }
+        }
+
         private MovingCmdPosition GetMovingCmdPositionOnTheTargetCmd(TreeNode targetCmd, int cursorY)
         {
             int OffsetY = cursorY - targetCmd.Bounds.Top;

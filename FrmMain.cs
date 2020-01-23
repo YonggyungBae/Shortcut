@@ -69,7 +69,6 @@ namespace Shortcut
                 progressBar = 10 + (int)((double)node.Index / (double)TreeView.Nodes.Count * (double)50);
                 splash.Step(progressBar);
                 splash.Refresh();
-                node.ForeColor = topCmdColor;
                 SetNodeIconRecursive(node);
             }
             splash.Step(70);
@@ -249,6 +248,10 @@ namespace Shortcut
                     FrmMain_SetDefaultSizeAndLocation();
                     e.Handled = true;
                     break;
+                case Keys.Apps:
+                    // 아직 구현 안됨
+                    e.Handled = true;
+                    break;
                 default:
                     e.Handled = false;
                     break;
@@ -335,7 +338,7 @@ namespace Shortcut
 
         private void TreeView_DragDrop(object sender, DragEventArgs e)
         {
-            TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
+            TreeNode targetCmd = TreeView.SelectedNode;
 
             this.Activate();
 
@@ -356,28 +359,16 @@ namespace Shortcut
                 TreeNode movingNode = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
                 TreeNode clonedNode = (TreeNode)movingNode.Clone();
 
-                if (mouseButtons == MouseButtons.Right)
-                    clonedNode.Name = clonedNode.Text = clonedNode.Name + " - Copy";
+                if (movingNode.IsExpanded)  clonedNode.Expand();
 
-                if (targetCmd != movingNode)
+                if (mouseButtons == MouseButtons.Right) clonedNode.Name = clonedNode.Text = clonedNode.Name + " - Copy";
+
+                if ( (targetCmd != movingNode)  // 자기가 자기에게 drop될 수 없다.
+                    && (targetCmd.Level <= movingNode.Level) )  // 자기 자식에게 drop될 수 없다.
                 {
-                    bool isMovingCmdExpanded = movingNode.IsExpanded;
-
-                    if (targetCmd == null)
-                    {
-                        TreeView.Nodes.Add(clonedNode);
-                    }
-                    else
-                    {
-                        InsertCmd(TreeView, targetCmd, clonedNode, TreeView.PointToClient(Cursor.Position).Y);
-                    }
-
-                    if (mouseButtons != MouseButtons.Right)
-                        movingNode.Remove();
-
-                    clonedNode.ForeColor = (clonedNode.Parent == null) ? topCmdColor : normalCmdColor;
+                    InsertCmd(TreeView, targetCmd, clonedNode, GetMovingCmdPositionOnTheTargetCmd(targetCmd, TreeView.PointToClient(Cursor.Position).Y));
+                    if (mouseButtons != MouseButtons.Right) movingNode.Remove();
                     TreeView.SelectedNode = clonedNode;
-                    if (isMovingCmdExpanded) TreeView.SelectedNode.Expand();
                     SaveTree(TreeView, cfgFileName);
                 }
             }
@@ -398,9 +389,13 @@ namespace Shortcut
                 else
                 {
                     MovingCmdPosition movingCmdPosition = GetMovingCmdPositionOnTheTargetCmd(targetCmd, TreeView.PointToClient(Cursor.Position).Y);
-
-                    if (movingNodePositionBackup != movingCmdPosition) TreeView.Refresh();
-                    movingNodePositionBackup = movingCmdPosition;
+                    
+                    if (movingNodePositionBackup != movingCmdPosition)
+                    {
+                        TreeView.Refresh();   // Node를 drag 할 때 화면이 깜박이는 것을 방지하기 위해서 node의 위치가 MovingCmdPosition에 준해서 바뀔 때에만 Refresh 한다.
+                        movingNodePositionBackup = movingCmdPosition;
+                        TreeView.SelectedNode = targetCmd;
+                    }
 
                     if (movingCmdPosition == MovingCmdPosition.MIDDLE)
                     {
@@ -416,6 +411,7 @@ namespace Shortcut
                     }
                     else
                     {
+                        tmrNodeOver.Stop();
                         DrawPlaceholder(targetCmd, movingCmdPosition);
                     }
                 }

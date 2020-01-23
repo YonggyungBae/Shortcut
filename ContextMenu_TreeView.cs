@@ -54,7 +54,6 @@ namespace Shortcut
                 if (NodeOver == null)
                 {
                     TreeView.Nodes.Add(newNode);
-                    newNode.ForeColor = (newNode.Parent == null) ? topCmdColor : normalCmdColor;
                 }
                 else
                 {
