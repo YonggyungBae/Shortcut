@@ -21,6 +21,7 @@ namespace Shortcut
             PATH_VALID,
             PATH_INVALID
         };
+        enum SearchDirections { TO_PARENT, TO_CHILD, TO_BOTH };
 
         #region Command Control
         public Command SetProperRunState(Command cmd)
@@ -211,6 +212,58 @@ namespace Shortcut
                 return MovingCmdPosition.MIDDLE;
             else
                 return MovingCmdPosition.LOWER;
+        }
+
+        private void SearchCmd_Tree(TreeView targetTree, string name)
+        {/*
+            TreeNode[] tn = targetTree.Nodes[0].Nodes.Find(name, true);
+            if (tn == null)
+            {
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < tn.Length; i++)
+                {
+                    targetTree.SelectedNode = tn[i];
+                    targetTree.SelectedNode.BackColor = Color.Yellow;
+                }
+            }
+	    */
+        }
+
+        private TreeNode SearchCmd_ToChildNode(TreeNode targetNode, string name)
+        {
+            if(targetNode.Name != name)
+            {
+                foreach (Command childCmd in targetNode.Nodes)
+                {
+                    if (childCmd.Name == name)
+                        return childCmd.ToTreeNode();
+                    else
+                        return SearchCmd_ToChildNode(childCmd, name);
+                }
+	        	return null;
+            }
+	        else
+            {
+                return targetNode;
+            }
+        }
+
+        private TreeNode SearchCmd_ToParentsNode(TreeNode targetNode, string name)
+        {
+            if (targetNode.Name != name)
+            {
+                if (targetNode.Parent != null)
+                    return SearchCmd_ToParentsNode(targetNode.Parent, name);
+                else
+                    return null;
+            }
+            else
+            {
+                return targetNode;
+            }
         }
 
         private void MoveCmdUpDown(TreeNode cmd, Keys dirKey)

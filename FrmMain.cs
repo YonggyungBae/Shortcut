@@ -364,7 +364,7 @@ namespace Shortcut
                 if (mouseButtons == MouseButtons.Right) clonedNode.Name = clonedNode.Text = clonedNode.Name + " - Copy";
 
                 if ( (targetCmd != movingNode)  // 자기가 자기에게 drop될 수 없다.
-                    && (targetCmd.Level <= movingNode.Level) )  // 자기 자식에게 drop될 수 없다.
+                    && (SearchCmd_ToParentsNode(targetCmd, movingNode.Name) == null))  // 자기 자식에게 drop될 수 없다.
                 {
                     InsertCmd(TreeView, targetCmd, clonedNode, GetMovingCmdPositionOnTheTargetCmd(targetCmd, TreeView.PointToClient(Cursor.Position).Y));
                     if (mouseButtons != MouseButtons.Right) movingNode.Remove();
