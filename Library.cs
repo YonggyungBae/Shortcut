@@ -470,10 +470,18 @@ namespace Shortcut
             }
         }
 
+
         private void SetNodeIconRecursive(TreeNode parentNode)
         {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             Command cmd = new Command(parentNode);
+            watch.Stop();
+            var elapsedTime_Instantiate = watch.ElapsedMilliseconds;
+
+            watch = System.Diagnostics.Stopwatch.StartNew();
             parentNode.SelectedImageKey = parentNode.ImageKey = SelectIcon(cmd.GetAbsolutePath(parentNode));
+            watch.Stop();
+            var elapsedTime_ExtractIcon = watch.ElapsedMilliseconds;
 
             foreach (TreeNode oSubNode in parentNode.Nodes)
             {
@@ -481,6 +489,27 @@ namespace Shortcut
             }
         }
         #endregion
+
+        private List<TreeNode> GetAllNodes(TreeView _self)
+        {
+            List<TreeNode> result = new List<TreeNode>();
+            foreach (TreeNode child in _self.Nodes)
+            {
+                result.AddRange(GetAllNodes(child));
+            }
+            return result;
+        }
+
+        private List<TreeNode> GetAllNodes(TreeNode _self)
+        {
+            List<TreeNode> result = new List<TreeNode>();
+            result.Add(_self);
+            foreach (TreeNode child in _self.Nodes)
+            {
+                result.AddRange(GetAllNodes(child));
+            }
+            return result;
+        }
     }
 
     public static class DefaultIcons

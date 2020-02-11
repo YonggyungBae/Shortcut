@@ -64,13 +64,23 @@ namespace Shortcut
             iconList.Images.Add("Warning", SystemIcons.Error);
             iconList.Images.Add("Shortcut", this.Icon);
 
-            foreach (TreeNode node in TreeView.Nodes)
+            /*foreach (TreeNode node in TreeView.Nodes)
             {
                 progressBar = 10 + (int)((double)node.Index / (double)TreeView.Nodes.Count * (double)50);
                 splash.Step(progressBar);
                 splash.Refresh();
                 SetNodeIconRecursive(node);
+            }*/
+            List<TreeNode> treeNodes = GetAllNodes(TreeView);
+            for(int i = 0; i < treeNodes.Count; i++)
+            {
+                Command cmd = new Command(treeNodes[i]);
+                progressBar = 10 + ((int)((double)i / (double)treeNodes.Count * 100) ) / 2;
+                treeNodes[i].SelectedImageKey = treeNodes[i].ImageKey = SelectIcon(cmd.GetAbsolutePath(treeNodes[i]));
+                splash.Step(progressBar);
+                splash.Refresh();
             }
+            
             splash.Step(70);
             Option_Apply_ShowInTaskbar();
             splash.Step(80);
