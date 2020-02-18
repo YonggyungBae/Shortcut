@@ -50,13 +50,9 @@ namespace Shortcut
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            int progressBar = 10;
-
             AutoUpdater.Start("https://raw.githubusercontent.com/yg-bae/Shortcut/master/Resources/Version.xml");
 
             LoadTree(TreeView, cfgFileName);
-            splash.Step(progressBar);
-            splash.Refresh();
 
             // Icon Init.
             TreeView.ImageList = iconList;
@@ -64,31 +60,19 @@ namespace Shortcut
             iconList.Images.Add("Warning", SystemIcons.Error);
             iconList.Images.Add("Shortcut", this.Icon);
 
-            /*foreach (TreeNode node in TreeView.Nodes)
-            {
-                progressBar = 10 + (int)((double)node.Index / (double)TreeView.Nodes.Count * (double)50);
-                splash.Step(progressBar);
-                splash.Refresh();
-                SetNodeIconRecursive(node);
-            }*/
+            // 처음 loading 할 때 모든 node의 icon을 설정(list 이용)
             List<TreeNode> treeNodes = GetAllNodes(TreeView);
-            for(int i = 0; i < treeNodes.Count; i++)
+            for (int i = 0; i < treeNodes.Count; i++)
             {
                 Command cmd = new Command(treeNodes[i]);
-                progressBar = 10 + ((int)((double)i / (double)treeNodes.Count * 100) ) / 2;
+                splash.Step( (int)((double)i / (double)treeNodes.Count * 100) );
                 treeNodes[i].SelectedImageKey = treeNodes[i].ImageKey = SelectIcon(cmd.GetAbsolutePath(treeNodes[i]));
-                splash.Step(progressBar);
-                splash.Refresh();
+                //splash.Refresh();
             }
-            
-            splash.Step(70);
             Option_Apply_ShowInTaskbar();
-            splash.Step(80);
             RegisterHotKeyGlobal();
-            splash.Step(90);
             FrmMain_SizeAndLocationLoad();
-            splash.Step(100);
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(100);
 
             Show();
             BringToFront();

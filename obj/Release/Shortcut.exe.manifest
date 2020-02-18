@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Shortcut.exe" size="320000">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Shortcut.exe" size="320512">
       <assemblyIdentity name="Shortcut" version="0.5.3.0" publicKeyToken="6E32D543D48C5A93" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>AcdMdUp5eJf2csKOwoQyg/mkw2WGR/oLp+jxVAXrXEg=</dsig:DigestValue>
+        <dsig:DigestValue>yFpwIaFfNL07+e/coJuJp1MR9HoObdRMaZTKQSq3kJ8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

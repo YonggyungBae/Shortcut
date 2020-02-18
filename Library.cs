@@ -439,16 +439,30 @@ namespace Shortcut
             }
             else if (System.IO.File.Exists(path))
             {
+                string extension = Path.GetExtension(path);
+                if(     (extension != ".exe")
+                    &&  (extension != ".ico")
+                    &&  (iconList.Images.ContainsKey(extension) == true) )
+                {
+                    return extension;
+                }
+                    
+
                 try
                 {
-                    ushort uicon;
                     StringBuilder strB = new StringBuilder(260); // Allocate MAX_PATH chars
                     strB.Append(path);
+
+                    /* Icon을 얻는 방법 1
+                    ushort uicon;
                     IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
                     Icon icon = Icon.FromHandle(handle);
-                    //Icon icon = Icon.ExtractAssociatedIcon(path);
-                    iconList.Images.Add(path, icon);
-                    return path;
+                    */
+                    /* Icon을 얻는 방법2 */
+                    Icon icon = Icon.ExtractAssociatedIcon(path);
+
+                    iconList.Images.Add(extension, icon);
+                    return extension;
                 }
                 catch (System.ArgumentException)  // CS0168
                 {
@@ -470,18 +484,20 @@ namespace Shortcut
             }
         }
 
+        private void SetNodeIcon(TreeNode node)
+        {
+            Command cmd = new Command(node);
+            node.SelectedImageKey = node.ImageKey = SelectIcon(cmd.GetAbsolutePath(node));
+        }
 
         private void SetNodeIconRecursive(TreeNode parentNode)
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            //var watch = System.Diagnostics.Stopwatch.StartNew();
             Command cmd = new Command(parentNode);
-            watch.Stop();
-            var elapsedTime_Instantiate = watch.ElapsedMilliseconds;
+            //watch.Stop();
+            //var elapsedTime_Instantiate = watch.ElapsedMilliseconds;
 
-            watch = System.Diagnostics.Stopwatch.StartNew();
-            parentNode.SelectedImageKey = parentNode.ImageKey = SelectIcon(cmd.GetAbsolutePath(parentNode));
-            watch.Stop();
-            var elapsedTime_ExtractIcon = watch.ElapsedMilliseconds;
+            SetNodeIcon(parentNode);
 
             foreach (TreeNode oSubNode in parentNode.Nodes)
             {

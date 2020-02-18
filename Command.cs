@@ -46,20 +46,20 @@ namespace Shortcut
             {
                 try
                 {
-                    Dictionary<string, string> cmdDict = (Dictionary<string, string>)node.Tag;
-                    Text = Name = node.Name;
-                    Run = (cmdDict["Run"] == "Checked");
-                    Path = cmdDict["Path"];
-                    Arguments = cmdDict["Arguments"];
-                }
-                catch
-                {
                     // TreeView를 SaveTree할 때 Command Obj는 node의 tag로 save가 안되어서 Dictionary로 저장함
                     Dictionary<Elements, string> cmdDict = (Dictionary<Elements, string>)node.Tag;
                     Text = Name = node.Name;
                     Run = (cmdDict[Elements.RUN] == strChecked);
                     Path = cmdDict[Elements.PATH];
                     Arguments = cmdDict[Elements.ARGUMENTS];
+                }
+                catch
+                {
+                    Dictionary<string, string> cmdDict = (Dictionary<string, string>)node.Tag;
+                    Text = Name = node.Name;
+                    Run = (cmdDict["Run"] == "Checked");
+                    Path = cmdDict["Path"];
+                    Arguments = cmdDict["Arguments"];
                 }
             }
         }
