@@ -439,7 +439,7 @@ namespace Shortcut
             }
             else if (System.IO.File.Exists(path))
             {
-                string extension = Path.GetExtension(path);
+                string extension = Path.GetExtension(path).ToLower();
                 if(     (extension != ".exe")
                     &&  (extension != ".ico")
                     &&  (iconList.Images.ContainsKey(extension) == true) )
@@ -461,8 +461,8 @@ namespace Shortcut
                     /* Icon을 얻는 방법2 */
                     Icon icon = Icon.ExtractAssociatedIcon(path);
 
-                    iconList.Images.Add(extension, icon);
-                    return extension;
+                    iconList.Images.Add(path, icon);
+                    return path;
                 }
                 catch (System.ArgumentException)  // CS0168
                 {
