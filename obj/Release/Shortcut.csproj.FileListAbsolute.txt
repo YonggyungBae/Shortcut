@@ -8,7 +8,6 @@ D:\Shortcut\bin\Release\Microsoft.WindowsAPICodePack.dll
 D:\Shortcut\bin\Release\Microsoft.WindowsAPICodePack.Shell.dll
 D:\Shortcut\bin\Release\AutoUpdater.NET.pdb
 D:\Shortcut\bin\Release\AutoUpdater.NET.xml
-D:\Shortcut\obj\Release\Shortcut.csprojAssemblyReference.cache
 D:\Shortcut\obj\Release\Shortcut.frmAbout.resources
 D:\Shortcut\obj\Release\Shortcut.FrmMain.resources
 D:\Shortcut\obj\Release\Shortcut.FrmInputDialog.resources
@@ -23,3 +22,4 @@ D:\Shortcut\obj\Release\Shortcut.application
 D:\Shortcut\obj\Release\Shortcut.csproj.CopyComplete
 D:\Shortcut\obj\Release\Shortcut.exe
 D:\Shortcut\obj\Release\Shortcut.pdb
+D:\Shortcut\obj\Release\Shortcut.csprojAssemblyReference.cache

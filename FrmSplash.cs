@@ -16,9 +16,12 @@ namespace Shortcut
 
     public partial class FrmSplash : Form
     {
-        public FrmSplash()
+        private int numOfMaxCnt = 0;
+
+        public FrmSplash(int maxCnt = 0)
         {
             InitializeComponent();
+            numOfMaxCnt = maxCnt;
         }
 
         private void FrmSplash_Load(object sender, EventArgs e)
@@ -28,6 +31,12 @@ namespace Shortcut
         public void Step(int i)
         {
             progressBar.Value = i;
+#if DEBUG
+            lblCnt.Text = i.ToString() + " / " + numOfMaxCnt;
+#else
+            lblCnt.Text = i.ToString() + "%";
+#endif
+            lblCnt.Refresh();
         }
     }
 }

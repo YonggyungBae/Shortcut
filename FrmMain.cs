@@ -38,14 +38,13 @@ namespace Shortcut
         private Options options = new Options();
         private bool nodeDoubleClicked = false;
         private bool IsTopParentClicked = false;
-        FrmSplash splash = new FrmSplash();
+        
 
 
         //============================== Form Load ==============================//
         public FrmMain()
         {
             InitializeComponent();
-            splash.Visible = true;
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -62,6 +61,10 @@ namespace Shortcut
 
             // 처음 loading 할 때 모든 node의 icon을 설정(list 이용)
             List<TreeNode> treeNodes = GetAllNodes(TreeView);
+
+            FrmSplash splash = new FrmSplash(treeNodes.Count);
+            splash.Visible = true;
+
             for (int i = 0; i < treeNodes.Count; i++)
             {
                 Command cmd = new Command(treeNodes[i]);
@@ -72,7 +75,8 @@ namespace Shortcut
             Option_Apply_ShowInTaskbar();
             RegisterHotKeyGlobal();
             FrmMain_SizeAndLocationLoad();
-            System.Threading.Thread.Sleep(100);
+            if(treeNodes.Count > 300)   // Node의 개수가 작으면 1초라도 splash 화면을 보여주기 위해.
+                System.Threading.Thread.Sleep(1000);
 
             Show();
             BringToFront();
