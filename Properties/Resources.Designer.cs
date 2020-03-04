@@ -63,9 +63,9 @@ namespace Shortcut.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Shortcut_Title {
+        internal static System.Drawing.Bitmap ShortcutTitle {
             get {
-                object obj = ResourceManager.GetObject("Shortcut Title", resourceCulture);
+                object obj = ResourceManager.GetObject("ShortcutTitle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

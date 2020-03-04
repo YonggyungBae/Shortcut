@@ -46,7 +46,7 @@
             // 
             // picTitle
             // 
-            this.picTitle.BackgroundImage = global::Shortcut.Properties.Resources.Shortcut_Title;
+            this.picTitle.BackgroundImage = global::Shortcut.Properties.Resources.ShortcutTitle;
             this.picTitle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.picTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picTitle.Location = new System.Drawing.Point(0, 0);

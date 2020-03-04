@@ -206,12 +206,14 @@ namespace Shortcut
         {
             int OffsetY = cursorY - targetCmd.Bounds.Top;
 
-            if (OffsetY < (targetCmd.Bounds.Height / 3))
+            if (OffsetY < (targetCmd.Bounds.Height / 3))            // 1/3 지점
                 return MovingCmdPosition.UPPER;
-            else if (OffsetY < (targetCmd.Bounds.Height * 2 / 3))
+            else if (OffsetY < (targetCmd.Bounds.Height * 2 / 3))   // 2/3 지점
                 return MovingCmdPosition.MIDDLE;
-            else
+            else if (OffsetY < targetCmd.Bounds.Height)             // 3/3 지점
                 return MovingCmdPosition.LOWER;
+            else
+                return MovingCmdPosition.MIDDLE;                    // Mouse Pointer와 선택된 노드가 너무 멀리있는 경우 -> Key board로 contextmenu를 open 한 경우
         }
 
         private void SearchCmd_Tree(TreeView targetTree, string name)
@@ -453,15 +455,19 @@ namespace Shortcut
                     StringBuilder strB = new StringBuilder(260); // Allocate MAX_PATH chars
                     strB.Append(path);
 
-                    /* Icon을 얻는 방법 1
-                    ushort uicon;
-                    IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
-                    Icon icon = Icon.FromHandle(handle);
-                    */
+                    /* Icon을 얻는 방법 1 */
+                    //ushort uicon;
+                    //IntPtr handle = ExtractAssociatedIcon(IntPtr.Zero, strB, out uicon);
+                    //Icon icon = Icon.FromHandle(handle);
+
                     /* Icon을 얻는 방법2 */
                     Icon icon = Icon.ExtractAssociatedIcon(path);
 
+                    /* Icon을 얻는 방법3 */
+                    //Icon icon = DefaultIcons.ExtractFromPath(path);
+
                     iconList.Images.Add(path, icon);
+                    
                     return path;
                 }
                 catch (System.ArgumentException)  // CS0168

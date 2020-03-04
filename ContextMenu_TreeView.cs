@@ -33,7 +33,8 @@ namespace Shortcut
         private void ToolStripMenuItem_Add_Click(object sender, EventArgs e)
         {
             Point positionContextmunu = TreeView.PointToClient(contextMenuTreeView.Bounds.Location);
-            TreeNode NodeOver = TreeView.GetNodeAt(positionContextmunu);
+            //TreeNode NodeOver = TreeView.GetNodeAt(positionContextmunu);
+            TreeNode NodeOver = TreeView.SelectedNode;
             FrmInputDialog inputDialog;
 
             if (dragNdropPath != null)
