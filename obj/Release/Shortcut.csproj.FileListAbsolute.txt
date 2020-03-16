@@ -22,4 +22,3 @@ D:\Shortcut\obj\Release\Shortcut.application
 D:\Shortcut\obj\Release\Shortcut.csproj.CopyComplete
 D:\Shortcut\obj\Release\Shortcut.exe
 D:\Shortcut\obj\Release\Shortcut.pdb
-D:\Shortcut\obj\Release\Shortcut.csprojAssemblyReference.cache

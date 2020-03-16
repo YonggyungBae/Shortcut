@@ -23,7 +23,7 @@ namespace Shortcut
         };
         enum SearchDirections { TO_PARENT, TO_CHILD, TO_BOTH };
 
-        #region Command Control
+        #region ============================== Command Control ==============================
         public Command SetProperRunState(Command cmd)
         {
             if (cmd.Path == "") cmd.Run = false;
@@ -102,7 +102,43 @@ namespace Shortcut
             }
         }
 
-        private Command InputCmd(CmdEditType cmdEditType, ref FrmInputDialog inputDialog, TreeNode selectedNode)
+        private void OpenDialog_NodeAdd(Point positionInTreeView)
+        {
+            TreeNode NodeOver = TreeView.SelectedNode;
+            FrmInputDialog inputDialog;
+
+            if (dragNdropPath != null)
+            {
+                Command cmdDragDrop = new Command(Path.GetFileNameWithoutExtension(dragNdropPath), true, dragNdropPath, null);
+                inputDialog = new FrmInputDialog(cmdDragDrop, TreeView);
+            }
+            else
+            {
+                inputDialog = new FrmInputDialog(TreeView);
+            }
+
+            Command cmd = OpenCmdDialog(CmdEditType.ADD, ref inputDialog, NodeOver);
+            if (cmd != null)
+            {
+                TreeNode newNode = cmd.ToTreeNode();
+
+                if (NodeOver == null)
+                {
+                    TreeView.Nodes.Add(newNode);
+                }
+                else
+                {
+                    InsertCmd(TreeView, NodeOver, newNode, positionInTreeView.Y);
+                    NodeOver.Expand();
+                }
+
+                newNode.SelectedImageKey = newNode.ImageKey = SelectIcon(cmd.GetAbsolutePath(NodeOver));
+                SaveTree(TreeView, cfgFileName);
+            }
+            dragNdropPath = null;
+        }
+
+        private Command OpenCmdDialog(CmdEditType cmdEditType, ref FrmInputDialog inputDialog, TreeNode selectedNode)
         {
             while (inputDialog.ShowDialog() == DialogResult.OK)
             {
@@ -166,6 +202,7 @@ namespace Shortcut
                 case MovingCmdPosition.UPPER:
                     targetParentCmd.Insert(targetCmd.Index, insertCmd);
                     break;
+                case MovingCmdPosition.OUTSIDE:
                 case MovingCmdPosition.MIDDLE:
                     targetCmd.Nodes.Add(insertCmd);
                     break;
@@ -193,6 +230,7 @@ namespace Shortcut
                         targetParentCmd.Insert(targetCmd.Index, insertCmd);
                         break;
                     case MovingCmdPosition.MIDDLE:
+                    case MovingCmdPosition.OUTSIDE:
                         targetCmd.Nodes.Add(insertCmd);
                         break;
                     case MovingCmdPosition.LOWER:
@@ -213,7 +251,7 @@ namespace Shortcut
             else if (OffsetY < targetCmd.Bounds.Height)             // 3/3 지점
                 return MovingCmdPosition.LOWER;
             else
-                return MovingCmdPosition.MIDDLE;                    // Mouse Pointer와 선택된 노드가 너무 멀리있는 경우 -> Key board로 contextmenu를 open 한 경우
+                return MovingCmdPosition.OUTSIDE;                    // Mouse Pointer와 선택된 노드가 너무 멀리있는 경우 -> Key board로 contextmenu를 open 한 경우
         }
 
         private void SearchCmd_Tree(TreeView targetTree, string name)
@@ -371,17 +409,61 @@ namespace Shortcut
                     return cmd;
             }
         }
-        #endregion
 
-        #region Tray Control
+        private List<TreeNode> GetAllNodes(TreeView _self)
+        {
+            List<TreeNode> result = new List<TreeNode>();
+            foreach (TreeNode child in _self.Nodes)
+            {
+                result.AddRange(GetAllNodes(child));
+            }
+            return result;
+        }
+
+        private List<TreeNode> GetAllNodes(TreeNode _self)
+        {
+            List<TreeNode> result = new List<TreeNode>();
+            result.Add(_self);
+            foreach (TreeNode child in _self.Nodes)
+            {
+                result.AddRange(GetAllNodes(child));
+            }
+            return result;
+        }
+
+        private void ShowContextMenu(TreeNode node)
+        {
+            Command cmd = new Command(node);
+            string path = cmd.GetAbsolutePath(node);
+            Point position = node.Bounds.Location;
+            position.X = node.Bounds.Right;
+
+            if (File.Exists(path))
+            {
+                ShellContextMenu ctxMnu = new ShellContextMenu();
+                FileInfo[] arrFI = new FileInfo[1];
+                arrFI[0] = new FileInfo(path);
+                ctxMnu.ShowContextMenu(arrFI, TreeView.PointToScreen(position));
+            }
+            else if (Directory.Exists(path))
+            {
+                ShellContextMenu ctxMnu = new ShellContextMenu();
+                DirectoryInfo[] arrFI = new DirectoryInfo[1];
+                arrFI[0] = new DirectoryInfo(path);
+                ctxMnu.ShowContextMenu(arrFI, TreeView.PointToScreen(position));
+            }
+        }
+        #endregion  ============================== Command Control ==============================
+
+        #region ============================== Tray Control ==============================
         private void MinimizeToTray()
         {
             if (options.GetOption_MinimizeToTrayAfterRun() == true)
                 HideForm();
         }
-        #endregion
+        #endregion ============================== Tray Control ==============================
 
-        #region Plance Holder Drawing
+        #region ============================== Plance Holder Drawing ==============================
         private void DrawPlaceholder(TreeNode NodeOver, MovingCmdPosition placeHolderPosition)
         {
             Graphics g = TreeView.CreateGraphics();
@@ -428,9 +510,9 @@ namespace Shortcut
 
             g.FillPolygon(System.Drawing.Brushes.White, RightTriangle);
         }
-        #endregion
+        #endregion ============================== Plance Holder Drawing ==============================
 
-        #region Icon Control
+        #region ============================== Icon Control ==============================
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, StringBuilder lpIconPath, out ushort lpiIcon);
         private string SelectIcon(string path)
@@ -510,28 +592,8 @@ namespace Shortcut
                 SetNodeIconRecursive(oSubNode);
             }
         }
-        #endregion
+        #endregion ============================== Icon Control ==============================
 
-        private List<TreeNode> GetAllNodes(TreeView _self)
-        {
-            List<TreeNode> result = new List<TreeNode>();
-            foreach (TreeNode child in _self.Nodes)
-            {
-                result.AddRange(GetAllNodes(child));
-            }
-            return result;
-        }
-
-        private List<TreeNode> GetAllNodes(TreeNode _self)
-        {
-            List<TreeNode> result = new List<TreeNode>();
-            result.Add(_self);
-            foreach (TreeNode child in _self.Nodes)
-            {
-                result.AddRange(GetAllNodes(child));
-            }
-            return result;
-        }
     }
 
     public static class DefaultIcons

@@ -36,7 +36,8 @@ namespace Shortcut
 #else
             lblCnt.Text = i.ToString() + "%";
 #endif
-            lblCnt.Refresh();
+            //lblCnt.Refresh();
+            this.Refresh();
         }
     }
 }

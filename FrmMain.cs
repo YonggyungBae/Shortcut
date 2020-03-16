@@ -25,7 +25,8 @@ namespace Shortcut
         {
             UPPER,
             MIDDLE,
-            LOWER
+            LOWER,
+            OUTSIDE,
         }
 
         private Color topCmdColor = Color.BlueViolet;
@@ -38,10 +39,8 @@ namespace Shortcut
         private Options options = new Options();
         private bool nodeDoubleClicked = false;
         private bool IsTopParentClicked = false;
-        
 
-
-        //============================== Form Load ==============================//
+        #region ============================== Form Load ==============================
         public FrmMain()
         {
             InitializeComponent();
@@ -137,9 +136,9 @@ namespace Shortcut
             // ShowInTaskbar 값을 바꾸면 RegisterHotKey 다시 해줘야함...이유를 모르겠음.
             RegisterHotKeyGlobal();
         }
+        #endregion ============================== Form Load ==============================
 
-        //============================== Global Hot Key ==============================//
-        #region Global Hot Key
+        #region ============================== Global Hot Key ==============================
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -170,9 +169,9 @@ namespace Shortcut
         {
             RegisterHotKey(this.Handle, (int)HotKeyId.SHOW_FORM, (int)KeyModifier.WinKey, Keys.Y.GetHashCode());
         }
-        #endregion
+        #endregion ============================== Global Hot Key ==============================
 
-        //============================== Key Event ==============================//
+        #region ============================== Key Event ==============================
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
         {
             if ( (e.KeyCode == Keys.Escape) && (Properties.Settings.Default.optMinimizeToTrayPressEsc == true) )
@@ -247,7 +246,7 @@ namespace Shortcut
                     e.Handled = true;
                     break;
                 case Keys.Apps:
-                    // 아직 구현 안됨
+                    ShowContextMenu(TreeView.SelectedNode);
                     e.Handled = true;
                     break;
                 default:
@@ -255,8 +254,9 @@ namespace Shortcut
                     break;
             }
         }
+        #endregion ============================== Key Event ==============================
 
-        //============================== Mouse Event ==============================//
+        #region ============================== Mouse Event ==============================
         private void TreeView_MouseDown(object sender, MouseEventArgs e)
         {
             mouseButtons = e.Button;
@@ -284,8 +284,15 @@ namespace Shortcut
             }
             else
             {
-                IsTopParentClicked = true;
-                e.Node.Expand();
+                if(e.Button == MouseButtons.Right)
+                {
+                    ShowContextMenu(e.Node);
+                }
+                else
+                {
+                    IsTopParentClicked = true;
+                    e.Node.Expand();
+                }
             }            
         }
 
@@ -338,7 +345,7 @@ namespace Shortcut
         {
             TreeNode targetCmd = TreeView.SelectedNode;
 
-            this.Activate();
+            Activate(); // Drag & Drop했을 때 InputDialog가 화면의 가장 앞으로 보일 수 있도록 함.
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))    // File Drag & Drop
             {
@@ -348,7 +355,7 @@ namespace Shortcut
                     if (File.Exists(targetPath) || Directory.Exists(targetPath))
                     {
                         dragNdropPath = targetPath;
-                        contextMenuTreeView.Show(TreeView, TreeView.PointToClient(Cursor.Position));
+		            	OpenDialog_NodeAdd(TreeView.PointToClient(Cursor.Position));
                     }
                 }
             }
@@ -379,43 +386,43 @@ namespace Shortcut
             TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
             TreeNode movingCmd = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
 
-            if (targetCmd != movingCmd)
+            if (targetCmd == null)
             {
-                if (targetCmd == null)
-                {
-                }
-                else
-                {
-                    MovingCmdPosition movingCmdPosition = GetMovingCmdPositionOnTheTargetCmd(targetCmd, TreeView.PointToClient(Cursor.Position).Y);
-                    
-                    if (movingNodePositionBackup != movingCmdPosition)
-                    {
-                        TreeView.Refresh();   // Node를 drag 할 때 화면이 깜박이는 것을 방지하기 위해서 node의 위치가 MovingCmdPosition에 준해서 바뀔 때에만 Refresh 한다.
-                        movingNodePositionBackup = movingCmdPosition;
-                        TreeView.SelectedNode = targetCmd;
-                    }
+                TreeView.SelectedNode = null;
+            }
+            else if (targetCmd != movingCmd)
+            {
+                MovingCmdPosition movingCmdPosition = GetMovingCmdPositionOnTheTargetCmd(targetCmd, TreeView.PointToClient(Cursor.Position).Y);
 
-                    if (movingCmdPosition == MovingCmdPosition.MIDDLE)
+                if (movingNodePositionBackup != movingCmdPosition)
+                {
+                    TreeView.Refresh();   // Node를 drag 할 때 화면이 깜박이는 것을 방지하기 위해서 node의 위치가 MovingCmdPosition에 준해서 바뀔 때에만 Refresh 한다.
+                    movingNodePositionBackup = movingCmdPosition;
+                    TreeView.SelectedNode = targetCmd;
+                }
+
+                if (movingCmdPosition == MovingCmdPosition.MIDDLE)
+                {
+                    if (targetCmd.Nodes.Count > 0)
                     {
-                        if (targetCmd.Nodes.Count > 0)
-                        {
-                            tmrNodeOver.Start();
-                        }
-                        else
-                        {
-                            tmrNodeOver.Stop();
-                            DrawAddToFolderPlaceholder(targetCmd);
-                        }
+                        tmrNodeOver.Start();
                     }
                     else
                     {
                         tmrNodeOver.Stop();
-                        DrawPlaceholder(targetCmd, movingCmdPosition);
+                        DrawAddToFolderPlaceholder(targetCmd);
                     }
+                }
+                else
+                {
+                    tmrNodeOver.Stop();
+                    DrawPlaceholder(targetCmd, movingCmdPosition);
                 }
             }
         }
+        #endregion ============================== Mouse Event ==============================
 
+        #region ============================== Etc ==============================
         private void Timer_Tick(object sender, EventArgs e)
         {
             TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
@@ -431,5 +438,57 @@ namespace Shortcut
                 targetCmd.Expand();
             tmrNodeOver.Stop();
         }
+
+        #endregion ============================== Etc ==============================
+
+        #region ============================== Tool Strip (Menu) ==============================
+        private void ToolItem_Add_Click(object sender, EventArgs e)
+        {
+            TreeNode selectedNode = (TreeView.SelectedNode == null) ? TreeView.Nodes[TreeView.Nodes.Count - 1] : TreeView.SelectedNode;
+            Point position = selectedNode.Bounds.Location;
+            position.Y = position.Y + selectedNode.Bounds.Height / 2;
+            OpenDialog_NodeAdd(position);
+        }
+
+        private void ToolItem_Delete_Click(object sender, EventArgs e)
+        {
+            if ((TreeView.SelectedNode != null)
+                && (MessageBox.Show("정말로 삭제할까요?", "확인", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
+            {
+                TreeView.SelectedNode.Remove();
+                SaveTree(TreeView, cfgFileName);
+            }
+        }
+
+        private void ToolItem_Edit_Click(object sender, EventArgs e)
+        {
+            TreeNode selectedNode = TreeView.SelectedNode;
+            FrmInputDialog inputDialog;
+
+            if (selectedNode.Tag == null)
+                inputDialog = new FrmInputDialog(selectedNode, TreeView);
+            else
+            {
+                Command dragNdropCmd;
+                if (dragNdropPath != null)
+                    dragNdropCmd = new Command(selectedNode.Name, true, dragNdropPath, null);
+                else
+                    dragNdropCmd = new Command(selectedNode);
+                inputDialog = new FrmInputDialog(dragNdropCmd, TreeView);
+            }
+
+            Command cmd = OpenCmdDialog(CmdEditType.EDIT, ref inputDialog, selectedNode);
+
+            if (cmd != null)
+            {
+                selectedNode.Name = selectedNode.Text = cmd.Name;
+                selectedNode.Tag = cmd.ToDictionary();
+                selectedNode.SelectedImageKey = selectedNode.ImageKey = SelectIcon(cmd.GetAbsolutePath(selectedNode));
+                SaveTree(TreeView, cfgFileName);
+            }
+            dragNdropPath = null;
+        }
+        
+        #endregion ============================== Tool Strip ==============================
     }
 }

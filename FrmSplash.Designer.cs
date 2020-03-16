@@ -60,9 +60,9 @@
             this.lblCnt.AutoSize = true;
             this.lblCnt.Location = new System.Drawing.Point(724, 150);
             this.lblCnt.Name = "lblCnt";
-            this.lblCnt.Size = new System.Drawing.Size(38, 12);
+            this.lblCnt.Size = new System.Drawing.Size(33, 12);
             this.lblCnt.TabIndex = 3;
-            this.lblCnt.Text = "Count";
+            this.lblCnt.Text = "100%";
             this.lblCnt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FrmSplash

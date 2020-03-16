@@ -4,7 +4,7 @@
   <description asmv2:iconFile="Resources\Icon\Shortcut.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Shortcut" version="0.5.3.1" publicKeyToken="6E32D543D48C5A93" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Shortcut" version="0.6.0.1" publicKeyToken="6E32D543D48C5A93" language="neutral" processorArchitecture="msil" />
     <commandLine file="Shortcut.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -79,24 +79,24 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Shortcut.exe" size="321024">
-      <assemblyIdentity name="Shortcut" version="0.5.3.1" publicKeyToken="6E32D543D48C5A93" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Shortcut.exe" size="342016">
+      <assemblyIdentity name="Shortcut" version="0.6.0.1" publicKeyToken="6E32D543D48C5A93" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>HH224fx3xb1vKtGjbK6uyQmV9rB0mzBtYjyTjHihj2M=</dsig:DigestValue>
+        <dsig:DigestValue>vvMaNluw/KpxLtrTMWHxylXL0TU6bqXmyzA/6cGoPhg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Resources\Icon\Config.ico" size="27043">
+  <file name="Resources\Icon\Config.ico" size="268625">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>H0bw18TcYoS7ycpRtSpPGtRZ5vLFWOZUyLSolwfYdC0=</dsig:DigestValue>
+      <dsig:DigestValue>1U9rueA18ZuMWeRrQDxUjn43tSRgeoK8AXsYOhXPKyY=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Resources\Icon\Config.png" size="42962">
