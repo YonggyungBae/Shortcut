@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>0.5.1.0</version>
+    <version>0.6.0.1</version>
     <url>https://github.com/yg-bae/Shortcut/blob/master/bin/Release/ShortcutSetup.exe?raw=true</url>
     <changelog>https://github.com/yg-bae/Shortcut/releases</changelog>
     <mandatory>false</mandatory>
