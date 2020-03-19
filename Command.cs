@@ -24,6 +24,7 @@ namespace Shortcut
         public bool Run { get; set; } = false;
         public string Path { get; set; } = null;
         public string Arguments { get; set; } = null;
+        public TreeNode Node;
 
         #region Constructors 
         public Command(string name = null, bool run = false, string path = null, string arguments = null)
@@ -52,6 +53,7 @@ namespace Shortcut
                     Run = (cmdDict[Elements.RUN] == strChecked);
                     Path = cmdDict[Elements.PATH];
                     Arguments = cmdDict[Elements.ARGUMENTS];
+                    Node = node;
                 }
                 catch
                 {
@@ -60,19 +62,20 @@ namespace Shortcut
                     Run = (cmdDict["Run"] == "Checked");
                     Path = cmdDict["Path"];
                     Arguments = cmdDict["Arguments"];
+                    Node = node;
                 }
             }
         }
         #endregion
 
-        public string GetAbsolutePath(TreeNode targetNode)
+        public string GetAbsolutePath()
         {
-            return RemakeStringWithReplacingKeywords(Path, targetNode);
+            return RemakeStringWithReplacingKeywords(Path, Node);
         }
 
-        public string GetAbsoluteArguments(TreeNode targetNode)
+        public string GetAbsoluteArguments()
         {
-            return RemakeStringWithReplacingKeywords(Arguments, targetNode);
+            return RemakeStringWithReplacingKeywords(Arguments, Node);
         }
 
         public TreeNode ToTreeNode()

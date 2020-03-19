@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>vvMaNluw/KpxLtrTMWHxylXL0TU6bqXmyzA/6cGoPhg=</dsig:DigestValue>
+        <dsig:DigestValue>8t/8H9z6ReESctUc7iHEzh26vWDBaUarqRMVaEUKWmw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -195,7 +195,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>s4btciYUigVWOOQwGkn1dtACSybWE55Dp65BdURVK9U=</dsig:DigestValue>
+      <dsig:DigestValue>C4i+tM04eP2L52OkMSVgG6vcAak32DhdzJ3RLdWVsak=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Shortcut.exe.config" size="1444">

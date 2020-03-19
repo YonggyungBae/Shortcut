@@ -48,6 +48,7 @@ namespace Shortcut
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
             AutoUpdater.Start("https://raw.githubusercontent.com/yg-bae/Shortcut/master/Resources/Version.xml");
 
             LoadTree(TreeView, cfgFileName);
@@ -68,7 +69,7 @@ namespace Shortcut
             {
                 Command cmd = new Command(treeNodes[i]);
                 splash.Step( (int)((double)i / (double)treeNodes.Count * 100) );
-                treeNodes[i].SelectedImageKey = treeNodes[i].ImageKey = SelectIcon(cmd.GetAbsolutePath(treeNodes[i]));
+                treeNodes[i].SelectedImageKey = treeNodes[i].ImageKey = SelectIcon(cmd.GetAbsolutePath());
                 //splash.Refresh();
             }
             Option_Apply_ShowInTaskbar();
@@ -136,9 +137,9 @@ namespace Shortcut
             // ShowInTaskbar 값을 바꾸면 RegisterHotKey 다시 해줘야함...이유를 모르겠음.
             RegisterHotKeyGlobal();
         }
-        #endregion ============================== Form Load ==============================
+#endregion ============================== Form Load ==============================
 
-        #region ============================== Global Hot Key ==============================
+#region ============================== Global Hot Key ==============================
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -169,9 +170,9 @@ namespace Shortcut
         {
             RegisterHotKey(this.Handle, (int)HotKeyId.SHOW_FORM, (int)KeyModifier.WinKey, Keys.Y.GetHashCode());
         }
-        #endregion ============================== Global Hot Key ==============================
+#endregion ============================== Global Hot Key ==============================
 
-        #region ============================== Key Event ==============================
+#region ============================== Key Event ==============================
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
         {
             if ( (e.KeyCode == Keys.Escape) && (Properties.Settings.Default.optMinimizeToTrayPressEsc == true) )
@@ -254,9 +255,9 @@ namespace Shortcut
                     break;
             }
         }
-        #endregion ============================== Key Event ==============================
+#endregion ============================== Key Event ==============================
 
-        #region ============================== Mouse Event ==============================
+#region ============================== Mouse Event ==============================
         private void TreeView_MouseDown(object sender, MouseEventArgs e)
         {
             mouseButtons = e.Button;
@@ -420,9 +421,9 @@ namespace Shortcut
                 }
             }
         }
-        #endregion ============================== Mouse Event ==============================
+#endregion ============================== Mouse Event ==============================
 
-        #region ============================== Etc ==============================
+#region ============================== Etc ==============================
         private void Timer_Tick(object sender, EventArgs e)
         {
             TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
@@ -439,9 +440,9 @@ namespace Shortcut
             tmrNodeOver.Stop();
         }
 
-        #endregion ============================== Etc ==============================
+#endregion ============================== Etc ==============================
 
-        #region ============================== Tool Strip (Menu) ==============================
+#region ============================== Tool Strip (Menu) ==============================
         private void ToolItem_Add_Click(object sender, EventArgs e)
         {
             TreeNode selectedNode = (TreeView.SelectedNode == null) ? TreeView.Nodes[TreeView.Nodes.Count - 1] : TreeView.SelectedNode;
@@ -466,7 +467,7 @@ namespace Shortcut
             FrmInputDialog inputDialog;
 
             if (selectedNode.Tag == null)
-                inputDialog = new FrmInputDialog(selectedNode, TreeView);
+                inputDialog = new FrmInputDialog(new Command(selectedNode), TreeView);
             else
             {
                 Command dragNdropCmd;
@@ -475,20 +476,21 @@ namespace Shortcut
                 else
                     dragNdropCmd = new Command(selectedNode);
                 inputDialog = new FrmInputDialog(dragNdropCmd, TreeView);
-            }
 
+            }
             Command cmd = OpenCmdDialog(CmdEditType.EDIT, ref inputDialog, selectedNode);
 
             if (cmd != null)
             {
                 selectedNode.Name = selectedNode.Text = cmd.Name;
                 selectedNode.Tag = cmd.ToDictionary();
-                selectedNode.SelectedImageKey = selectedNode.ImageKey = SelectIcon(cmd.GetAbsolutePath(selectedNode));
+                string path = cmd.GetAbsolutePath();
+                selectedNode.SelectedImageKey = selectedNode.ImageKey = SelectIcon(path);
                 SaveTree(TreeView, cfgFileName);
             }
             dragNdropPath = null;
         }
         
-        #endregion ============================== Tool Strip ==============================
+#endregion ============================== Tool Strip ==============================
     }
 }

@@ -48,8 +48,8 @@ namespace Shortcut
 
                 if (cmd.Run == true)
                 {
-                    string path = cmd.GetAbsolutePath(node);
-                    string arguments = cmd.GetAbsoluteArguments(node);
+                    string path = cmd.GetAbsolutePath();
+                    string arguments = cmd.GetAbsoluteArguments();
                     ValidPath validPath = ChkValidPath(path);
                     if (validPath == ValidPath.PATH_NONE)
                     {
@@ -132,7 +132,7 @@ namespace Shortcut
                     NodeOver.Expand();
                 }
 
-                newNode.SelectedImageKey = newNode.ImageKey = SelectIcon(cmd.GetAbsolutePath(NodeOver));
+                newNode.SelectedImageKey = newNode.ImageKey = SelectIcon(cmd.GetAbsolutePath());
                 SaveTree(TreeView, cfgFileName);
             }
             dragNdropPath = null;
@@ -142,8 +142,8 @@ namespace Shortcut
         {
             while (inputDialog.ShowDialog() == DialogResult.OK)
             {
-                if (ChkValidCmd(cmdEditType, selectedNode, inputDialog.GetCmdSet()) == true)
-                    return SetProperRunState(inputDialog.GetCmdSet());
+                if (ChkValidCmd(cmdEditType, selectedNode, inputDialog.GetCmdSet(selectedNode)) == true)
+                    return SetProperRunState(inputDialog.GetCmdSet(selectedNode));
             }
             return null;
         }
@@ -434,7 +434,7 @@ namespace Shortcut
         private void ShowContextMenu(TreeNode node)
         {
             Command cmd = new Command(node);
-            string path = cmd.GetAbsolutePath(node);
+            string path = cmd.GetAbsolutePath();
             Point position = node.Bounds.Location;
             position.X = node.Bounds.Right;
 
@@ -575,7 +575,7 @@ namespace Shortcut
         private void SetNodeIcon(TreeNode node)
         {
             Command cmd = new Command(node);
-            node.SelectedImageKey = node.ImageKey = SelectIcon(cmd.GetAbsolutePath(node));
+            node.SelectedImageKey = node.ImageKey = SelectIcon(cmd.GetAbsolutePath());
         }
 
         private void SetNodeIconRecursive(TreeNode parentNode)

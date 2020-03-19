@@ -8,6 +8,9 @@ namespace Shortcut
 {
     public partial class FrmInputDialog : Form
     {
+        string fullPath;
+        string fullArguments;
+
         public FrmInputDialog(TreeView treeView)
         {
             InitializeComponent();
@@ -20,16 +23,7 @@ namespace Shortcut
             InitializeComponent();
 
             ApplyAutoCompleteToInputDialog(treeView);
-            CopyCmdToInputDialog(cmd);
-        }
-
-        public FrmInputDialog(TreeNode node, TreeView treeView)
-        {
-            InitializeComponent();
-
-            ApplyAutoCompleteToInputDialog(treeView);
-            CopyCmdToInputDialog(new Command(node));
-            
+            SetCmdToDialogElements(cmd);
         }
 
         private void ApplyAutoCompleteToInputDialog(TreeView treeView)
@@ -38,16 +32,18 @@ namespace Shortcut
             cboArguments.AutoCompleteCustomSource = ExtractArgumentsInTreeView(treeView);
         }
 
-        private void CopyCmdToInputDialog(Command cmd)
+        private void SetCmdToDialogElements(Command cmd)
         {
             txtCmd.Text = cmd.Name;
             chkRun.Checked = cmd.Run;
             cboPath.Text = cmd.Path;
             cboArguments.Text = cmd.Arguments;
+            //fullPath = cmd.GetAbsolutePath();
         }
 
         private void BtnFile_Click(object sender, EventArgs e)
         {
+
             if (File.Exists(cboPath.Text))
             {
                 openFileDialog.InitialDirectory = Path.GetDirectoryName(cboPath.Text);
@@ -75,9 +71,10 @@ namespace Shortcut
             }
         }
 
-        public Command GetCmdSet()
+        public Command GetCmdSet(TreeNode node)
         {
             Command cmd = new Command(txtCmd.Text, chkRun.Checked, cboPath.Text, cboArguments.Text);
+            cmd.Node = node;
             return cmd;
         }
 
