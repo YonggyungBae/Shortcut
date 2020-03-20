@@ -14,7 +14,6 @@ namespace Shortcut
         public FrmInputDialog(TreeView treeView)
         {
             InitializeComponent();
-
             ApplyAutoCompleteToInputDialog(treeView);
         }
 
@@ -38,20 +37,30 @@ namespace Shortcut
             chkRun.Checked = cmd.Run;
             cboPath.Text = cmd.Path;
             cboArguments.Text = cmd.Arguments;
-            //fullPath = cmd.GetAbsolutePath();
+            fullPath = cmd.GetAbsolutePath();
+            fullArguments = cmd.GetAbsoluteArguments();
         }
 
         private void BtnFile_Click(object sender, EventArgs e)
         {
 
-            if (File.Exists(cboPath.Text))
+            if (File.Exists(fullPath))
             {
-                openFileDialog.InitialDirectory = Path.GetDirectoryName(cboPath.Text);
+                openFileDialog.InitialDirectory = Path.GetDirectoryName(fullPath);
+                openFileDialog.FileName = Path.GetFileName(fullPath);
+            }
+            else if(Directory.Exists(fullPath))
+            {
+                openFileDialog.InitialDirectory = fullPath;
             }
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                cboPath.Text = openFileDialog.FileName;
+                if (fullPath != openFileDialog.FileName)
+                {
+                    cboPath.Text = fullPath = openFileDialog.FileName;
+                }
+                // else if(fullPath == openFileDialog.FileName) -> 기존의 cboPath.Text에 있던 path 내용이 #path#와 같은 상대경로 설정인 경우, Dialog에서 변경없이 OK를 눌렀을 때 상대경로를 그대로 유지하도록 함
             }
         }
 
@@ -60,14 +69,22 @@ namespace Shortcut
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
 
-            if (Directory.Exists(cboPath.Text))
+            if (File.Exists(fullPath))
             {
-                dialog.InitialDirectory = cboPath.Text;
+                dialog.InitialDirectory = Path.GetDirectoryName(fullPath);
             }
-
+            else if (Directory.Exists(fullPath))
+            {
+                dialog.InitialDirectory = fullPath;
+            }
+            
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                cboPath.Text = dialog.FileName; // 테스트용, 폴더 선택이 완료되면 선택된 폴더를 label에 출력
+                if (fullPath != dialog.FileName)
+                {
+                    cboPath.Text = fullArguments = dialog.FileName;
+                }
+                // else if(fullPath == dialog.FileName) -> 기존의 cboPath.Text에 있던 path 내용이 #path#와 같은 상대경로 설정인 경우, Dialog에서 변경없이 OK를 눌렀을 때 상대경로를 그대로 유지하도록 함
             }
         }
 
