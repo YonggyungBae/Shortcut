@@ -451,7 +451,7 @@ namespace Shortcut
             OpenDialog_NodeAdd(position);
         }
 
-        private void ToolItem_Delete_Click(object sender, EventArgs e)
+        private void ToolItem_Remove_Click(object sender, EventArgs e)
         {
             if ((TreeView.SelectedNode != null)
                 && (MessageBox.Show("정말로 삭제할까요?", "확인", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
@@ -470,11 +470,7 @@ namespace Shortcut
                 inputDialog = new FrmInputDialog(new Command(selectedNode), TreeView);
             else
             {
-                Command dragNdropCmd;
-                if (dragNdropPath != null)
-                    dragNdropCmd = new Command(selectedNode.Name, true, dragNdropPath, null);
-                else
-                    dragNdropCmd = new Command(selectedNode);
+                Command dragNdropCmd = new Command(selectedNode);
                 inputDialog = new FrmInputDialog(dragNdropCmd, TreeView);
 
             }
@@ -482,8 +478,8 @@ namespace Shortcut
 
             if (cmd != null)
             {
-                selectedNode.Name = selectedNode.Text = cmd.Name;
-                selectedNode.Tag = cmd.ToDictionary();
+                selectedNode.Name = selectedNode.Text = cmd.Node.Name;
+                selectedNode.Tag = cmd.GetDictionary();
                 string path = cmd.GetAbsolutePath();
                 selectedNode.SelectedImageKey = selectedNode.ImageKey = SelectIcon(path);
                 SaveTree(TreeView, cfgFileName);

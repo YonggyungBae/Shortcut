@@ -8,8 +8,9 @@ namespace Shortcut
 {
     public partial class FrmInputDialog : Form
     {
-        string fullPath;
-        string fullArguments;
+        private Command Cmd;
+        private string fullPath;
+        private string fullArguments;
 
         public FrmInputDialog(TreeView treeView)
         {
@@ -33,7 +34,8 @@ namespace Shortcut
 
         private void SetCmdToDialogElements(Command cmd)
         {
-            txtCmd.Text = cmd.Name;
+            Cmd = cmd;
+            txtCmd.Text = cmd.Node.Name;
             chkRun.Checked = cmd.Run;
             cboPath.Text = cmd.Path;
             cboArguments.Text = cmd.Arguments;
@@ -88,11 +90,13 @@ namespace Shortcut
             }
         }
 
-        public Command GetCmdSet(TreeNode node)
+        public Command GetCmdSet()
         {
-            Command cmd = new Command(txtCmd.Text, chkRun.Checked, cboPath.Text, cboArguments.Text);
-            cmd.Node = node;
-            return cmd;
+            Cmd.Node.Name = txtCmd.Text;
+            Cmd.Run = chkRun.Checked;
+            Cmd.Path = cboPath.Text;
+            Cmd.Arguments = cboArguments.Text;
+            return Cmd;
         }
 
         private void btnClear_Click(object sender, EventArgs e)

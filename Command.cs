@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Shortcut
 {
-    public class Command : TreeNode
+    public class Command
     {
         public enum Elements
         {
@@ -27,12 +27,16 @@ namespace Shortcut
         public TreeNode Node;
 
         #region Constructors 
-        public Command(string name = null, bool run = false, string path = null, string arguments = null)
+        public Command(string name, bool run = false, string path = null, string arguments = null)
         {
-            Text = Name = name;
             Run = run;
             Path = path;
             Arguments = arguments;
+            Node = new TreeNode(name)
+            {
+                Name = name,
+                Tag = ToTag(name, run, path, arguments)
+            };
         }
 
         public Command(TreeNode node)
@@ -41,7 +45,7 @@ namespace Shortcut
                 return;
             else if (node.Tag == null)
             {
-                Text = Name = node.Name;
+                Node = node;
             }
             else
             {
@@ -49,7 +53,6 @@ namespace Shortcut
                 {
                     // TreeView를 SaveTree할 때 Command Obj는 node의 tag로 save가 안되어서 Dictionary로 저장함
                     Dictionary<Elements, string> cmdDict = (Dictionary<Elements, string>)node.Tag;
-                    Text = Name = node.Name;
                     Run = (cmdDict[Elements.RUN] == strChecked);
                     Path = cmdDict[Elements.PATH];
                     Arguments = cmdDict[Elements.ARGUMENTS];
@@ -58,7 +61,6 @@ namespace Shortcut
                 catch
                 {
                     Dictionary<string, string> cmdDict = (Dictionary<string, string>)node.Tag;
-                    Text = Name = node.Name;
                     Run = (cmdDict["Run"] == "Checked");
                     Path = cmdDict["Path"];
                     Arguments = cmdDict["Arguments"];
@@ -78,22 +80,24 @@ namespace Shortcut
             return RemakeStringWithReplacingKeywords(Arguments, Node);
         }
 
-        public TreeNode ToTreeNode()
+        public TreeNode GetTreeNode()
         {
-            TreeNode node = new TreeNode();
-            node.Name = node.Text = Name;
-            node.Tag = ToDictionary();
-            return node;
+            return Node;
         }
-        
-        public Dictionary <Elements, string> ToDictionary() // TreeView를 SaveTree할 때 Command Obj는 node의 tag로 save가 안되어서 Dictionary로 저장함
+
+        private Dictionary<Elements, string> ToTag(string name, bool run, string path, string arg) // TreeView를 SaveTree할 때 Command Obj는 node의 tag로 save가 안되어서 Dictionary로 저장함
         {
             Dictionary<Elements, string> cmdDict = new Dictionary<Elements, string>();
-            cmdDict[Elements.NAME] = Name;
-            cmdDict[Elements.RUN] = (Run) ? strChecked : strUnchecked;
-            cmdDict[Elements.PATH] = Path;
-            cmdDict[Elements.ARGUMENTS] = Arguments;
+            cmdDict[Elements.NAME] = name;
+            cmdDict[Elements.RUN] = (run) ? strChecked : strUnchecked;
+            cmdDict[Elements.PATH] = path;
+            cmdDict[Elements.ARGUMENTS] = arg;
             return cmdDict;
+        }
+
+        public Dictionary <Elements, string> GetDictionary() // TreeView를 SaveTree할 때 Command Obj는 node의 tag로 save가 안되어서 Dictionary로 저장함
+        {
+            return ToTag(Node.Name, Run, Path, Arguments) ;
         }
 
         public string RemakeStringWithReplacingKeywords(string originalString, TreeNode targetNode)

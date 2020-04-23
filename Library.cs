@@ -120,7 +120,7 @@ namespace Shortcut
             Command cmd = OpenCmdDialog(CmdEditType.ADD, ref inputDialog, NodeOver);
             if (cmd != null)
             {
-                TreeNode newNode = cmd.ToTreeNode();
+                TreeNode newNode = cmd.GetTreeNode();
 
                 if (NodeOver == null)
                 {
@@ -142,8 +142,9 @@ namespace Shortcut
         {
             while (inputDialog.ShowDialog() == DialogResult.OK)
             {
-                if (ChkValidCmd(cmdEditType, selectedNode, inputDialog.GetCmdSet(selectedNode)) == true)
-                    return SetProperRunState(inputDialog.GetCmdSet(selectedNode));
+                Command cmd = inputDialog.GetCmdSet();
+                if (ChkValidCmd(cmdEditType, selectedNode, cmd) == true)
+                    return SetProperRunState(cmd);
             }
             return null;
         }
@@ -160,14 +161,14 @@ namespace Shortcut
             else
                 cmdGrp = selectedNode.Parent.Nodes;
 
-            if (cmd.Name == "")
+            if (cmd.Node.Name == "")
             {
                 MessageBox.Show("커맨드 이름을 입력해주세요.");
                 return false;
             }
             else if (cmdEditType == CmdEditType.ADD)
             {
-                if (cmdGrp.ContainsKey(cmd.Name))
+                if (cmdGrp.ContainsKey(cmd.Node.Name))
                 {
                     MessageBox.Show("같은 이름의 커맨드 가 존재합니다.");
                     return false;
@@ -180,7 +181,7 @@ namespace Shortcut
             else
             {
                 // 같은 이름의 node라도 그게 자기 자신인 경우는 제외
-                TreeNode[] treeNodes = cmdGrp.Find(cmd.Name, false);
+                TreeNode[] treeNodes = cmdGrp.Find(cmd.Node.Name, false);
                 if ((treeNodes.Length == 0) || (treeNodes[0] == selectedNode))
                 {
                     return true;
@@ -193,21 +194,21 @@ namespace Shortcut
             }
         }
 
-        private void InsertCmd(TreeView targetTree, TreeNode targetCmd, TreeNode insertCmd, int insertNodePositionY)
+        private void InsertCmd(TreeView targetTree, TreeNode targetNode, TreeNode insertNode, int insertNodePositionY)
         {
-            TreeNodeCollection targetParentCmd = (targetCmd.Parent == null) ? targetTree.Nodes : targetCmd.Parent.Nodes;
+            TreeNodeCollection targetParentCmd = (targetNode.Parent == null) ? targetTree.Nodes : targetNode.Parent.Nodes;
 
-            switch (GetMovingCmdPositionOnTheTargetCmd(targetCmd, insertNodePositionY))
+            switch (GetMovingCmdPositionOnTheTargetCmd(targetNode, insertNodePositionY))
             {
                 case MovingCmdPosition.UPPER:
-                    targetParentCmd.Insert(targetCmd.Index, insertCmd);
+                    targetParentCmd.Insert(targetNode.Index, insertNode);
                     break;
                 case MovingCmdPosition.OUTSIDE:
                 case MovingCmdPosition.MIDDLE:
-                    targetCmd.Nodes.Add(insertCmd);
+                    targetNode.Nodes.Add(insertNode);
                     break;
                 case MovingCmdPosition.LOWER:
-                    targetParentCmd.Insert(targetCmd.Index + 1, insertCmd);
+                    targetParentCmd.Insert(targetNode.Index + 1, insertNode);
                     break;
                 default:
                     break;
@@ -276,12 +277,12 @@ namespace Shortcut
         {
             if(targetNode.Name != name)
             {
-                foreach (Command childCmd in targetNode.Nodes)
+                foreach (TreeNode childNode in targetNode.Nodes)
                 {
-                    if (childCmd.Name == name)
-                        return childCmd.ToTreeNode();
+                    if (childNode.Name == name)
+                        return childNode;
                     else
-                        return SearchCmd_ToChildNode(childCmd, name);
+                        return SearchCmd_ToChildNode(childNode, name);
                 }
 	        	return null;
             }

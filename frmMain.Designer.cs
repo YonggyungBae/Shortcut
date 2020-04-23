@@ -39,7 +39,7 @@
             this.tmrNodeOver = new System.Windows.Forms.Timer(this.components);
             this.toolMainTool = new System.Windows.Forms.ToolStrip();
             this.toolItem_Add = new System.Windows.Forms.ToolStripButton();
-            this.toolItem_Delete = new System.Windows.Forms.ToolStripButton();
+            this.toolItem_Remove = new System.Windows.Forms.ToolStripButton();
             this.toolItem_Edit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.GrpBackgroundBox = new System.Windows.Forms.GroupBox();
@@ -116,7 +116,7 @@
             this.toolMainTool.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolMainTool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolItem_Add,
-            this.toolItem_Delete,
+            this.toolItem_Remove,
             this.toolItem_Edit,
             this.toolStripSeparator1});
             this.toolMainTool.Location = new System.Drawing.Point(0, 0);
@@ -134,15 +134,15 @@
             this.toolItem_Add.Text = "&Add";
             this.toolItem_Add.Click += new System.EventHandler(this.ToolItem_Add_Click);
             // 
-            // toolItem_Delete
+            // toolItem_Remove
             // 
-            this.toolItem_Delete.Image = ((System.Drawing.Image)(resources.GetObject("toolItem_Delete.Image")));
-            this.toolItem_Delete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolItem_Delete.Name = "toolItem_Delete";
-            this.toolItem_Delete.Size = new System.Drawing.Size(61, 22);
-            this.toolItem_Delete.Text = "&Delete";
-            this.toolItem_Delete.ToolTipText = "Delete";
-            this.toolItem_Delete.Click += new System.EventHandler(this.ToolItem_Delete_Click);
+            this.toolItem_Remove.Image = ((System.Drawing.Image)(resources.GetObject("toolItem_Remove.Image")));
+            this.toolItem_Remove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolItem_Remove.Name = "toolItem_Remove";
+            this.toolItem_Remove.Size = new System.Drawing.Size(70, 22);
+            this.toolItem_Remove.Text = "&Remove";
+            this.toolItem_Remove.ToolTipText = "Remove";
+            this.toolItem_Remove.Click += new System.EventHandler(this.ToolItem_Remove_Click);
             // 
             // toolItem_Edit
             // 
@@ -294,7 +294,7 @@
         private System.Windows.Forms.TextBox TxtCmdBox;
         private System.Windows.Forms.Button BtnRun;
         private System.Windows.Forms.ToolStripButton toolItem_Add;
-        private System.Windows.Forms.ToolStripButton toolItem_Delete;
+        private System.Windows.Forms.ToolStripButton toolItem_Remove;
         private System.Windows.Forms.ToolStripButton toolItem_Edit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
