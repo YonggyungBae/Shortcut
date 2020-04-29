@@ -40,7 +40,7 @@ namespace Shortcut
         private bool nodeDoubleClicked = false;
         private bool IsTopParentClicked = false;
 
-        #region ============================== Form Load ==============================
+#region ============================== Form Load ==============================
         public FrmMain()
         {
             InitializeComponent();

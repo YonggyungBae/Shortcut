@@ -92,10 +92,17 @@ namespace Shortcut
 
         public Command GetCmdSet()
         {
-            Cmd.Node.Name = txtCmd.Text;
-            Cmd.Run = chkRun.Checked;
-            Cmd.Path = cboPath.Text;
-            Cmd.Arguments = cboArguments.Text;
+            if (Cmd == null)    // Node를 새로 Add 한 경우
+            {
+                Cmd = new Command(txtCmd.Text, chkRun.Checked, cboPath.Text, cboArguments.Text);
+            }
+            else    // Node를 Edit 한 경우
+            {
+                Cmd.Node.Name = txtCmd.Text;
+                Cmd.Run = chkRun.Checked;
+                Cmd.Path = cboPath.Text;
+                Cmd.Arguments = cboArguments.Text;
+            }
             return Cmd;
         }
 
