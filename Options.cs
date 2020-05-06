@@ -21,9 +21,10 @@ namespace Shortcut
 
         private void ToolTipSet()
         {
-            ToolTip_MinimizeToTrayAfterRun.SetToolTip(chkShowInTaskBar, "작업표시줄에 표시할지 여부를 결정합니다.");
+            ToolTip_MinimizeToTrayAfterRun.SetToolTip(chkShowInTaskBar, "Shortcut을 작업표시줄에 표시할지 여부를 결정합니다.");
             ToolTip_MinimizeToTrayAfterRun.SetToolTip(chkMinimizeToTrayAfterRun, "Command를 더블클릭하여 실행하면" + Environment.NewLine + "Shortcut이 윈도우 트레이로 최소화 됩니다.");
             ToolTip_MinimizeToTrayAfterRun.SetToolTip(chkMinimizeToTrayPressEsc, "Shortcut의 메인창에서 'Esc' 키를 누르면" + Environment.NewLine + "Shortcut이 윈도우 트레이로 최소화 됩니다.");
+            ToolTip_MinimizeToTrayAfterRun.SetToolTip(chkMinimizeToTrayClickCloseButton, "Shortcut의 종료[X] 버튼을 Click 하면 " + Environment.NewLine + "Shortcut이 종료되지 않고 윈도우 트레이로 최소화 됩니다.");
         }
 
         private void BtnApply_Click(object sender, EventArgs e)

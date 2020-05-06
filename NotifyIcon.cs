@@ -32,6 +32,7 @@ namespace Shortcut
         {
             options.ShowDialog();
             Option_Apply_ShowInTaskbar();
+            Option_Apply_MinimizeToTrayClickCloseButton();
         }
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)

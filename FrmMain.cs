@@ -41,18 +41,7 @@ namespace Shortcut
         private bool IsTopParentClicked = false;
         private bool exitReq = false;
 
-        #region ============================== Form Load ==============================
-        //private const int CP_NOCLOSE_BUTTON = 0x200;
-        //protected override CreateParams CreateParams
-        //{
-        //    get
-        //    {
-        //        CreateParams myCp = base.CreateParams;
-        //        myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
-        //        return myCp;
-        //    }
-        //}
-
+#region ============================== Form Load ==============================
         public FrmMain()
         {
             InitializeComponent();
@@ -84,11 +73,16 @@ namespace Shortcut
                 treeNodes[i].SelectedImageKey = treeNodes[i].ImageKey = SelectIcon(cmd.GetAbsolutePath());
                 //splash.Refresh();
             }
+
+            Option_Apply_MinimizeToTrayClickCloseButton();
             Option_Apply_ShowInTaskbar();
             RegisterHotKeyGlobal();
+
             FrmMain_SizeAndLocationLoad();
-            if(treeNodes.Count > 300)   // Node의 개수가 작으면 1초라도 splash 화면을 보여주기 위해.
-                System.Threading.Thread.Sleep(1000);
+
+            splash.Step(100);
+            if (treeNodes.Count < 50)   // Node의 개수가 작으면 0.5초라도 splash 화면을 보여주기 위해.
+                System.Threading.Thread.Sleep(500);
 
             
             Show();
@@ -159,7 +153,12 @@ namespace Shortcut
             // ShowInTaskbar 값을 바꾸면 RegisterHotKey 다시 해줘야함...이유를 모르겠음.
             RegisterHotKeyGlobal();
         }
-#endregion ============================== Form Load ==============================
+
+        private void Option_Apply_MinimizeToTrayClickCloseButton()
+        {
+            MinimizeBox = !options.GetOption_MinimizeToTrayClickCloseButton();
+        }
+        #endregion ============================== Form Load ==============================
 
 #region ============================== Global Hot Key ==============================
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -508,7 +507,7 @@ namespace Shortcut
             }
             dragNdropPath = null;
         }
-        
+
 #endregion ============================== Tool Strip ==============================
     }
 }
