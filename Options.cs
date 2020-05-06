@@ -29,7 +29,6 @@ namespace Shortcut
         private void BtnApply_Click(object sender, EventArgs e)
         {
             Options_Save();
-            
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
@@ -42,6 +41,7 @@ namespace Shortcut
             Properties.Settings.Default.optShowInTaskBar = chkShowInTaskBar.Checked;
             Properties.Settings.Default.optMinimizeToTrayAfterRun = chkMinimizeToTrayAfterRun.Checked;
             Properties.Settings.Default.optMinimizeToTrayPressEsc = chkMinimizeToTrayPressEsc.Checked;
+            Properties.Settings.Default.optMinimizeToTrayClickCloseButton = chkMinimizeToTrayClickCloseButton.Checked;
 
             Properties.Settings.Default.Save(); // Settings 값이 바뀌고 나면 꼭 Save() 해 주어야 함
         }
@@ -51,6 +51,7 @@ namespace Shortcut
             chkMinimizeToTrayAfterRun.Checked = Properties.Settings.Default.optMinimizeToTrayAfterRun;
             chkShowInTaskBar.Checked = Properties.Settings.Default.optShowInTaskBar;
             chkMinimizeToTrayPressEsc.Checked = Properties.Settings.Default.optMinimizeToTrayPressEsc;
+            chkMinimizeToTrayClickCloseButton.Checked = Properties.Settings.Default.optMinimizeToTrayClickCloseButton;
         }
 
         public bool GetOption_ShowInTaskBar()
@@ -68,5 +69,9 @@ namespace Shortcut
             return Properties.Settings.Default.optMinimizeToTrayPressEsc;
         }
 
+        public bool GetOption_MinimizeToTrayClickCloseButton()
+        {
+            return Properties.Settings.Default.optMinimizeToTrayClickCloseButton;
+        }
     }
 }

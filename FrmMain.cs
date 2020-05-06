@@ -39,8 +39,20 @@ namespace Shortcut
         private Options options = new Options();
         private bool nodeDoubleClicked = false;
         private bool IsTopParentClicked = false;
+        private bool exitReq = false;
 
-#region ============================== Form Load ==============================
+        #region ============================== Form Load ==============================
+        //private const int CP_NOCLOSE_BUTTON = 0x200;
+        //protected override CreateParams CreateParams
+        //{
+        //    get
+        //    {
+        //        CreateParams myCp = base.CreateParams;
+        //        myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+        //        return myCp;
+        //    }
+        //}
+
         public FrmMain()
         {
             InitializeComponent();
@@ -78,6 +90,7 @@ namespace Shortcut
             if(treeNodes.Count > 300)   // Node의 개수가 작으면 1초라도 splash 화면을 보여주기 위해.
                 System.Threading.Thread.Sleep(1000);
 
+            
             Show();
             BringToFront();
             Activate();
@@ -87,10 +100,19 @@ namespace Shortcut
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //e.Cancel = true;
-            FrmMain_SizeAncLocationSave();
-            NotifyIcon.Dispose();
-            UnregisterHotKey(this.Handle, 0);
+            if( (options.GetOption_MinimizeToTrayClickCloseButton() == true)
+                && (exitReq == false) )
+            {
+                e.Cancel = true;
+                this.MinimizeToTray();
+            }
+            else
+            {
+                exitReq = false;
+                FrmMain_SizeAncLocationSave();
+                NotifyIcon.Dispose();
+                UnregisterHotKey(this.Handle, 0);
+            }
         }
 
         private void FrmMain_SetDefaultSizeAndLocation()
@@ -175,7 +197,7 @@ namespace Shortcut
 #region ============================== Key Event ==============================
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
         {
-            if ( (e.KeyCode == Keys.Escape) && (Properties.Settings.Default.optMinimizeToTrayPressEsc == true) )
+            if ( (e.KeyCode == Keys.Escape) && (options.GetOption_MinimizeToTrayPressEsc() == true) )
             {
                 HideForm();
             }

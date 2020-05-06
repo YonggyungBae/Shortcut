@@ -42,6 +42,7 @@ namespace Shortcut
 
         private void ToolStripMenuItem_NotifyIcon_Exit_Click(object sender, EventArgs e)
         {
+            exitReq = true;
             Application.Exit();
         }
 
