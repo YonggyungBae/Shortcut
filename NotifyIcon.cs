@@ -7,12 +7,6 @@ namespace Shortcut
     {
         private void ShowForm()
         {
-            FormWindowState windowState_Backup = this.WindowState;
-            this.WindowState = FormWindowState.Minimized;
-            if (windowState_Backup != FormWindowState.Minimized)
-                this.WindowState = windowState_Backup;
-            else
-                this.WindowState = FormWindowState.Normal;
             Show();
             BringToFront();
             Activate();
