@@ -46,7 +46,11 @@ namespace Shortcut
             if (e.Button == MouseButtons.Right)
                 contextMenuNotifyIcon.Show();
             else
+            {
                 ShowForm();
+                WindowState = formWindowstate_Bakcup;
+            }
+                
         }
     }
 }

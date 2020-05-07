@@ -40,8 +40,9 @@ namespace Shortcut
         private bool nodeDoubleClicked = false;
         private bool IsTopParentClicked = false;
         private bool exitReq = false;
+        private FormWindowState formWindowstate_Bakcup;
 
-#region ============================== Form Load ==============================
+        #region ============================== Form Ctrl ==============================>>
         public FrmMain()
         {
             InitializeComponent();
@@ -158,9 +159,21 @@ namespace Shortcut
         {
             MinimizeBox = !options.GetOption_MinimizeToTrayClickCloseButton();
         }
-        #endregion ============================== Form Load ==============================
 
-#region ============================== Global Hot Key ==============================
+        private void FrmMain_SizeChanged(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                HideForm();
+            }
+            else
+            {
+                formWindowstate_Bakcup = WindowState;
+            }
+        }
+        #endregion ============================== Form Ctrl ==============================<<
+
+        #region ============================== Global Hot Key ==============================>>
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -191,9 +204,9 @@ namespace Shortcut
         {
             RegisterHotKey(this.Handle, (int)HotKeyId.SHOW_FORM, (int)KeyModifier.WinKey, Keys.Y.GetHashCode());
         }
-#endregion ============================== Global Hot Key ==============================
+        #endregion ============================== Global Hot Key ==============================<<
 
-#region ============================== Key Event ==============================
+        #region ============================== Key Event ==============================>>
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
         {
             if ( (e.KeyCode == Keys.Escape) && (options.GetOption_MinimizeToTrayPressEsc() == true) )
@@ -276,9 +289,9 @@ namespace Shortcut
                     break;
             }
         }
-#endregion ============================== Key Event ==============================
+        #endregion ============================== Key Event ==============================<<
 
-#region ============================== Mouse Event ==============================
+        #region ============================== Mouse Event ==============================>>
         private void TreeView_MouseDown(object sender, MouseEventArgs e)
         {
             mouseButtons = e.Button;
@@ -442,9 +455,9 @@ namespace Shortcut
                 }
             }
         }
-#endregion ============================== Mouse Event ==============================
+        #endregion ============================== Mouse Event ==============================<<
 
-#region ============================== Etc ==============================
+        #region ============================== Etc ==============================>>
         private void Timer_Tick(object sender, EventArgs e)
         {
             TreeNode targetCmd = TreeView.GetNodeAt(TreeView.PointToClient(Cursor.Position));
@@ -460,10 +473,9 @@ namespace Shortcut
                 targetCmd.Expand();
             tmrNodeOver.Stop();
         }
+        #endregion ============================== Etc ==============================<<
 
-#endregion ============================== Etc ==============================
-
-#region ============================== Tool Strip (Menu) ==============================
+        #region ============================== Tool Strip (Menu) ==============================>>
         private void ToolItem_Add_Click(object sender, EventArgs e)
         {
             TreeNode selectedNode = (TreeView.SelectedNode == null) ? TreeView.Nodes[TreeView.Nodes.Count - 1] : TreeView.SelectedNode;
@@ -508,6 +520,6 @@ namespace Shortcut
             dragNdropPath = null;
         }
 
-#endregion ============================== Tool Strip ==============================
+        #endregion ============================== Tool Strip ==============================<<
     }
 }
