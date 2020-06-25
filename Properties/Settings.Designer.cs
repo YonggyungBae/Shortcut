@@ -94,5 +94,17 @@ namespace Shortcut.Properties {
                 this["optMinimizeToTrayClickCloseButton"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool optOpenCmdWithSingleClick {
+            get {
+                return ((bool)(this["optOpenCmdWithSingleClick"]));
+            }
+            set {
+                this["optOpenCmdWithSingleClick"] = value;
+            }
+        }
     }
 }

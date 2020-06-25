@@ -203,9 +203,7 @@
     <None Include="Resources\Icon\Shortcut.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Icon\Config.png" />
     <Content Include="Resources\Icon\Exit.png" />
-    <Content Include="Resources\Icon\Config.ico" />
     <Content Include="Resources\Icon\ExclamationMark.png" />
     <Content Include="Resources\Icon\Exit.ico" />
     <Content Include="Resources\Icon\Shortcut Title.png" />

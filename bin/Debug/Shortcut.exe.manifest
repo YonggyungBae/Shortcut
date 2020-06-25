@@ -79,35 +79,17 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Shortcut.exe" size="348160">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Shortcut.exe" size="352256">
       <assemblyIdentity name="Shortcut" version="0.6.0.1" publicKeyToken="6E32D543D48C5A93" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>PcqW5QxiHjUJU0jaslf1WlQ7noBWdyhwLKnfU2CO0gM=</dsig:DigestValue>
+        <dsig:DigestValue>q27zGcXOZBpoAMTbEcUTk5gQMxcJ7ptKBl1giF7vxvM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Resources\Icon\Config.ico" size="268625">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>1U9rueA18ZuMWeRrQDxUjn43tSRgeoK8AXsYOhXPKyY=</dsig:DigestValue>
-    </hash>
-  </file>
-  <file name="Resources\Icon\Config.png" size="42962">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>JVwQUq8/hs1NHvg0n2GyVDcNtFGI96oNHBsXfvJjn74=</dsig:DigestValue>
-    </hash>
-  </file>
   <file name="Resources\Icon\ExclamationMark.png" size="18966">
     <hash>
       <dsig:Transforms>
@@ -198,13 +180,13 @@
       <dsig:DigestValue>C4i+tM04eP2L52OkMSVgG6vcAak32DhdzJ3RLdWVsak=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Shortcut.exe.config" size="1571">
+  <file name="Shortcut.exe.config" size="1690">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>XTdGB2fGsGai0BDXnOZVRq+lKD4OPatCMVWMoOudivg=</dsig:DigestValue>
+      <dsig:DigestValue>RdIsb/WdPp4efe7VWD8VWpVLzpX3c58W5rOEKJKqAx0=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

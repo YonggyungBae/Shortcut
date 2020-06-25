@@ -42,6 +42,7 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.ToolTip_MinimizeToTrayAfterRun = new System.Windows.Forms.ToolTip(this.components);
             this.frmMainBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.chkOpenCmdWithSingleClick = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage_General.SuspendLayout();
             this.grpMinimizeToTray.SuspendLayout();
@@ -60,6 +61,7 @@
             // tabPage_General
             // 
             this.tabPage_General.Controls.Add(this.grpMinimizeToTray);
+            this.tabPage_General.Controls.Add(this.chkOpenCmdWithSingleClick);
             this.tabPage_General.Controls.Add(this.chkShowInTaskBar);
             this.tabPage_General.Location = new System.Drawing.Point(4, 22);
             this.tabPage_General.Name = "tabPage_General";
@@ -74,7 +76,7 @@
             this.grpMinimizeToTray.Controls.Add(this.chkMinimizeToTrayClickCloseButton);
             this.grpMinimizeToTray.Controls.Add(this.chkMinimizeToTrayPressEsc);
             this.grpMinimizeToTray.Controls.Add(this.chkMinimizeToTrayAfterRun);
-            this.grpMinimizeToTray.Location = new System.Drawing.Point(6, 28);
+            this.grpMinimizeToTray.Location = new System.Drawing.Point(6, 82);
             this.grpMinimizeToTray.Name = "grpMinimizeToTray";
             this.grpMinimizeToTray.Size = new System.Drawing.Size(287, 97);
             this.grpMinimizeToTray.TabIndex = 2;
@@ -165,6 +167,18 @@
             // 
             this.frmMainBindingSource.DataSource = typeof(Shortcut.FrmMain);
             // 
+            // chkOpenCmdWithSingleClick
+            // 
+            this.chkOpenCmdWithSingleClick.AutoSize = true;
+            this.chkOpenCmdWithSingleClick.Checked = true;
+            this.chkOpenCmdWithSingleClick.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkOpenCmdWithSingleClick.Location = new System.Drawing.Point(6, 28);
+            this.chkOpenCmdWithSingleClick.Name = "chkOpenCmdWithSingleClick";
+            this.chkOpenCmdWithSingleClick.Size = new System.Drawing.Size(203, 16);
+            this.chkOpenCmdWithSingleClick.TabIndex = 0;
+            this.chkOpenCmdWithSingleClick.Text = "Open a node with a single click";
+            this.chkOpenCmdWithSingleClick.UseVisualStyleBackColor = true;
+            // 
             // Options
             // 
             this.AcceptButton = this.btnOk;
@@ -205,5 +219,6 @@
         private System.Windows.Forms.ToolTip ToolTip_MinimizeToTrayAfterRun;
         private System.Windows.Forms.CheckBox chkMinimizeToTrayClickCloseButton;
         private System.Windows.Forms.BindingSource frmMainBindingSource;
+        private System.Windows.Forms.CheckBox chkOpenCmdWithSingleClick;
     }
 }

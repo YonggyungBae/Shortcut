@@ -20,5 +20,8 @@
     <Setting Name="optMinimizeToTrayClickCloseButton" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="optOpenCmdWithSingleClick" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

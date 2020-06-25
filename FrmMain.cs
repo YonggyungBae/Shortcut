@@ -37,10 +37,9 @@ namespace Shortcut
         private MovingCmdPosition movingNodePositionBackup;
         private MouseButtons mouseButtons = MouseButtons.Left;
         private Options options = new Options();
-        private bool nodeDoubleClicked = false;
-        private bool IsTopParentClicked = false;
         private bool exitReq = false;
         private FormWindowState formWindowstate_Bakcup;
+        private TreeNode nodeLastExpanded = null;
 
         #region ============================== Form Ctrl ==============================>>
         public FrmMain()
@@ -312,7 +311,6 @@ namespace Shortcut
 
         private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            IsTopParentClicked = false;
             var clickedItem = TreeView.HitTest(e.Location);
             if (clickedItem.Location == TreeViewHitTestLocations.PlusMinus)
             {   // [+] clicked
@@ -325,41 +323,53 @@ namespace Shortcut
                 }
                 else
                 {
-                    IsTopParentClicked = true;
-                    e.Node.Expand();
+                    if(options.GetOption_OpenNodeWithSingleClick())
+                        e.Node.Expand();
                 }
-            }            
+            }
         }
 
         private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            nodeDoubleClicked = true;
             if (sender != null)
             {
                 RunCmd(TreeView.SelectedNode);
             }
         }
 
+        private void CollapseLastExpandedNode(TreeNode nodeMe, TreeNode nodeLastExpanded)
+        {
+            if (nodeLastExpanded == null)
+                return;
+            else if (nodeMe.Parent == null)
+            {
+                nodeLastExpanded.Collapse();
+                return;
+            }
+
+            while ((nodeLastExpanded != nodeMe.Parent) && (nodeLastExpanded != null))
+            {
+                nodeLastExpanded.Collapse();
+                nodeLastExpanded = nodeLastExpanded.Parent;
+            }
+        }
+
         private void TreeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
-            if (IsTopParentClicked)
-            {
-                foreach (TreeNode cmd in TreeView.Nodes)
-                {
-                    if ((cmd != e.Node) && (e.Node.Parent == null))
-                        cmd.Collapse();
-                }
-                IsTopParentClicked = false;
-            }
+            /* 방법1
+             *  모든 tree를 collapse하고 본인의 node만 expand 시키는 방법
+             *      -> 본인의 node만 expand 시킬 때 또다시 TreeView_BeforeExpand event가 발생함 -> 무한반복되는 문제 있음
+             * 방법2
+             *  직전에 expand 했던 node를 기억하고 있다가 이번에 expand하는 node가 이전에 기억된 것과 다르면 이전 node를 collapse
+             * 
+             * => 방법2로 적용
+             */
+            CollapseLastExpandedNode(e.Node, nodeLastExpanded);
+            nodeLastExpanded = e.Node;
         }
 
         private void TreeView_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
-            if (nodeDoubleClicked)
-            {
-                nodeDoubleClicked = false;
-                e.Cancel = true;
-            }
         }
 
         private void TreeView_ItemDrag(object sender, ItemDragEventArgs e)
