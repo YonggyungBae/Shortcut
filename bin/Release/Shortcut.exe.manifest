@@ -4,7 +4,7 @@
   <description asmv2:iconFile="Resources\Icon\Shortcut.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Shortcut" version="0.6.0.1" publicKeyToken="6E32D543D48C5A93" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Shortcut" version="0.6.3.0" publicKeyToken="6E32D543D48C5A93" language="neutral" processorArchitecture="msil" />
     <commandLine file="Shortcut.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Shortcut.exe" size="370688">
-      <assemblyIdentity name="Shortcut" version="0.6.0.1" publicKeyToken="6E32D543D48C5A93" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Shortcut.exe" size="348160">
+      <assemblyIdentity name="Shortcut" version="0.6.3.0" publicKeyToken="6E32D543D48C5A93" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>OZ9LBOD9ril+VzNw1/4Ub/LFNn0ZrLRNcGN6RrAP7xY=</dsig:DigestValue>
+        <dsig:DigestValue>XjjNam0l6dpVLiL0qIBw2EGSiD6Tau6XfUxtGqgr9AU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
