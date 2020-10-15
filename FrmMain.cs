@@ -280,7 +280,7 @@ namespace Shortcut
                     e.Handled = true;
                     break;
                 case Keys.Apps:
-                case (Keys.Control | Keys.Shift | Keys.Right):
+                case (Keys.Shift | Keys.F10):
                     ShowContextMenu(TreeView.SelectedNode);
                     e.Handled = true;
                     break;
