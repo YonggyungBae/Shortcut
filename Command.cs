@@ -35,6 +35,7 @@ namespace Shortcut
             Node = new TreeNode(name)
             {
                 Name = name,
+                Text = name,
                 Tag = ToTag(name, run, path, arguments)
             };
         }
@@ -82,6 +83,7 @@ namespace Shortcut
 
         public TreeNode GetTreeNode()
         {
+            Node.Tag = ToTag(Node.Name, Run, Path, Arguments);
             return Node;
         }
 

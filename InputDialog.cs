@@ -98,7 +98,7 @@ namespace Shortcut
             }
             else    // Node를 Edit 한 경우
             {
-                Cmd.Node.Name = txtCmd.Text;
+                Cmd.Node.Name = Cmd.Node.Text = txtCmd.Text;
                 Cmd.Run = chkRun.Checked;
                 Cmd.Path = cboPath.Text;
                 Cmd.Arguments = cboArguments.Text;
