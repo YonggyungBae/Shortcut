@@ -35,7 +35,7 @@ namespace Shortcut
         private void SetCmdToDialogElements(Command cmd)
         {
             Cmd = cmd;
-            txtCmd.Text = cmd.Node.Name;
+            txtCmd.Text = cmd.Name;
             chkRun.Checked = cmd.Run;
             cboPath.Text = cmd.Path;
             cboArguments.Text = cmd.Arguments;
@@ -98,7 +98,7 @@ namespace Shortcut
             }
             else    // Node를 Edit 한 경우
             {
-                Cmd.Node.Name = Cmd.Node.Text = txtCmd.Text;
+                Cmd.Name = txtCmd.Text;
                 Cmd.Run = chkRun.Checked;
                 Cmd.Path = cboPath.Text;
                 Cmd.Arguments = cboArguments.Text;

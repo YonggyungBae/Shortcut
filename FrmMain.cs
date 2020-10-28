@@ -522,7 +522,7 @@ namespace Shortcut
 
             if (cmd != null)
             {
-                selectedNode.Name = selectedNode.Text = cmd.Node.Name;
+                selectedNode.Name = selectedNode.Text = cmd.Name;
                 selectedNode.Tag = cmd.GetDictionary();
                 string path = cmd.GetAbsolutePath();
                 selectedNode.SelectedImageKey = selectedNode.ImageKey = SelectIcon(path);

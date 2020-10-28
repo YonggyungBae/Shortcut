@@ -161,14 +161,14 @@ namespace Shortcut
             else
                 cmdGrp = selectedNode.Parent.Nodes;
 
-            if (cmd.Node.Name == "")
+            if (cmd.Name == "")
             {
                 MessageBox.Show("커맨드 이름을 입력해주세요.");
                 return false;
             }
             else if (cmdEditType == CmdEditType.ADD)
             {
-                if (cmdGrp.ContainsKey(cmd.Node.Name))
+                if (cmdGrp.ContainsKey(cmd.Name))
                 {
                     MessageBox.Show("같은 이름의 커맨드 가 존재합니다.");
                     return false;
@@ -181,7 +181,7 @@ namespace Shortcut
             else
             {
                 // 같은 이름의 node라도 그게 자기 자신인 경우는 제외
-                TreeNode[] treeNodes = cmdGrp.Find(cmd.Node.Name, false);
+                TreeNode[] treeNodes = cmdGrp.Find(cmd.Name, false);
                 if ((treeNodes.Length == 0) || (treeNodes[0] == selectedNode))
                 {
                     return true;

@@ -25,6 +25,11 @@ namespace Shortcut
         public string Path { get; set; } = null;
         public string Arguments { get; set; } = null;
         public TreeNode Node;
+        public string Name
+        {
+            get { return Node.Name; }
+            set { Node.Name = Node.Text = value;  }
+        }
 
         #region Constructors 
         public Command(string name, bool run = false, string path = null, string arguments = null)
@@ -83,7 +88,7 @@ namespace Shortcut
 
         public TreeNode GetTreeNode()
         {
-            Node.Tag = ToTag(Node.Name, Run, Path, Arguments);
+            Node.Tag = ToTag(Name, Run, Path, Arguments);
             return Node;
         }
 
@@ -99,7 +104,7 @@ namespace Shortcut
 
         public Dictionary <Elements, string> GetDictionary() // TreeView를 SaveTree할 때 Command Obj는 node의 tag로 save가 안되어서 Dictionary로 저장함
         {
-            return ToTag(Node.Name, Run, Path, Arguments) ;
+            return ToTag(Name, Run, Path, Arguments) ;
         }
 
         public string RemakeStringWithReplacingKeywords(string originalString, TreeNode targetNode)
